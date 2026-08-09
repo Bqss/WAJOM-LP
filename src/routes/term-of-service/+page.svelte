@@ -7,7 +7,7 @@
 	description="Terma dan syarat perkhidmatan rasmi pengunaan platform automasi WhatsApp Wajom di Malaysia."
 	keywords="terma syarat wajom, terms of service wajom, syarat penggunaan wajom, terma perkhidmatan"
 	canonical="https://wajom.co/term-of-service"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogType="website"
 />
 

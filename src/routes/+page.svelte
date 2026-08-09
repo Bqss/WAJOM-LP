@@ -246,7 +246,7 @@
 			applicationCategory: 'BusinessApplication',
 			description: 'Platform automasi WhatsApp canggih: Chat AI, Evergreen Drip Campaign, CRM prospek & duplikasi team 1-klik.',
 			url: 'https://wajom.co/',
-			image: 'https://wajom.co/og-image.jpg',
+			image: 'https://wajom.co/logo.png',
 			offers: {
 				'@type': 'AggregateOffer',
 				priceCurrency: 'MYR',
@@ -278,7 +278,7 @@
 	description="Sistem automasi WhatsApp #1 di Malaysia untuk Leader MLM, Hartanah, Insurans & Emas. Automasikan follow-up jualan, CRM prospek, kempen drip evergreen & duplikasi team 1-klik."
 	keywords="automasi whatsapp, whatsapp automation malaysia, bot whatsapp ai, chat ai whatsapp, follow up automatik, crm whatsapp, duplikasi mlm, software whatsapp blast, wajom, drip campaign whatsapp, auto responder whatsapp malaysia, leader mlm hartanah insurans, whatsapp marketing malaysia"
 	canonical="https://wajom.co/"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Wajom WhatsApp Automation Platform — Visual Pratinjau Canggih"
 	ogType="website"
 	jsonLd={indexJsonLd}

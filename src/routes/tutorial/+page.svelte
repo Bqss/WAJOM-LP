@@ -39,7 +39,7 @@
 	description="Panduan langkah-demi-langkah penggunaan Wajom: Sambungan QR WhatsApp, tetapan kempen drip, latihan Chat AI, dan import fail JSON duplikasi."
 	keywords="tutorial wajom, panduan wajom, cara guna wajom, setup whatsapp bot, panduan drip campaign, wajom documentation, duplikasi json"
 	canonical="https://wajom.co/tutorial"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Panduan Praktikal Wajom"
 	ogType="website"
 	jsonLd={tutorialHubJsonLd}

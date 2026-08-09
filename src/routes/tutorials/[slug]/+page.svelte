@@ -233,7 +233,7 @@
 	description={tutorial.description}
 	keywords={`${tutorial.category.toLowerCase()}, tutorial wajom, panduan ${tutorial.slug}, whatsapp automation, ${tutorial.title}`}
 	canonical={`/tutorials/${tutorial.slug}`}
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt={tutorial.title}
 	ogType="article"
 	jsonLd={articleJsonLd}

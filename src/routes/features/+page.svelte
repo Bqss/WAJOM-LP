@@ -379,8 +379,8 @@
 	description="Terokai 30+ ciri canggih Wajom: Chat AI pintas, Evergreen Campaign, Auto Follow-up, OTP Widget, WhatsApp API, dan duplikasi pasukan JSON 1-klik."
 	keywords="ciri wajom, chatbot ai whatsapp, evergreen drip campaign, whatsapp auto follow up, whatsapp api malaysia, json duplikasi team, otp whatsapp, blast whatsapp pukal, crm whatsapp malaysia, feature list wajom"
 	canonical="https://wajom.co/features"
-	ogImage="https://wajom.co/feature-ai-visual.jpg"
-	ogImageAlt="Visual Ciri Chat AI dan Automasi Wajom"
+	ogImage="https://wajom.co/logo.png"
+	ogImageAlt="Wajom — Platform Automasi WhatsApp"
 	ogType="website"
 	jsonLd={featuresJsonLd}
 />

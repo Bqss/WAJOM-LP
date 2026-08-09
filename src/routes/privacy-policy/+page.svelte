@@ -7,7 +7,7 @@
 	description="Polisi Privasi rasmi Wajom mengenai pengumpulan, penggunaan, dan perlindungan data mengikut Akta Perlindungan Data Peribadi (APDP 2010) Malaysia."
 	keywords="polisi privasi wajom, privacy policy wajom, perlindungan data whatsapp, apdp 2010 wajom"
 	canonical="https://wajom.co/privacy-policy"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogType="website"
 />
 

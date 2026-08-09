@@ -18,7 +18,7 @@
 		description = 'Platform automasi WhatsApp #1 di Malaysia untuk Top Leader MLM, Hartanah, Insurans, & Emas. Automasikan follow-up jualan, CRM prospek, kempen drip evergreen, & duplikasi team 1-klik.',
 		keywords = 'automasi whatsapp, whatsapp automation malaysia, bot whatsapp ai, chat ai whatsapp, follow up automatik, crm whatsapp, duplikasi mlm, software whatsapp blast, wajom, drip campaign whatsapp, auto responder whatsapp malaysia, leader mlm hartanah insurans',
 		canonical = 'https://wajom.co/',
-		ogImage = 'https://wajom.co/og-image.jpg',
+		ogImage = 'https://wajom.co/logo.png',
 		ogImageAlt = 'Wajom WhatsApp Automation Platform',
 		ogType = 'website',
 		publishedTime,

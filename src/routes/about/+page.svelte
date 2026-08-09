@@ -21,8 +21,8 @@
 	description="Mengenai Wajom! dan misi kami memerdekakan potensi Top Leader daripada beban pentadbiran WhatsApp di Malaysia. Mengembalikan masa anda untuk fokus memimpin pasukan."
 	keywords="mengenai wajom, tentang wajom, misi wajom, whatsapp automation company malaysia, driplab, platform leader malaysia, automasi jualan whatsapp"
 	canonical="https://wajom.co/about"
-	ogImage="https://wajom.co/about-hero-bg.jpg"
-	ogImageAlt="Pasukan dan Misi Wajom WhatsApp Automation"
+	ogImage="https://wajom.co/logo.png"
+	ogImageAlt="Wajom — Platform Automasi WhatsApp"
 	ogType="website"
 	jsonLd={aboutJsonLd}
 />

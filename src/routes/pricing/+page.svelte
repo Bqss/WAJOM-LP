@@ -58,7 +58,7 @@
 	description="Pilih pakej Wajom! terbaik untuk perniagaan anda: Trial Percuma 7 hari (RM0), 1 WhatsApp (RM49/bln), 3 WhatsApp (RM89/bln), atau 5 WhatsApp (RM149/bln). Mula percuma!"
 	keywords="harga wajom, pakej whatsapp automation, pelan wajom malaysia, percubaan percuma whatsapp bot, sistem whatsapp murah, langganan bot whatsapp, wajom pricing, kos automasi whatsapp"
 	canonical="https://wajom.co/pricing"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Pelan dan Harga Wajom WhatsApp Automation"
 	ogType="website"
 	jsonLd={pricingJsonLd}

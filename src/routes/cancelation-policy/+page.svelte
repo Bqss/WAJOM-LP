@@ -7,7 +7,7 @@
 	description="Polisi pembatalan langganan dan terma pemulangan wang rasmi (30-Day Money Back Guarantee) Wajom WhatsApp Automation."
 	keywords="polisi pembatalan wajom, refund policy wajom, terma langganan wajom, money back guarantee"
 	canonical="https://wajom.co/cancelation-policy"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogType="website"
 />
 

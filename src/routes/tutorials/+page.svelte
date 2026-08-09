@@ -57,7 +57,7 @@
 	description="Pusat panduan rasmi penggunaan Wajom: Tetapan akaun, pautan nombor WhatsApp, warm up anti-banned, evergreen campaign, Chat AI, dan integrasi Google Form."
 	keywords="katalog tutorial wajom, artikeltutorial whatsapp, panduan pengguna wajom, tips whatsapp automation, dokumentasi wajom"
 	canonical="https://wajom.co/tutorials"  
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Dokumentasi dan Tutorial Wajom"
 	ogType="website"
 	jsonLd={tutorialsJsonLd}

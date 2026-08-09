@@ -20,7 +20,7 @@
 	description="Spesifikasi perkhidmatan, modul automasi, tahap keselamatan data, integrasi API WhatsApp, dan jaminan operasi ekosistem Wajom."
 	keywords="spesifikasi wajom, detail of service wajom, keselamatan whatsapp api, infrastruktur cloud wajom, terma perkhidmatan teknik"
 	canonical="https://wajom.co/detail-of-service"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Spesifikasi Ekosistem Wajom"
 	ogType="website"
 	jsonLd={detailServiceJsonLd}

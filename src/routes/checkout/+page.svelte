@@ -301,7 +301,7 @@
 	description="Lengkapkan pendaftaran rasmi Kelas Chat AI Wajom Mastery RM30 secara selamat. Akses Zoom Live & FREE 1.5M AI Token."
 	keywords="checkout wajom, pembayaran wajom, pendaftaran selamat, langgan wajom"
 	canonical="https://wajom.co/checkout"
-	ogImage="https://wajom.co/og-image.jpg"
+	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Halaman Checkout Wajom"
 	ogType="website"
 	jsonLd={checkoutJsonLd}

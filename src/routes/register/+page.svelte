@@ -194,8 +194,8 @@
 	description="Halaman borang pendaftaran rasmi Kelas Chat AI & Automasi Wajom Mastery RM30. Sertai Zoom Live, rakaman penuh & nikmati FREE 1.5M AI Token."
 	keywords="daftar wajom, wajom mastery, kelas ai whatsapp, pendaftaran wajom, bengkel whatsapp automation, zoom live wajom, ai token free, borang wajom"
 	canonical="https://wajom.co/register"
-	ogImage="https://wajom.co/campaign.png"
-	ogImageAlt="Banner Pendaftaran Wajom Mastery"
+	ogImage="https://wajom.co/logo.png"
+	ogImageAlt="Wajom — Platform Automasi WhatsApp"
 	ogType="website"
 	jsonLd={registerJsonLd}
 />

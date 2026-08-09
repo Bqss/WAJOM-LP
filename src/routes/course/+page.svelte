@@ -80,8 +80,8 @@
 	description="Kursus praktikal bimbingan Wajom Chat AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik. RM30 termasuk 1.5M Token."
 	keywords="kursus wajom, wajom academy, modul whatsapp automation, panduan chat ai, strategi follow up whatsapp, latihan leader mlm, bengkel whatsapp malaysia"
 	canonical="https://wajom.co/course"
-	ogImage="https://wajom.co/chatai.png"
-	ogImageAlt="Visual Kursus Wajom Chat AI Mastery"
+	ogImage="https://wajom.co/logo.png"
+	ogImageAlt="Wajom — Platform Automasi WhatsApp"
 	ogType="website"
 	jsonLd={courseJsonLd}
 />

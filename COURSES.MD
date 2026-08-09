@@ -1,0 +1,13 @@
+view-source:https://wajom.co/tutorial/cara-cipta-akaun-free-trial-wajom/
+view-source:https://wajom.co/tutorial/cara-sambungkan-nomor-whatsapp/
+view-source:https://wajom.co/tutorial/cara-setting-warm-up-untuk-nombor-baru/
+view-source:https://wajom.co/tutorial/cara-upgrade-wajom-membership/
+view-source:https://wajom.co/tutorial/cara-settings-evergreen-campaign/
+view-source:https://wajom.co/tutorial/cara-beli-token-ai/
+view-source:https://wajom.co/tutorial/cara-setting-chat-ai/
+view-source:https://wajom.co/tutorial/cara-install-wajom-grabber/
+view-source:https://wajom.co/tutorial/cara-sedut-contact-number/
+view-source:https://wajom.co/tutorial/cara-upload-csv/
+view-source:https://wajom.co/tutorial/cara-setting-kempen/
+view-source:https://wajom.co/tutorial/cara-integrate-google-form/
+view-source:https://wajom.co/tutorial/ccara-setting-loop-message/

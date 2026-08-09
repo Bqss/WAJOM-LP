@@ -1,0 +1,48 @@
+# ============================================
+# Wajom - Robots.txt
+# https://wajom.co
+# ============================================
+
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+Disallow: /checkout
+
+# Sitemap
+Sitemap: https://wajom.co/sitemap.xml
+
+# ============================================
+# AI / LLM Crawlers
+# ============================================
+
+# OpenAI
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Google AI
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic
+User-agent: anthropic-ai
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+
+# Meta
+User-agent: FacebookBot
+Allow: /
+
+# Microsoft
+User-agent: Bingbot
+Allow: /
+
+# Common crawlers
+User-agent: Applebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /

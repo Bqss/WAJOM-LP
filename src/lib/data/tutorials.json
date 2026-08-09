@@ -1,0 +1,106 @@
+{
+  "cara-beli-token-ai": {
+    "slug": "cara-beli-token-ai",
+    "title": "Tutorial #06: Cara Beli Token AI",
+    "h1": "Cara Beli Token AI Wajom",
+    "badge": "Tutorial #06 · Chat AI",
+    "meta": "Tempoh: 1 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Kredit AI Tokens digunakan untuk menampung perbualan Customer Service AI. Kos token bergantung pada panjang skrip arahan Prompt yang digunakan.</p>\n        <h2>Langkah Pembelian Token:</h2>\n        <ol>\n          <li>Buka menu <strong>AI Tokens / Billing</strong>.</li>\n          <li>Pilih pakej topup token yang dikehendaki (cth: 500,000 Tokens atau 1.5 Juta Tokens).</li>\n          <li>Selesaikan pembayaran melalui CHIP Payment Gateway.</li>\n          <li>Kredit token dimasukkan serta-merta ke akaun anda secara automatik!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-settings-evergreen-campaign\">← Tutorial #05</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-chat-ai\">Tutorial #07 →</a>\n        </div>\n      "
+  },
+  "cara-cipta-akaun-free-trial-wajom": {
+    "slug": "cara-cipta-akaun-free-trial-wajom",
+    "title": "Tutorial #01: Cara Cipta Akaun FREE Trial",
+    "h1": "Cara Cipta Akaun FREE Trial Wajom",
+    "badge": "Tutorial #01 · Asas",
+    "meta": "Tempoh: 1 Minit Penulis: Hamizah Hamdan Tarikh: 10 September 2025",
+    "articleHtml": "\n        <p>Anda diberikan tempoh 7 hari percuma untuk menggunakan semua ciri utama automasi Wajom. Selamat mengenali dan menguasai automasi perniagaan anda!</p>\n        \n        <h2>Langkah-Langkah Pendaftaran:</h2>\n        <ol>\n          <li>\n            <strong>Layari Portal Rasmi Wajom:</strong> Buka penyemak web anda dan masuk ke <a href=\"https://portal.wajom.co/login\" target=\"_blank\" rel=\"noopener\" style=\"color:var(--emerald-2);text-decoration:underline;\">https://portal.wajom.co/login</a>.\n          </li>\n          <li>\n            <strong>Tekan Butang Mula Sekarang:</strong> Klik pada butang \"Mula Sekarang\" di bahagian hadapan portal.\n          </li>\n          <li>\n            <strong>Daftar Masuk Dengan Google:</strong> Tekan \"Sign In with Google\" untuk pendaftaran pantas 1-klik tanpa perlu mengisi borang panjang.\n          </li>\n          <li>\n            <strong>Pilih Akaun E-mel Anda:</strong> Sila pastikan anda memilih akaun e-mel perniagaan utama anda.\n          </li>\n          <li>\n            <strong>Sahkan Dan Teruskan:</strong> Klik \"Continue\" untuk melengkapkan pengesahan akaun.\n          </li>\n          <li>\n            <strong>Akaun Percubaan Berjaya Dicipta:</strong> Apabila paparan dashboard utama muncul, akaun Free Trial 7 Hari anda telah aktif sepenuhnya!\n          </li>\n          <li>\n            <strong>Tebus 100,000 AI Tokens Percuma:</strong> Tulis ulasan singkat di ruangan maklum balas dashboard dan klik \"Kirim Feedback\" untuk mendapatkan kuota 100,000 AI Tokens serta-merta.\n          </li>\n        </ol>\n\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial\">← Senarai Tutorial</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-sambungkan-nomor-whatsapp\">Tutorial #02 →</a>\n        </div>\n      "
+  },
+  "cara-install-wajom-grabber": {
+    "slug": "cara-install-wajom-grabber",
+    "title": "Tutorial #08: Cara Install  Contact Grabber Di Google Chrome",
+    "h1": "Cara Install Wajom Contact Grabber Di Google Chrome",
+    "badge": "Tutorial #08 · Tools &amp; Extensions",
+    "meta": "Tempoh: 5 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Wajom Contact Grabber membantu anda menyedut semua nombor telefon daripada mana-mana group WhatsApp yang anda sertai dalam beberapa saat.</p>\n        <h2>Langkah Pemasangan Extension:</h2>\n        <ol>\n          <li>Muat turun fail ZIP <strong>Wajom Contact Grabber</strong> dari menu Tools portal Wajom.</li>\n          <li>Ekstrak fail ZIP tersebut di komputer anda.</li>\n          <li>Buka Google Chrome → Pergi ke <code>chrome://extensions/</code> dan aktifkan <strong>Developer mode</strong> di penjuru atas kanan.</li>\n          <li>Klik \"Load unpacked\" dan pilih folder extension yang telah diekstrak. Extension Wajom kini aktif!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-chat-ai\">← Tutorial #07</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-sedut-contact-number\">Tutorial #09 →</a>\n        </div>\n      "
+  },
+  "cara-integrate-google-form": {
+    "slug": "cara-integrate-google-form",
+    "title": "Tutorial #12: Cara Integrate Google Forms Dengan",
+    "h1": "Cara Integrate Google Forms Dengan Wajom",
+    "badge": "Tutorial #12 · Integration",
+    "meta": "Tempoh: 15 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Gabungkan Borang Google Forms dengan Webhook Wajom untuk menghantar mesej pengesahan WhatsApp secara automatik sebaik sahaja borang diisi.</p>\n        <h2>Langkah Integrasi Webhook:</h2>\n        <ol>\n          <li>Buka menu <strong>Integrations</strong> → Salin pautan **Webhook URL** akaun Wajom anda.</li>\n          <li>Buka Google Form anda → Pergi ke Script Editor (Google Apps Script).</li>\n          <li>Tampal skrip penghantar Webhook Wajom dan tetapkan pemicu (*Trigger*) \"On form submit\".</li>\n          <li>Uji isi borang. Mesej aluan WhatsApp akan terus dihantar kepada nombor responden secara instant!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-kempen\">← Tutorial #11</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-loop-message\">Tutorial #13 →</a>\n        </div>\n      "
+  },
+  "cara-sambungkan-nomor-whatsapp": {
+    "slug": "cara-sambungkan-nomor-whatsapp",
+    "title": "Tutorial #02: Cara Sambungkan Nombor WhatsApp dengan",
+    "h1": "Cara Sambungkan Nombor WhatsApp dengan Wajom",
+    "badge": "Tutorial #02 · Asas",
+    "meta": "Tempoh: 3 Minit Penulis: Hamizah Hamdan Tarikh: 10 September 2025",
+    "articleHtml": "\n        <p>Tutorial lengkap ini membimbing anda cara menghubungkan peranti nombor WhatsApp dengan sistem kawalan cloud Wajom.</p>\n        \n        <h2>Langkah-Langkah Sambungan:</h2>\n        <ol>\n          <li>\n            <strong>Buka Panel Instances:</strong> Pergi ke tab \"Instances\" di dashboard kawalan portal Wajom anda.\n          </li>\n          <li>\n            <strong>Tambah Akaun Baharu:</strong> Tekan butang \"Add Instance\" untuk menjana kod sambungan WhatsApp baharu.\n          </li>\n          <li>\n            <strong>Imbas Kod QR (QR Code Scan):</strong> Buka aplikasi WhatsApp pada telefon anda, tekan tetapan (Settings) → Link a Device, dan imbas kod QR yang terpapar di skrin.\n          </li>\n          <li>\n            <strong>Pengesahan Status Live:</strong> Setelah diimbas, status instance akan bertukar kepada warna hijau \"CONNECTED 24/7\".\n          </li>\n          <li>\n            <strong>Sedia Digunakan:</strong> Nombor WhatsApp anda kini sedia untuk menjalankan kempen follow-up dan balasan bot automatik.\n          </li>\n        </ol>\n\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-cipta-akaun-free-trial-wajom\">← Tutorial #01</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-warm-up-untuk-nombor-baru\">Tutorial #03 →</a>\n        </div>\n      "
+  },
+  "cara-sedut-contact-number": {
+    "slug": "cara-sedut-contact-number",
+    "title": "Tutorial #09: Cara Sedut Contact Number Dari Group WhatsApp",
+    "h1": "Cara Sedut Contact Number Dari Group WhatsApp",
+    "badge": "Tutorial #09 · Data Management",
+    "meta": "Tempoh: 5 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Ekstrak nombor telefon ahli kumpulan WhatsApp dengan selamat untuk dimasukkan terus ke dalam pangkalan data kempen Wajom.</p>\n        <h2>Langkah Ekstrak Kontak:</h2>\n        <ol>\n          <li>Buka WhatsApp Web di pelayar Google Chrome yang telah dipasang <strong>Wajom Contact Grabber</strong>.</li>\n          <li>Masuk ke dalam kumpulan WhatsApp sasaran.</li>\n          <li>Tekan ikon extension Wajom → Klik \"Export Group Members\".</li>\n          <li>Fail CSV yang mengandungi senarai nombor telefon ahli kumpulan akan dimuat turun secara automatik ke komputer anda.</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-install-wajom-grabber\">← Tutorial #08</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-upload-csv\">Tutorial #10 →</a>\n        </div>\n      "
+  },
+  "cara-setting-chat-ai": {
+    "slug": "cara-setting-chat-ai",
+    "title": "Tutorial #07: Cara Setting Chat AI",
+    "h1": "Cara Setting Chat AI Wajom",
+    "badge": "Tutorial #07 · Chat AI",
+    "meta": "Tempoh: 7 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Chat AI Wajom menjawab soalan prospek 24/7 berdasarkan skrip latihan Training Data yang dimuat naik.</p>\n        <h2>Langkah Penetapan AI:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Chat AI</strong> → Tekan \"AI Bot Settings\".</li>\n          <li>Isikan <strong>System Prompt</strong> (cth: \"Anda adalah Customer Service mesra yang membantu pelanggan perniagaan emas\").</li>\n          <li>Muat naik dokumen PDF / teks <strong>Training Data</strong> jawapan produk anda.</li>\n          <li>Uji perbualan di ruangan \"Test AI Sandbox\" sebelum melancarkannya secara live di nombor WhatsApp anda!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-beli-token-ai\">← Tutorial #06</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-install-wajom-grabber\">Tutorial #08 →</a>\n        </div>\n      "
+  },
+  "cara-setting-kempen": {
+    "slug": "cara-setting-kempen",
+    "title": "Tutorial #11: Cara Setting Kempen WhatsApp",
+    "h1": "Cara Setting Kempen WhatsApp",
+    "badge": "Tutorial #11 · Campaign",
+    "meta": "Tempoh: 8 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Hantar mesej broadcast pukal kepada beribu-ribu nombor dengan tetapan Spam Limiter untuk mengelakkan risiko akaun disekat.</p>\n        <h2>Langkah Penetapan Kempen:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Campaigns</strong> → Tekan \"New Batch Campaign\".</li>\n          <li>Pilih Senarai Kontak (*List*) sasaran anda.</li>\n          <li>Tulis kandungan mesej dengan pembolehubah dinamik seperti <code>{nama}</code> atau <code>{spintax}</code>.</li>\n          <li>Tetapkan selang masa rawak (*delay 15-45 saat*) dan waktu operasi perniagaan (*Working Hours*) sebelum menekan \"Launch Campaign\".</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-upload-csv\">← Tutorial #10</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-integrate-google-form\">Tutorial #12 →</a>\n        </div>\n      "
+  },
+  "cara-setting-loop-message": {
+    "slug": "cara-setting-loop-message",
+    "title": "Tutorial #13: Cara Setting Loop Message",
+    "h1": "Cara Setting Loop Message",
+    "badge": "Tutorial #13 · Campaign",
+    "meta": "Tempoh: 5 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Loop Message digunakan untuk menghantar peringatan atau mesej promosi yang sama secara berulang mengikut selang masa berkala (harian, mingguan, atau bulanan).</p>\n        <h2>Langkah Konfigurasi Loop:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Campaigns</strong> → Pilih \"Create Loop Campaign\".</li>\n          <li>Tetapkan frekuensi ulangan (contoh: <em>Setiap 3 Hari pada jam 9:00 Pagi</em>).</li>\n          <li>Pilih penerima (kumpulan WhatsApp atau senarai kenalan).</li>\n          <li>Tekan \"Activate Loop\". Mesej akan dihantar secara automatik mengikut jadual tanpa gagal!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-integrate-google-form\">← Tutorial #12</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial\">Kembali ke Tutorial →</a>\n        </div>\n      "
+  },
+  "cara-setting-warm-up-untuk-nombor-baru": {
+    "slug": "cara-setting-warm-up-untuk-nombor-baru",
+    "title": "Tutorial #03: Cara Setting Warm Up Untuk Nombor WhatsApp Baru",
+    "h1": "Cara Setting Warm Up Untuk Nombor WhatsApp Baru",
+    "badge": "Tutorial #03 · Warm Up",
+    "meta": "Tempoh: 2 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Nombor WhatsApp baharu tidak perlu di-link terus dengan Wajom untuk menjalani pemanasan. Ciri <strong>WhatsApp Training Circle</strong> membolehkan pemanasan dibuat tanpa had nombor!</p>\n        <h2>Langkah Warm Up:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Training Circle</strong> di portal Wajom.</li>\n          <li>Masukkan senarai nombor SIM baharu yang ingin di-warmup.</li>\n          <li>Pilih jadual simulasi perbualan automatik mengikut jam.</li>\n          <li>Biarkan sistem membina reputasi nombor secara selamat sebelum memulakan kempen pemasaran utama.</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-sambungkan-nomor-whatsapp\">← Tutorial #02</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-upgrade-wajom-membership\">Tutorial #04 →</a>\n        </div>\n      "
+  },
+  "cara-settings-evergreen-campaign": {
+    "slug": "cara-settings-evergreen-campaign",
+    "title": "Tutorial #05: Cara Setting Evergreen Campaign",
+    "h1": "Cara Setting Evergreen Campaign",
+    "badge": "Tutorial #05 · Campaign",
+    "meta": "Tempoh: 8 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Evergreen Campaign membolehkan anda menghantar siri modul pembelajaran atau mesej susulan (follow-up) automatik selama 30 hari secara konsisten.</p>\n        <h2>Langkah Konfigurasi:</h2>\n        <ol>\n          <li>Buka menu <strong>Campaigns</strong> → Tekan \"Create Evergreen Campaign\".</li>\n          <li>Pilih <strong>List Prospek</strong> sasaran yang akan menerima siri mesej ini.</li>\n          <li>Sediakan siri mesej Day 1, Day 2, Day 3 sehingga Day 30 berserta sela masa hari (delay hours/days).</li>\n          <li>Aktifkan kempen. Mana-mana nombor baharu yang dimasukkan ke List akan memulakan siri mesej dari Day 1 secara automatik!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-upgrade-wajom-membership\">← Tutorial #04</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-beli-token-ai\">Tutorial #06 →</a>\n        </div>\n      "
+  },
+  "cara-upgrade-wajom-membership": {
+    "slug": "cara-upgrade-wajom-membership",
+    "title": "Tutorial #04: Cara Upgrade  Membership",
+    "h1": "Cara Upgrade Wajom Membership",
+    "badge": "Tutorial #04 · Plan",
+    "meta": "Tempoh: 1 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Untuk automasi penuh tanpa gangguan, anda boleh menaik taraf langganan daripada akaun Trial ke pakej pilihan (1 WA, 3 WA, atau 5 WA).</p>\n        <h2>Langkah Upgrade:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Billing &amp; Subscription</strong> di dashboard Wajom.</li>\n          <li>Pilih tempoh bil (Bulanan atau Tahunan untuk penjimatan 2 bulan).</li>\n          <li>Klik \"Upgrade Plan\" dan selesaikan pembayaran selamat menerusi FPX / CHIP Payment Gateway.</li>\n          <li>Sistem mengemaskini kuota peranti WhatsApp anda secara automatik.</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-warm-up-untuk-nombor-baru\">← Tutorial #03</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-settings-evergreen-campaign\">Tutorial #05 →</a>\n        </div>\n      "
+  },
+  "cara-upload-csv": {
+    "slug": "cara-upload-csv",
+    "title": "Tutorial #10: Cara Masukkan No Telefon Dari File CSV Ke Dalam 'List'",
+    "h1": "Cara Masukkan No Telefon Dari File CSV Ke Dalam 'List' Wajom",
+    "badge": "Tutorial #10 · Data Management",
+    "meta": "Tempoh: 3 Minit Penulis: Hamizah Hamdan",
+    "articleHtml": "\n        <p>Import beribu-ribu nombor kontak daripada fail CSV atau Excel terus ke dalam Senarai Wajom dalam beberapa klik mudah.</p>\n        <h2>Langkah Import CSV:</h2>\n        <ol>\n          <li>Masuk ke menu <strong>Lists</strong> → Tekan \"Create New List\" atau pilih List sedia ada.</li>\n          <li>Klik butang \"Import CSV / Excel\".</li>\n          <li>Pilih kolum \"Phone Number\" dan \"Name\" yang sepadan dengan fail anda.</li>\n          <li>Tekan \"Start Import\". Semua nombor akan dimasukkan dan ditapis secara automatik tanpa duplikasi!</li>\n        </ol>\n        <div class=\"course-nav-btns\">\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-sedut-contact-number\">← Tutorial #09</a>\n          <a class=\"nav-btn-link\" href=\"/tutorial/cara-setting-kempen\">Tutorial #11 →</a>\n        </div>\n      "
+  }
+}

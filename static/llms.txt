@@ -1,0 +1,40 @@
+# Wajom
+
+> Wajom adalah platform automasi WhatsApp yang direka khas untuk top leader dalam industri MLM, hartanah, insurans, dan emas di Malaysia. Dibangunkan oleh RAED LAB SDN. BHD.
+
+Wajom membantu leader mengautomasikan outreach, customer service, duplikasi pasukan, dan prospect tracking — supaya mereka boleh fokus memimpin, bukan menjadi admin.
+
+## Halaman Utama
+
+- [Beranda](https://wajom.co/): Landing page utama dengan hero section, pitch automasi, grid transformasi sebelum/selepas, dan trust badges.
+- [Tentang Kami](https://wajom.co/about): Misi Wajom, pain point yang dihadapi top leader, dan 4 pilar sistem automasi.
+- [Fitur Lengkap](https://wajom.co/features): Direktori komprehensif semua fitur — Add Contact, Campaign, List, Bot, Chat AI, Evergreen Campaign, Loop Message, Daily Leads, dan lain-lain. Dengan carian real-time dan penapis kategori.
+- [Detail Servis](https://wajom.co/detail-of-service): Penerangan mendalam 4 modul teras — Outreach & Campaign Automatik, Customer Service AI, Duplikasi Pasukan 1-Click, Prospect Tracking.
+- [Harga](https://wajom.co/pricing): Pelan harga (Masterclass RM30, Pro Leader RM149/bln, Agency Empire RM399/bln) dengan toggle bulanan/tahunan (diskaun 20%).
+
+## Academy & Tutorial
+
+- [Kursus](https://wajom.co/courses): Katalog akademi — Masterclass live dan panduan tutorial percuma.
+- [Chat AI Masterclass](https://wajom.co/courses/chat-ai-masterclass): Kursus mahir Chat AI untuk automasi perbualan WhatsApp.
+- [Voice Closing](https://wajom.co/courses/voice-closing): Teknik closing melalui voice note dan panggilan.
+- [Duplikasi Pasukan](https://wajom.co/courses/duplikasi-pasukan): Cara duplicate setup dan sistem kepada downline dalam 1 klik.
+- [Evergreen Automation](https://wajom.co/courses/evergreen-automation): Panduan membina kempen evergreen yang berjalan 24/7.
+- [Tutorial](https://wajom.co/tutorial): Panduan langkah demi langkah — Link WhatsApp, Build Evergreen Campaign, Train Chat AI, Duplikasi JSON. Termasuk video tutorial dan JSON snippet exporter.
+
+## Pendaftaran
+
+- [Checkout](https://wajom.co/checkout): Pendaftaran Rasmi Wajom Mastery Chat AI Class (RM30 + FREE 1.5M Tokens). Sokongan kod kupon (WAJOMVIP / WAJOM30), gateway pembayaran CHIP.
+
+## Polisi & Undang-Undang
+
+- [Dasar Privasi](https://wajom.co/privacy-policy): Polisi perlindungan data peribadi di bawah APDP 2010 (PDPA) Malaysia.
+- [Terma Perkhidmatan](https://wajom.co/term-of-service): Tanggungjawab pengguna, larangan spam, terma pembayaran melalui CHIP Gateway, dan penafian liabiliti anti-ban WhatsApp.
+- [Polisi Pembatalan](https://wajom.co/cancelation-policy): Jaminan wang dikembalikan 100% dalam 30 hari, proses pulangan wang, dan pilihan pembatalan langganan.
+
+## Maklumat Syarikat
+
+- **Syarikat**: RAED LAB SDN. BHD.
+- **Lokasi**: Malaysia
+- **Platform**: WhatsApp Automation
+- **Industri Sasaran**: MLM, Hartanah, Insurans, Emas
+- **Bahasa**: Bahasa Malaysia (utama), Bahasa Inggeris

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Halaman utama & fitur -->
+  <sitemap>
+    <loc>https://wajom.co/sitemap-pages.xml</loc>
+    <lastmod>2026-08-09</lastmod>
+  </sitemap>
+
+  <!-- Tutorial & Panduan (Hierarki/Nesting Tutorial) -->
+  <sitemap>
+    <loc>https://wajom.co/sitemap-tutorials.xml</loc>
+    <lastmod>2026-08-09</lastmod>
+  </sitemap>
+
+  <!-- Kursus & academy -->
+  <sitemap>
+    <loc>https://wajom.co/sitemap-courses.xml</loc>
+    <lastmod>2026-08-09</lastmod>
+  </sitemap>
+
+  <!-- Halaman undang-undang & polisi -->
+  <sitemap>
+    <loc>https://wajom.co/sitemap-legal.xml</loc>
+    <lastmod>2026-08-09</lastmod>
+  </sitemap>
+
+</sitemapindex>

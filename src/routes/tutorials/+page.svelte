@@ -254,7 +254,7 @@
 				</p>
 			</div>
 			<a
-				href="https://wa.me/60108102455?text=Hi%20saya%20perlukan%20bantuan%20tutorial%20Wajom"
+				href="https://wa.me/628567892460?text=Hi%20saya%20perlukan%20bantuan%20tutorial%20Wajom"
 				target="_blank"
 				rel="noopener"
 				class="wa-support-btn"

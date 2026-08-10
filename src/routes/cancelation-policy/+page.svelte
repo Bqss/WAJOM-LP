@@ -36,7 +36,7 @@
 			<ul>
 				<li>Permohonan mesti dibuat dalam tempoh 30 hari kalendar dari tarikh pembayaran pertama.</li>
 				<li>
-					Hubungi pasukan sokongan kami menerusi WhatsApp rasmi di <strong>+60 108 102 455</strong>
+					Hubungi pasukan sokongan kami menerusi WhatsApp rasmi di <strong>+62 856 789 2460</strong>
 					atau e-mel ke <strong>support@wajom.co</strong> bersama nombor resit/ID transaksi CHIP.
 				</li>
 				<li>

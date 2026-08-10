@@ -1,6 +1,6 @@
 <a
 	class="wa-float-btn"
-	href="https://wa.me/60108102455?text=Hi%20saya%20nak%20tanya%20tentang%20Wajom"
+	href="https://wa.me/628567892460?text=Hi%20saya%20nak%20tanya%20tentang%20Wajom"
 	target="_blank"
 	rel="noopener"
 	aria-label="WhatsApp Chat"

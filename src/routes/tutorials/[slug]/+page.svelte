@@ -352,7 +352,7 @@
 						<h4 class="help-title">Bantuan Live Setup</h4>
 						<p class="help-desc">Hubungi tim sokongan kami jika anda perlukan bantuan tetapan khas.</p>
 						<a
-							href="https://wa.me/60108102455?text=Hi%20saya%20nak%20tanya%20tentang%20tutorial%20{encodeURIComponent(tutorial.title)}"
+							href="https://wa.me/628567892460?text=Hi%20saya%20nak%20tanya%20tentang%20tutorial%20{encodeURIComponent(tutorial.title)}"
 							target="_blank"
 							rel="noopener"
 							class="sidebar-wa-btn"
@@ -410,7 +410,7 @@
 						</p>
 					</div>
 					<a
-						href="https://wa.me/60108102455?text=Hi%20bantu%20saya%20dengan%20tutorial%20{encodeURIComponent(tutorial.title)}"
+						href="https://wa.me/628567892460?text=Hi%20bantu%20saya%20dengan%20tutorial%20{encodeURIComponent(tutorial.title)}"
 						target="_blank"
 						rel="noopener"
 						class="banner-wa-btn"

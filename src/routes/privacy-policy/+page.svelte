@@ -87,7 +87,7 @@
 				Anda berhak untuk mengakses, mengemaskini, atau meminta pemadaman data peribadi anda pada
 				bila-bila masa. Jika anda mempunyai sebarang soalan mengenai Polisi Privasi ini, sila hubungi
 				pasukan sokongan kami melalui e-mail <strong>support@wajom.co</strong> atau WhatsApp di
-				<strong>+60 108 102 455</strong>.
+				<strong>+62 856 789 2460</strong>.
 			</p>
 		</div>
 	</section>

@@ -135,7 +135,7 @@
 						<span>Daftar Kelas Baharu &rarr;</span>
 					</a>
 					<a
-						href={`https://wa.me/60108102455?text=Salam%20CS%20Wajom,%20rekod%20pendaftaran%20saya%20404%20(ID:%20${orderId})`}
+						href={`https://wa.me/628567892460?text=Salam%20CS%20Wajom,%20rekod%20pendaftaran%20saya%20404%20(ID:%20${orderId})`}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-support"
@@ -237,7 +237,7 @@
 						<span>SERTAI GROUP WHATSAPP &rarr;</span>
 					</a>
 					<a
-						href={`https://wa.me/${(participantData?.customer_service_phone || '+60108102455').replace(/[^0-9]/g, '')}?text=Hai%20CS%20Wajom,%20saya%20perlukan%20bantuan%20pendaftaran%20(ID:%20${orderId})`}
+						href={`https://wa.me/${(participantData?.customer_service_phone || '+628567892460').replace(/[^0-9]/g, '')}?text=Hai%20CS%20Wajom,%20saya%20perlukan%20bantuan%20pendaftaran%20(ID:%20${orderId})`}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-cta-cs"
@@ -300,7 +300,7 @@
 						<span>Cuba Pembayaran Semula &rarr;</span>
 					</a>
 					<a
-						href={`https://wa.me/${(participantData?.customer_service_phone || '+60108102455').replace(/[^0-9]/g, '')}?text=Salam,%20pembayaran%20pendaftaran%20kelas%20saya%20gagal%20(ID:%20${orderId})`}
+						href={`https://wa.me/${(participantData?.customer_service_phone || '+628567892460').replace(/[^0-9]/g, '')}?text=Salam,%20pembayaran%20pendaftaran%20kelas%20saya%20gagal%20(ID:%20${orderId})`}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-support"

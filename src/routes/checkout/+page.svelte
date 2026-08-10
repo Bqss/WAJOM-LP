@@ -757,7 +757,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
 				</a>
 				<a
-					href="https://wa.me/60108102455?text=Hai%20CS%20Wajom,%20saya%20dah%20bayar%20RM30%20untuk%20Kelas%20Chat%20AI"
+					href="https://wa.me/628567892460?text=Hai%20CS%20Wajom,%20saya%20dah%20bayar%20RM30%20untuk%20Kelas%20Chat%20AI"
 					target="_blank"
 					style="background: var(--bg-3); border: 1px solid var(--rule-2); color: var(--ink-2); font-weight: 500; padding: 12px 24px; border-radius: 999px; font-size: 0.88rem; text-decoration: none;"
 				>

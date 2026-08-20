@@ -19,11 +19,12 @@ export const POST: RequestHandler = async ({ request }) => {
 			);
 		}
 
-		const baseUrl = PUBLIC_API_BASE_URL || 'https://portal.wajom.co';
+		// Normalize localhost → 127.0.0.1 to avoid IPv6 resolution issues in server-side fetch
+		const customBaseUrl = (PUBLIC_API_BASE_URL && PUBLIC_API_BASE_URL !== 'https://wajom.co' ? PUBLIC_API_BASE_URL : null)?.replace('://localhost', '://127.0.0.1');
 		const upstreamEndpoints = [
-			`${baseUrl}/api/users/check`,
+			...(customBaseUrl ? [`${customBaseUrl}/api/users/check`] : []),
 			'https://portal.wajom.co/api/users/check',
-			'http://localhost:3000/api/users/check'
+			'http://127.0.0.1:3000/api/users/check'
 		];
 
 		const uniqueEndpoints = [...new Set(upstreamEndpoints)];

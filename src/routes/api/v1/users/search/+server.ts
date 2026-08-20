@@ -18,14 +18,15 @@ export const POST: RequestHandler = async ({ request }) => {
 			);
 		}
 
-		// Prioritize actual Wajom portal API endpoints
+		// Prioritize PUBLIC_API_BASE_URL, fall back to portal
+		// Normalize localhost → 127.0.0.1 to avoid IPv6 resolution issues in server-side fetch
+		const customBaseUrl = (PUBLIC_API_BASE_URL && PUBLIC_API_BASE_URL !== 'https://wajom.co' ? PUBLIC_API_BASE_URL : null)?.replace('://localhost', '://127.0.0.1');
 		const portalBaseUrl = 'https://portal.wajom.co';
-		const customBaseUrl = PUBLIC_API_BASE_URL && PUBLIC_API_BASE_URL !== 'https://wajom.co' ? PUBLIC_API_BASE_URL : null;
 
 		const upstreamEndpoints = [
+			...(customBaseUrl ? [`${customBaseUrl}/api/v1/users/search`, `${customBaseUrl}/api/users/check`] : []),
 			`${portalBaseUrl}/api/users/check`,
-			`${portalBaseUrl}/api/v1/users/search`,
-			...(customBaseUrl ? [`${customBaseUrl}/api/v1/users/search`, `${customBaseUrl}/api/users/check`] : [])
+			`${portalBaseUrl}/api/v1/users/search`
 		];
 
 		const uniqueEndpoints = [...new Set(upstreamEndpoints)];

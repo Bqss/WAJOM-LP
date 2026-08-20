@@ -229,7 +229,7 @@
 				<!-- 2-COLUMN ACTION BUTTONS -->
 				<div class="cta-grid-2col">
 					<a
-						href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/demo-wajom-mastery"}
+					href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/CBCvqmr3EicJCPZ1CFvVxd"}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-cta-gold"

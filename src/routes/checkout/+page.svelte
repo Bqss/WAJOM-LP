@@ -61,8 +61,8 @@
 	let transactionId = $state('');
 	let checkoutError = $state('');
 
-	// Real-time Dynamic Countdown Timer (Target: Ahad, 16 Ogos 2026, 9:00 AM MYT)
-	const TARGET_DATE = new Date('2026-08-16T09:00:00+08:00').getTime();
+	// Real-time Dynamic Countdown Timer (Target: Ahad, 6 September 2026, 9:00 AM MYT)
+	const TARGET_DATE = new Date('2026-09-06T09:00:00+08:00').getTime();
 
 	let days = $state(0);
 	let hours = $state(0);
@@ -239,6 +239,14 @@
 			return;
 		}
 
+		// "Pengguna Baharu" dipilih tapi e-mel/telefon sudah ada akaun Wajom.
+		// Tolak submit — user mesti guna akaun sedia ada (tombol "Gunakan Akaun Ini")
+		// supaya backend tidak masuk cabang create-new-user dan kena UNIQUE constraint.
+		if (hasAccount === 'no' && newAccountExistUser) {
+			checkoutError = 'E-mel/telefon ini sudah berdaftar. Sila klik "Gunakan Akaun Ini & Top-Up 1.5M Token" di atas untuk mengelakkan akaun pendua.';
+			return;
+		}
+
 		isSubmitting = true;
 		checkoutError = '';
 
@@ -250,10 +258,11 @@
 			phone: phone.trim(),
 			business_type: finalBusinessType,
 			reason_to_join: reasonToJoin.trim(),
-			has_account: hasAccount === 'yes',
-			existing_user_id: selectedAccount?.id || null,
-			existing_user_email: selectedAccount?.email || null,
-			package_name: 'Wajom Mastery — Kelas Chat AI',
+			has_account: hasAccount === 'yes' || !!newAccountExistUser,
+			existing_user_id: selectedAccount?.id || newAccountExistUser?.id || null,
+			existing_user_email: selectedAccount?.email || newAccountExistUser?.email || null,
+			course_slug: 'wajom-mastery-chat-ai-2',
+			package_name: 'Wajom Mastery — Kelas Chat AI (Course 2)',
 			amount: 30 - discountAmount,
 			coupon_code: couponCode.trim().toUpperCase()
 		};
@@ -380,6 +389,10 @@
 									required
 									style="flex: 1; background: transparent; border: none; padding: 12px 14px; font-family: var(--sans); font-size: 0.92rem; color: var(--ink); outline: none;"
 								/>
+							</div>
+							<div style="display: flex; gap: 8px; background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 10px; padding: 10px 12px; margin-top: 8px; font-size: 0.8rem; color: var(--ink-2); line-height: 1.45;">
+								<svg style="width: 16px; height: 16px; fill: var(--gold-2); flex-shrink: 0; margin-top: 2px;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+								<span><strong>Penting:</strong> Nombor ini akan digunakan untuk menyertai <strong>WhatsApp Group Kelas</strong>. Pastikan nombor WhatsApp aktif &amp; boleh dihubungi.</span>
 							</div>
 						</div>
 
@@ -643,7 +656,7 @@
 
 							<button
 								type="submit"
-								disabled={isSubmitting || (hasAccount === 'yes' && !selectedAccount)}
+								disabled={isSubmitting || (hasAccount === 'yes' && !selectedAccount) || (hasAccount === 'no' && !!newAccountExistUser)}
 								style="flex: 1; background: linear-gradient(135deg, var(--gold-2), var(--gold)); color: var(--cta-ink); font-family: var(--sans); font-weight: 700; font-size: 1.02rem; padding: 15px 24px; border-radius: 999px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: transform 0.2s ease, opacity 0.2s ease;"
 							>
 								{#if isSubmitting}
@@ -749,7 +762,7 @@
 
 			<div style="display: flex; flex-direction: column; gap: 12px;">
 				<a
-					href="https://chat.whatsapp.com/demo-wajom-mastery"
+				href="https://chat.whatsapp.com/CBCvqmr3EicJCPZ1CFvVxd"
 					target="_blank"
 					style="background: #25D366; color: #ffffff; font-weight: 700; padding: 14px 24px; border-radius: 999px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;"
 				>

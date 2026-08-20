@@ -2,39 +2,14 @@
 	import { onMount } from 'svelte';
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import Countdown from '$lib/components/Countdown.svelte';
 
 	let isVideoModalOpen = $state(false);
 
-	// Real-time Dynamic Countdown Timer (Target: Ahad, 16 Ogos 2026, 9:00 AM MYT)
-	const TARGET_DATE = new Date('2026-08-16T09:00:00+08:00').getTime();
-
-	let days = $state(0);
-	let hours = $state(0);
-	let minutes = $state(0);
-	let seconds = $state(0);
-
-	function updateCountdown() {
-		const now = new Date().getTime();
-		const diff = TARGET_DATE - now;
-
-		if (diff <= 0) {
-			days = 0;
-			hours = 0;
-			minutes = 0;
-			seconds = 0;
-			return;
-		}
-
-		days = Math.floor(diff / (1000 * 60 * 60 * 24));
-		hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-		seconds = Math.floor((diff % (1000 * 60)) / 1000);
-	}
+	// Countdown target: Ahad, 6 September 2026, 9:00 AM MYT
+	const TARGET_DATE = new Date('2026-09-06T09:00:00+08:00');
 
 	onMount(() => {
-		updateCountdown();
-		const timerInterval = setInterval(updateCountdown, 1000);
-
 		// IntersectionObserver for bloom scroll animations
 		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			const io = new IntersectionObserver(
@@ -52,8 +27,6 @@
 		} else {
 			document.querySelectorAll('.bloom').forEach((el) => el.classList.add('in'));
 		}
-
-		return () => clearInterval(timerInterval);
 	});
 
 	const courseJsonLd = {
@@ -99,24 +72,13 @@
 			Bimbingan praktikal 3 jam bersama Wajom AI. Settingkan skrip closing gaya peribadi anda, auto follow-up 24/7, dan duplikasikan ke pasukan dalam 1-klik.
 		</p>
 
-		<!-- Integrated Countdown Timer Bar -->
-		<div class="hero-timer-bar bloom">
-			<div class="timer-title-group">
-				<span class="pulse-indicator"></span>
-				<span class="timer-lbl">MASA BERBAKI PENDAFTARAN:</span>
-			</div>
-			<div class="timer-digits-inline">
-				<span class="t-digit">{days} Hari</span>
-				<span class="t-sep">:</span>
-				<span class="t-digit">{String(hours).padStart(2, '0')} Jam</span>
-				<span class="t-sep">:</span>
-				<span class="t-digit">{String(minutes).padStart(2, '0')} Minit</span>
-				<span class="t-sep">:</span>
-				<span class="t-digit">{String(seconds).padStart(2, '0')} Saat</span>
-			</div>
-			<div class="timer-session-info">
-				<span>Ahad, 16 Ogos 2026 (9:00 AM – 12:00 PM)</span>
-			</div>
+		<!-- Animated Countdown Timer -->
+		<div class="bloom" style="margin-bottom: 28px;">
+			<Countdown
+				endDate={TARGET_DATE}
+				label="MASA BERBAKI PENDAFTARAN"
+				sessionInfo="Ahad, 6 September 2026 (9:00 AM – 12:00 PM)"
+			/>
 		</div>
 
 		<!-- Action CTAs matching Pricing Buttons -->
@@ -602,64 +564,6 @@
 		line-height: 1.6;
 	}
 
-	/* Integrated Horizontal Timer Bar */
-	.hero-timer-bar {
-		display: inline-flex;
-		align-items: center;
-		gap: 16px;
-		background: var(--bg-2);
-		border: 1px solid var(--rule-2);
-		border-radius: 999px;
-		padding: 8px 22px;
-		margin-bottom: 28px;
-		box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.4);
-		flex-wrap: wrap;
-		justify-content: center;
-	}
-
-	.timer-title-group {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.pulse-indicator {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--gold-2);
-		box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
-	}
-
-	.timer-lbl {
-		font-family: var(--mono);
-		font-size: 0.68rem;
-		color: var(--ink-3);
-		letter-spacing: 0.06em;
-		font-weight: 600;
-	}
-
-	.timer-digits-inline {
-		display: flex;
-		align-items: baseline;
-		gap: 3px;
-		font-family: var(--mono);
-		font-size: 0.95rem;
-		font-weight: 800;
-		color: var(--gold-2);
-	}
-
-	.t-sep {
-		color: var(--ink-3);
-		font-weight: 400;
-	}
-
-	.timer-session-info {
-		font-size: 0.78rem;
-		color: var(--ink-2);
-		padding-left: 12px;
-		border-left: 1px solid var(--rule);
-	}
 
 	.hero-actions-row {
 		display: flex;
@@ -1488,18 +1392,6 @@
 	}
 
 	@media (max-width: 600px) {
-		.hero-timer-bar {
-			flex-direction: column;
-			border-radius: 18px;
-			gap: 8px;
-		}
-
-		.timer-session-info {
-			padding-left: 0;
-			border-left: none;
-			border-top: 1px solid var(--rule);
-			padding-top: 6px;
-		}
 
 		.hero-actions-row {
 			flex-direction: column;

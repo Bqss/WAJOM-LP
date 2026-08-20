@@ -284,6 +284,15 @@
 	jsonLd={indexJsonLd}
 />
 
+<!-- ═══ ANNOUNCEMENT BAR ════════════════════════════════════ -->
+<a href="/checkout" class="announce-bar">
+	<span class="announce-dot"></span>
+	<span class="announce-text">
+		<strong>Kelas Chat AI & Automasi WhatsApp</strong> — Live Zoom, 6 Sept 2026. RM30 + 1.5M AI Token.
+	</span>
+	<span class="announce-cta">Daftar Sekarang <ArrowRightIcon size={14} weight="bold" /></span>
+</a>
+
 <!-- ═══ HERO ═══════════════════════════════════════════════ -->
 <section class="stage" id="hero">
 	<div class="stage-bg" aria-hidden="true"><HeroShowcase /></div>
@@ -303,9 +312,7 @@
 			<div class="stage-actions" style="--i:3">
 				<a
 					class="cta-primary"
-					href="https://portal.wajom.co/register"
-					target="_blank"
-					rel="noopener"
+					href="/checkout"
 				>
 					Mula Sekarang <ArrowRightIcon size={18} weight="bold" />
 				</a>
@@ -554,7 +561,7 @@
 				<span class="stub-old">RM 200.00</span>
 				<span class="stub-now">RM 30.00</span>
 				<span class="stub-save">Jimat RM 170.00</span>
-				<a class="cta-primary" href="/register">
+				<a class="cta-primary" href="/checkout">
 					Daftar Kelas RM30 <ArrowRightIcon size={18} weight="bold" />
 				</a>
 				<p class="stub-fine">Termasuk 1.5M AI tokens bernilai RM150.</p>
@@ -595,9 +602,7 @@
 		<div class="closing-cta" data-reveal>
 			<a
 				class="cta-primary big"
-				href="https://portal.wajom.co/register"
-				target="_blank"
-				rel="noopener"
+				href="/checkout"
 			>
 				Mula Sekarang <ArrowRightIcon size={19} weight="bold" />
 			</a>
@@ -613,6 +618,71 @@
 <VideoModal bind:isOpen={isVideoModalOpen} />
 
 <style>
+	/* ═══ Announcement Bar ════════════════════════════════════ */
+	.announce-bar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		padding: 9px 20px;
+		background: linear-gradient(90deg, rgba(55, 159, 118, 0.12), rgba(212, 175, 55, 0.10));
+		border-bottom: 1px solid var(--rule-2);
+		font-family: var(--sans);
+		font-size: 0.82rem;
+		color: var(--ink-2);
+		text-decoration: none;
+		transition: background 0.2s ease;
+		flex-wrap: wrap;
+	}
+
+	.announce-bar:hover {
+		background: linear-gradient(90deg, rgba(55, 159, 118, 0.18), rgba(212, 175, 55, 0.15));
+	}
+
+	.announce-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--emerald-2);
+		box-shadow: 0 0 0 3px rgba(78, 194, 148, 0.25);
+		animation: pulse-beacon 2s ease-out infinite;
+		flex-shrink: 0;
+	}
+
+	.announce-text strong {
+		color: var(--ink);
+		font-weight: 700;
+	}
+
+	.announce-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		font-weight: 700;
+		color: var(--gold-2);
+		white-space: nowrap;
+	}
+
+	.announce-cta :global(svg) {
+		transition: transform 0.18s ease;
+	}
+
+	.announce-bar:hover .announce-cta :global(svg) {
+		transform: translateX(3px);
+	}
+
+	@media (max-width: 600px) {
+		.announce-bar {
+			font-size: 0.78rem;
+			gap: 8px;
+			padding: 8px 16px;
+		}
+
+		.announce-cta {
+			display: none;
+		}
+	}
+
 	/* ═══ Type and surface primitives for this page ═══════════ */
 	h1,
 	h2,

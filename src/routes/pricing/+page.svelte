@@ -7,7 +7,7 @@
 		'@context': 'https://schema.org',
 		'@type': 'Product',
 		name: 'Pakej Langganan Wajom!',
-		description: 'Platform automasi WhatsApp canggih: Trial Percuma 7 Hari (RM0), Pakej 1 WA (RM49/bln), 3 WA (RM89/bln), dan 5 WA (RM149/bln).',
+		description: 'Platform automasi WhatsApp canggih: Trial Percuma (RM0) tanpa had masa, Pakej 1 WA (RM49/bln), 3 WA (RM89/bln), dan 5 WA (RM149/bln).',
 		brand: {
 			'@type': 'Brand',
 			name: 'Wajom!'
@@ -15,7 +15,7 @@
 		offers: [
 			{
 				'@type': 'Offer',
-				name: 'Trial Percuma 7 Hari',
+				name: 'Trial Percuma',
 				price: '0',
 				priceCurrency: 'MYR',
 				priceValidUntil: '2026-12-31',
@@ -55,7 +55,7 @@
 
 <SEO
 	title="Pelan & Harga Wajom! — Automasi WhatsApp Dari RM49/Bulan"
-	description="Pilih pakej Wajom! terbaik untuk perniagaan anda: Trial Percuma 7 hari (RM0), 1 WhatsApp (RM49/bln), 3 WhatsApp (RM89/bln), atau 5 WhatsApp (RM149/bln). Mula percuma!"
+	description="Pilih pakej Wajom! terbaik untuk perniagaan anda: Trial Percuma tanpa had masa (RM0), 1 WhatsApp (RM49/bln), 3 WhatsApp (RM89/bln), atau 5 WhatsApp (RM149/bln). Mula percuma!"
 	keywords="harga wajom, pakej whatsapp automation, pelan wajom malaysia, percubaan percuma whatsapp bot, sistem whatsapp murah, langganan bot whatsapp, wajom pricing, kos automasi whatsapp"
 	canonical="https://wajom.co/pricing"
 	ogImage="https://wajom.co/logo.png"
@@ -262,14 +262,14 @@
 				<span class="trial-tag">TRY BEFORE YOU BUY</span>
 				<h2>Rasa Wajom! <em>tanpa risiko.</em></h2>
 				<p>
-					Uji sendiri automasi WhatsApp selama 7 hari dengan akses kepada 1 Akaun WA, 100 Mesej,
+					Uji sendiri automasi WhatsApp tanpa had masa dengan akses kepada 1 Akaun WA, 100 Mesej,
 					10 Auto Reply dan 11,000 AI Token. Tiada bayaran pendahuluan.
 				</p>
 				<div class="trial-action">
 					<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="trial-btn">
 						Mulakan Trial Percuma →
 					</a>
-					<span class="trial-note">RM0 untuk 7 hari pertama</span>
+					<span class="trial-note">RM0 tanpa had masa</span>
 				</div>
 			</div>
 
@@ -279,7 +279,7 @@
 					<span class="trial-preview-status"><span class="trial-status-dot" aria-hidden="true"></span>AKTIF</span>
 				</div>
 				<div class="trial-preview-title">
-					<span>7 hari untuk cuba</span>
+					<span>Tanpa had masa untuk cuba</span>
 					<strong>RM0</strong>
 				</div>
 				<div class="trial-limit-grid">

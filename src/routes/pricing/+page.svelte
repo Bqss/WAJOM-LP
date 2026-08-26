@@ -260,10 +260,10 @@
 		<div class="trial-strip">
 			<div class="trial-info">
 				<span class="trial-tag">TRY BEFORE YOU BUY</span>
-				<h2>Rasa Wajom! <em>tanpa risiko.</em></h2>
+				<h2>Guna Wajom! <em>tanpa risiko.</em></h2>
 				<p>
-					Uji sendiri automasi WhatsApp tanpa had masa dengan akses kepada 1 Akaun WA, 100 Mesej,
-					10 Auto Reply dan 11,000 AI Token. Tiada bayaran pendahuluan.
+					Test dulu automasi WhatsApp Wajom. 100 Mesej, 10 Auto Reply dan 11,000 AI Token.
+					FREE
 				</p>
 				<div class="trial-action">
 					<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="trial-btn">

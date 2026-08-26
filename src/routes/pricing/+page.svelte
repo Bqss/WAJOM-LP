@@ -254,19 +254,52 @@
 	</div>
 </section>
 
-<!-- Refined FREE Trial Horizontal Banner -->
+<!-- Try Before You Buy -->
 <section class="trial-strip-section">
 	<div class="wrap">
 		<div class="trial-strip">
 			<div class="trial-info">
 				<span class="trial-tag">TRY BEFORE YOU BUY</span>
-				<h2>Cuba Percuma 7 Hari (RM0)</h2>
-				<p>Nikmati akses ke 1 Akaun WA, 100 Mesej, 10 Auto Reply &amp; 11,000 AI Token tanpa sebarang bayaran pendahuluan.</p>
+				<h2>Rasa Wajom! <em>tanpa risiko.</em></h2>
+				<p>
+					Uji sendiri automasi WhatsApp selama 7 hari dengan akses kepada 1 Akaun WA, 100 Mesej,
+					10 Auto Reply dan 11,000 AI Token. Tiada bayaran pendahuluan.
+				</p>
+				<div class="trial-action">
+					<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="trial-btn">
+						Mulakan Trial Percuma →
+					</a>
+					<span class="trial-note">RM0 untuk 7 hari pertama</span>
+				</div>
 			</div>
-			<div class="trial-action">
-				<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="trial-btn">
-					Daftar Trial Percuma →
-				</a>
+
+			<div class="trial-preview" aria-label="Ringkasan trial percuma">
+				<div class="trial-preview-head">
+					<span class="trial-preview-label">TRIAL PERCUMA</span>
+					<span class="trial-preview-status"><span class="trial-status-dot" aria-hidden="true"></span>AKTIF</span>
+				</div>
+				<div class="trial-preview-title">
+					<span>7 hari untuk cuba</span>
+					<strong>RM0</strong>
+				</div>
+				<div class="trial-limit-grid">
+					<div class="trial-limit">
+						<strong>1</strong>
+						<span>Akaun WA</span>
+					</div>
+					<div class="trial-limit">
+						<strong>100</strong>
+						<span>Mesej</span>
+					</div>
+					<div class="trial-limit">
+						<strong>10</strong>
+						<span>Auto Reply</span>
+					</div>
+					<div class="trial-limit">
+						<strong>11K</strong>
+						<span>AI Token</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -661,20 +694,32 @@
 		color: var(--emerald-2);
 	}
 
-	/* Trial Horizontal Strip */
+	/* Try Before You Buy */
 	.trial-strip-section {
-		padding: 0 0 60px;
+		padding: 0 0 70px;
 	}
 
 	.trial-strip {
-		background: var(--bg-2);
-		border: 1px solid var(--rule-2);
-		border-radius: 16px;
-		padding: 28px 36px;
+		position: relative;
+		overflow: hidden;
+		display: grid;
+		grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+		align-items: stretch;
+		gap: clamp(28px, 5vw, 64px);
+		padding: clamp(30px, 5vw, 48px);
+		background:
+			radial-gradient(circle at 0% 100%, rgba(55, 159, 118, 0.16), transparent 55%),
+			var(--bg-2);
+		border: 1px solid rgba(78, 194, 148, 0.28);
+		border-radius: 20px;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	}
+
+	.trial-info {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 24px;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
 	}
 
 	.trial-tag {
@@ -683,40 +728,173 @@
 		color: var(--emerald-2);
 		letter-spacing: 0.08em;
 		display: block;
-		margin-bottom: 4px;
+		margin-bottom: 10px;
 	}
 
 	.trial-info h2 {
 		font-family: var(--serif);
-		font-size: 1.3rem;
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		line-height: 1.08;
 		color: var(--ink);
-		margin: 0 0 6px;
+		max-width: 14ch;
+		margin: 0 0 14px;
+	}
+
+	.trial-info h2 em {
+		font-family: var(--accent-serif);
+		color: var(--emerald-2);
+		font-style: italic;
+		font-weight: 400;
 	}
 
 	.trial-info p {
-		font-size: 0.88rem;
-		color: var(--ink-3);
+		font-size: 0.92rem;
+		color: var(--ink-2);
+		max-width: 52ch;
 		margin: 0;
+		line-height: 1.6;
+	}
+
+	.trial-action {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+		margin-top: 24px;
 	}
 
 	.trial-btn {
 		display: inline-flex;
 		align-items: center;
-		padding: 12px 24px;
-		background: var(--emerald-dim);
-		color: var(--emerald-2);
-		border: 1px solid rgba(78, 194, 148, 0.3);
+		padding: 13px 24px;
+		background: var(--emerald);
+		color: #ffffff;
+		border: 1px solid var(--emerald);
 		border-radius: 999px;
 		font-size: 0.88rem;
 		font-weight: 600;
 		text-decoration: none;
-		transition: all 0.18s ease;
+		transition:
+			background 0.18s ease,
+			border-color 0.18s ease,
+			transform 0.18s ease;
 		white-space: nowrap;
+		box-shadow: 0 8px 20px rgba(55, 159, 118, 0.2);
 	}
 
 	.trial-btn:hover {
+		background: var(--emerald-2);
+		border-color: var(--emerald-2);
+		transform: translateY(-1px);
+	}
+
+	.trial-note {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		color: var(--ink-3);
+	}
+
+	.trial-preview {
+		position: relative;
+		background: var(--bg-3);
+		border: 1px solid var(--rule-2);
+		border-radius: 14px;
+		padding: 22px;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	}
+
+	.trial-preview::before {
+		content: '';
+		position: absolute;
+		top: -1px;
+		left: 22px;
+		right: 22px;
+		height: 2px;
 		background: var(--emerald);
-		color: #ffffff;
+		border-radius: 0 0 999px 999px;
+	}
+
+	.trial-preview-head,
+	.trial-preview-title {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.trial-preview-head {
+		margin-bottom: 20px;
+	}
+
+	.trial-preview-label,
+	.trial-preview-status {
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		letter-spacing: 0.06em;
+	}
+
+	.trial-preview-label {
+		color: var(--ink-3);
+	}
+
+	.trial-preview-status {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		color: var(--emerald-2);
+	}
+
+	.trial-status-dot {
+		width: 6px;
+		height: 6px;
+		background: var(--emerald-2);
+		border-radius: 50%;
+		box-shadow: 0 0 0 4px rgba(78, 194, 148, 0.12);
+	}
+
+	.trial-preview-title {
+		padding-bottom: 18px;
+		margin-bottom: 14px;
+		border-bottom: 1px solid var(--rule);
+	}
+
+	.trial-preview-title span {
+		font-size: 0.88rem;
+		color: var(--ink-2);
+	}
+
+	.trial-preview-title strong {
+		font-family: var(--serif);
+		font-size: 1.55rem;
+		line-height: 1;
+		color: var(--emerald-2);
+	}
+
+	.trial-limit-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 10px;
+	}
+
+	.trial-limit {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 13px 14px;
+		background: var(--bg-2);
+		border: 1px solid var(--rule);
+		border-radius: 10px;
+	}
+
+	.trial-limit strong {
+		font-family: var(--serif);
+		font-size: 1.3rem;
+		line-height: 1;
+		color: var(--ink);
+	}
+
+	.trial-limit span {
+		font-size: 0.72rem;
+		color: var(--ink-3);
 	}
 
 	/* Masterclass Section */
@@ -937,8 +1115,24 @@
 		}
 
 		.trial-strip {
-			flex-direction: column;
+			grid-template-columns: 1fr;
+		}
+
+		.trial-info {
+			align-items: center;
 			text-align: center;
+		}
+
+		.trial-info h2 {
+			max-width: none;
+		}
+
+		.trial-info p {
+			max-width: 58ch;
+		}
+
+		.trial-action {
+			justify-content: center;
 		}
 
 		.masterclass-card {
@@ -954,6 +1148,19 @@
 	@media (max-width: 600px) {
 		.features-architectural-grid {
 			grid-template-columns: 1fr;
+		}
+		.trial-strip {
+			padding: 28px 22px;
+		}
+
+		.trial-action {
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.trial-btn {
+			justify-content: center;
+			width: 100%;
 		}
 	}
 </style>

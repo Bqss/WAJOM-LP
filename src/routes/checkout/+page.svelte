@@ -61,8 +61,8 @@
 	let transactionId = $state('');
 	let checkoutError = $state('');
 
-	// Real-time Dynamic Countdown Timer (Target: Ahad, 6 September 2026, 9:00 AM MYT)
-	const TARGET_DATE = new Date('2026-09-06T09:00:00+08:00').getTime();
+	// Real-time Dynamic Countdown Timer (Target: Ahad, 11 Oktober 2026, 9:00 AM MYT)
+	const TARGET_DATE = new Date('2026-10-11T09:00:00+08:00').getTime();
 
 	let days = $state(0);
 	let hours = $state(0);
@@ -261,8 +261,8 @@
 			has_account: hasAccount === 'yes' || !!newAccountExistUser,
 			existing_user_id: selectedAccount?.id || newAccountExistUser?.id || null,
 			existing_user_email: selectedAccount?.email || newAccountExistUser?.email || null,
-			course_slug: 'wajom-mastery-chat-ai-2',
-			package_name: 'Wajom Mastery — Kelas Chat AI (Course 2)',
+			course_slug: 'wajom-mastery-chat-ai-3',
+			package_name: 'Wajom Mastery — Kelas Chat AI (Course 3)',
 			amount: 30 - discountAmount,
 			coupon_code: couponCode.trim().toUpperCase()
 		};

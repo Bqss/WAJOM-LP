@@ -89,8 +89,8 @@
 			};
 		}
 	});
-	// Countdown target: Ahad, 6 September 2026, 9:00 AM MYT
-	const TARGET_DATE = new Date('2026-09-06T09:00:00+08:00');
+	// Countdown target: Ahad, 11 Oktober 2026, 9:00 AM MYT
+	const TARGET_DATE = new Date('2026-10-11T09:00:00+08:00');
 
 	onMount(() => {
 		// IntersectionObserver for bloom scroll animations
@@ -147,7 +147,7 @@
 <!-- Hero Section (Seamlessly Connected to Pricing Page Design System) -->
 <section class="pricing-hero">
 	<div class="wrap hero-wrap">
-		<span class="eyebrow-pill bloom">Wajom Chat AI Mastery Course</span>
+		<span class="eyebrow-pill bloom">Wajom Chat AI Mastery Course #3</span>
 		
 		<h1 class="hero-heading bloom">
 			Stop Jadi Hamba WhatsApp. <em>Biar Chat AI Buat Kerja.</em>
@@ -162,7 +162,7 @@
 			<Countdown
 				endDate={TARGET_DATE}
 				label="MASA BERBAKI PENDAFTARAN"
-				sessionInfo="Ahad, 6 September 2026 (9:00 AM – 12:00 PM)"
+				sessionInfo="Ahad, 11 Oktober 2026 (9:00 AM – 12:00 PM)"
 			/>
 		</div>
 

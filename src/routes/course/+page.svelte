@@ -5,7 +5,90 @@
 	import Countdown from '$lib/components/Countdown.svelte';
 
 	let isVideoModalOpen = $state(false);
+	let selectedGalleryIndex = $state<number | null>(null);
 
+	interface GalleryItem {
+		src: string;
+		title: string;
+		caption: string;
+		badge: string;
+		alt: string;
+		width: number;
+		height: number;
+		aspect: 'landscape' | 'portrait';
+	}
+
+	const galleryItems: GalleryItem[] = [
+		{
+			src: '/gallery/course1.jpeg',
+			title: 'Sesi Zoom Bersama Peserta',
+			caption: 'Tangkapan skrin sesi bimbingan live interaktif bersama para usahawan & leader yang menyertai kelas Wajom.',
+			badge: 'SESI WEBINAR LIVE',
+			alt: 'Paparan grid peserta semasa sesi Zoom Wajom Chat AI Mastery.',
+			width: 1600,
+			height: 1000,
+			aspect: 'landscape'
+		},
+		{
+			src: '/gallery/course2.jpeg',
+			title: 'Suasana Di Dalam Kelas Wajom',
+			caption: 'Bimbingan praktikal langkah demi langkah dalam menyediakan AI closing gaya manusia dan automasi WhatsApp.',
+			badge: 'BIMBINGAN PRAKTIKAL',
+			alt: 'Peserta dalam paparan grid pada sesi Zoom Wajom Chat AI Mastery.',
+			width: 1600,
+			height: 1000,
+			aspect: 'landscape'
+		},
+		{
+			src: '/gallery/course3.jpeg',
+			title: 'Akses Kelas Mudah Dari Telefon',
+			caption: 'Peserta boleh mengikuti bimbingan dan penerangan slaid terus menerusi telefon pintar secara fleksibel.',
+			badge: 'PANDUAN PHONE-FIRST',
+			alt: 'Paparan kelas Wajom pada telefon dengan pembentang dan slaid.',
+			width: 591,
+			height: 1280,
+			aspect: 'portrait'
+		}
+	];
+
+	function openGalleryModal(index: number) {
+		selectedGalleryIndex = index;
+	}
+
+	function closeGalleryModal() {
+		selectedGalleryIndex = null;
+	}
+
+	function nextGalleryItem() {
+		if (selectedGalleryIndex === null) return;
+		selectedGalleryIndex = (selectedGalleryIndex + 1) % galleryItems.length;
+	}
+
+	function prevGalleryItem() {
+		if (selectedGalleryIndex === null) return;
+		selectedGalleryIndex = (selectedGalleryIndex - 1 + galleryItems.length) % galleryItems.length;
+	}
+
+	function handleGalleryKeydown(e: KeyboardEvent) {
+		if (selectedGalleryIndex === null) return;
+		if (e.key === 'Escape') {
+			closeGalleryModal();
+		} else if (e.key === 'ArrowRight') {
+			nextGalleryItem();
+		} else if (e.key === 'ArrowLeft') {
+			prevGalleryItem();
+		}
+	}
+
+	$effect(() => {
+		if (selectedGalleryIndex !== null || isVideoModalOpen) {
+			const originalOverflow = document.body.style.overflow;
+			document.body.style.overflow = 'hidden';
+			return () => {
+				document.body.style.overflow = originalOverflow;
+			};
+		}
+	});
 	// Countdown target: Ahad, 6 September 2026, 9:00 AM MYT
 	const TARGET_DATE = new Date('2026-09-06T09:00:00+08:00');
 
@@ -58,6 +141,8 @@
 	ogType="website"
 	jsonLd={courseJsonLd}
 />
+
+<svelte:window onkeydown={handleGalleryKeydown} />
 
 <!-- Hero Section (Seamlessly Connected to Pricing Page Design System) -->
 <section class="pricing-hero">
@@ -351,6 +436,73 @@
 	</div>
 </section>
 
+<!-- Webinar gallery from previous classes -->
+<section class="webinar-section" id="galeri-webinar" aria-labelledby="webinar-heading">
+	<div class="wrap">
+		<div class="section-title-block bloom">
+			<span class="eyebrow-pill">GALERI WEBINAR</span>
+			<h2 id="webinar-heading">Suasana Kelas Wajom</h2>
+			<p>Lihat sendiri suasana sesi Zoom Wajom Chat AI Mastery yang lalu.</p>
+		</div>
+
+		<div class="webinar-gallery bloom">
+			<div class="webinar-gallery-landscapes">
+				<button
+					type="button"
+					class="webinar-photo"
+					onclick={() => openGalleryModal(0)}
+					aria-label="Lihat butiran foto: {galleryItems[0].title}"
+				>
+					<figure>
+						<img src={galleryItems[0].src} alt={galleryItems[0].alt} width={galleryItems[0].width} height={galleryItems[0].height} loading="lazy" decoding="async" />
+						<figcaption>
+							<span>{galleryItems[0].title}</span>
+							<span class="webinar-open">
+								<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+								Lihat Butiran
+							</span>
+						</figcaption>
+					</figure>
+				</button>
+				<button
+					type="button"
+					class="webinar-photo"
+					onclick={() => openGalleryModal(1)}
+					aria-label="Lihat butiran foto: {galleryItems[1].title}"
+				>
+					<figure>
+						<img src={galleryItems[1].src} alt={galleryItems[1].alt} width={galleryItems[1].width} height={galleryItems[1].height} loading="lazy" decoding="async" />
+						<figcaption>
+							<span>{galleryItems[1].title}</span>
+							<span class="webinar-open">
+								<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+								Lihat Butiran
+							</span>
+						</figcaption>
+					</figure>
+				</button>
+			</div>
+			<button
+				type="button"
+				class="webinar-photo webinar-photo-phone"
+				onclick={() => openGalleryModal(2)}
+				aria-label="Lihat butiran foto: {galleryItems[2].title}"
+			>
+				<figure>
+					<img src={galleryItems[2].src} alt={galleryItems[2].alt} width={galleryItems[2].width} height={galleryItems[2].height} loading="lazy" decoding="async" />
+					<figcaption>
+						<span>{galleryItems[2].title}</span>
+						<span class="webinar-open">
+							<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+							Lihat Butiran
+						</span>
+					</figcaption>
+				</figure>
+			</button>
+		</div>
+	</div>
+</section>
+
 <!-- Proof / Testimonials Section -->
 <section class="proof-section" id="testimonials">
 	<div class="wrap">
@@ -509,6 +661,90 @@
 		</div>
 	</div>
 </section>
+
+<!-- Gallery Lightbox / Detail Modal -->
+{#if selectedGalleryIndex !== null}
+	{@const item = galleryItems[selectedGalleryIndex]}
+	<div
+		class="gallery-lightbox-overlay"
+		onclick={closeGalleryModal}
+		role="dialog"
+		aria-modal="true"
+		aria-label={item.title}
+		tabindex="-1"
+	>
+		<div
+			class="gallery-lightbox-card"
+			onclick={(e) => e.stopPropagation()}
+			role="document"
+		>
+			<!-- Modal Header -->
+			<div class="gallery-lightbox-header">
+				<div class="gallery-lightbox-title-area">
+					<span class="lightbox-badge">{item.badge}</span>
+					<h3 class="lightbox-heading">{item.title}</h3>
+				</div>
+				<div class="gallery-lightbox-controls">
+					<span class="lightbox-counter">{selectedGalleryIndex + 1} / {galleryItems.length}</span>
+					<button
+						type="button"
+						class="lightbox-close-btn"
+						onclick={closeGalleryModal}
+						aria-label="Tutup butiran galeri"
+						title="Tutup (Esc)"
+					>
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+					</button>
+				</div>
+			</div>
+
+			<!-- Image Display Stage with Navigation Arrows -->
+			<div class="gallery-lightbox-stage">
+				<button
+					type="button"
+					class="lightbox-nav-btn prev"
+					onclick={prevGalleryItem}
+					aria-label="Foto sebelumnya"
+					title="Foto sebelumnya (Panah Kiri)"
+				>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+				</button>
+
+				<div class="gallery-lightbox-media {item.aspect}">
+					<img
+						src={item.src}
+						alt={item.alt}
+					/>
+				</div>
+
+				<button
+					type="button"
+					class="lightbox-nav-btn next"
+					onclick={nextGalleryItem}
+					aria-label="Foto seterusnya"
+					title="Foto seterusnya (Panah Kanan)"
+				>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+				</button>
+			</div>
+
+			<!-- Modal Footer Caption & CTA -->
+			<div class="gallery-lightbox-footer">
+				<p class="lightbox-caption">{item.caption}</p>
+				<div class="lightbox-footer-actions">
+					<span class="lightbox-hint">Kekunci &larr; &rarr; untuk navigasi, Esc untuk tutup</span>
+					<a
+						href="#enroll"
+						class="lightbox-enroll-link"
+						onclick={closeGalleryModal}
+					>
+						Daftar Kursus Sekarang (RM30) &rarr;
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <!-- Video Modal Component -->
 <VideoModal bind:isOpen={isVideoModalOpen} />
@@ -1053,6 +1289,354 @@
 	.diff-list .mk.ruby { color: var(--ruby); }
 	.diff-list .mk.emerald { color: var(--emerald-2); }
 
+	/* Webinar gallery */
+	.webinar-section {
+		padding: 76px 0 84px;
+		border-top: 1px solid var(--rule);
+	}
+
+	.webinar-gallery {
+		display: grid;
+		grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+		gap: 18px;
+		max-width: 1060px;
+		margin: 0 auto;
+	}
+
+	.webinar-gallery-landscapes {
+		display: grid;
+		gap: 18px;
+		align-content: start;
+	}
+
+	.webinar-photo {
+		display: block;
+		width: 100%;
+		min-width: 0;
+		padding: 0;
+		margin: 0;
+		font: inherit;
+		text-align: left;
+		color: inherit;
+		cursor: pointer;
+		overflow: hidden;
+		border: 1px solid var(--rule-2);
+		border-radius: 16px;
+		background: var(--bg-2);
+		transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.webinar-photo figure {
+		height: 100%;
+		margin: 0;
+	}
+
+	.webinar-photo:hover {
+		border-color: var(--emerald-2);
+		transform: translateY(-2px);
+		box-shadow: 0 12px 28px -12px rgba(55, 159, 118, 0.25);
+	}
+
+	.webinar-photo:focus-visible {
+		outline: 2px solid var(--emerald-2);
+		outline-offset: 3px;
+	}
+
+	.webinar-photo img {
+		display: block;
+		width: 100%;
+		height: auto;
+		background: var(--bg);
+		transition: transform 0.3s ease;
+	}
+
+	.webinar-photo:hover img {
+		transform: scale(1.015);
+	}
+
+	.webinar-photo-phone figure {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	.webinar-photo-phone img {
+		width: auto;
+		max-width: 100%;
+		max-height: 850px;
+		margin: 0 auto;
+	}
+
+	.webinar-photo figcaption {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 6px 16px;
+		padding: 16px 18px;
+		border-top: 1px solid var(--rule);
+		color: var(--ink);
+		font-size: 0.88rem;
+		font-weight: 600;
+		background: var(--bg-2);
+	}
+
+	.webinar-open {
+		color: var(--emerald-2);
+		font-family: var(--mono);
+		font-size: 0.72rem;
+		font-weight: 600;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		letter-spacing: 0.02em;
+	}
+
+	.zoom-icon {
+		width: 13px;
+		height: 13px;
+		stroke-width: 2.2;
+	}
+
+	/* ── In-Page Gallery Lightbox / Detail Modal ── */
+	.gallery-lightbox-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		background: rgba(10, 15, 13, 0.88);
+		backdrop-filter: blur(14px) saturate(140%);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: clamp(14px, 3vw, 32px);
+		animation: lightboxFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.gallery-lightbox-card {
+		background: var(--bg-2);
+		border: 1px solid var(--rule-2);
+		border-radius: 20px;
+		width: 100%;
+		max-width: 980px;
+		max-height: 90vh;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(78, 194, 148, 0.18);
+		animation: lightboxScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.gallery-lightbox-header {
+		padding: 16px 22px;
+		border-bottom: 1px solid var(--rule);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		background: var(--bg-3);
+	}
+
+	.gallery-lightbox-title-area {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		min-width: 0;
+	}
+
+	.lightbox-badge {
+		font-family: var(--mono);
+		font-size: 0.66rem;
+		color: var(--emerald-2);
+		background: var(--emerald-dim);
+		border: 1px solid rgba(78, 194, 148, 0.28);
+		padding: 2px 9px;
+		border-radius: 999px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		display: inline-block;
+		width: fit-content;
+	}
+
+	.lightbox-heading {
+		font-family: var(--serif);
+		font-size: 1.12rem;
+		font-weight: 600;
+		color: var(--ink);
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.gallery-lightbox-controls {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		flex-shrink: 0;
+	}
+
+	.lightbox-counter {
+		font-family: var(--mono);
+		font-size: 0.74rem;
+		color: var(--ink-3);
+		background: var(--bg-2);
+		border: 1px solid var(--rule);
+		padding: 4px 10px;
+		border-radius: 999px;
+	}
+
+	.lightbox-close-btn {
+		width: 34px;
+		height: 34px;
+		border-radius: 999px;
+		border: 1px solid var(--rule-2);
+		background: var(--bg-2);
+		color: var(--ink-2);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		padding: 0;
+	}
+
+	.lightbox-close-btn svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	.lightbox-close-btn:hover {
+		border-color: var(--emerald-2);
+		color: var(--emerald-2);
+		background: var(--emerald-dim);
+		transform: scale(1.05);
+	}
+
+	.gallery-lightbox-stage {
+		position: relative;
+		flex: 1;
+		min-height: 280px;
+		max-height: 58vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: #050807;
+		padding: 16px 64px;
+		overflow: hidden;
+	}
+
+	.gallery-lightbox-media {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.gallery-lightbox-media img {
+		max-width: 100%;
+		max-height: 54vh;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		border-radius: 10px;
+		border: 1px solid var(--rule);
+		box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+	}
+
+	.lightbox-nav-btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 40px;
+		height: 40px;
+		border-radius: 999px;
+		background: rgba(15, 22, 20, 0.88);
+		border: 1px solid var(--rule-2);
+		color: var(--ink);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		backdrop-filter: blur(8px);
+		transition: all 0.15s ease;
+		z-index: 10;
+		padding: 0;
+	}
+
+	.lightbox-nav-btn svg {
+		width: 18px;
+		height: 18px;
+	}
+
+	.lightbox-nav-btn.prev {
+		left: 14px;
+	}
+
+	.lightbox-nav-btn.next {
+		right: 14px;
+	}
+
+	.lightbox-nav-btn:hover {
+		border-color: var(--emerald-2);
+		color: var(--emerald-2);
+		background: var(--bg-2);
+		transform: translateY(-50%) scale(1.08);
+	}
+
+	.gallery-lightbox-footer {
+		padding: 14px 22px;
+		border-top: 1px solid var(--rule);
+		background: var(--bg-3);
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.lightbox-caption {
+		font-size: 0.88rem;
+		color: var(--ink-2);
+		margin: 0;
+		line-height: 1.45;
+	}
+
+	.lightbox-footer-actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		flex-wrap: wrap;
+		padding-top: 4px;
+	}
+
+	.lightbox-hint {
+		font-family: var(--mono);
+		font-size: 0.7rem;
+		color: var(--ink-3);
+	}
+
+	.lightbox-enroll-link {
+		font-size: 0.84rem;
+		font-weight: 700;
+		color: var(--emerald-2);
+		text-decoration: none;
+		transition: color 0.15s ease;
+	}
+
+	.lightbox-enroll-link:hover {
+		color: #ffffff;
+		text-decoration: underline;
+	}
+
+	@keyframes lightboxFadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	@keyframes lightboxScaleUp {
+		from { opacity: 0; transform: scale(0.96) translateY(8px); }
+		to { opacity: 1; transform: scale(1) translateY(0); }
+	}
 	/* Proof & Testimonials Section */
 	.proof-section {
 		padding: 70px 0;
@@ -1377,6 +1961,20 @@
 			grid-template-columns: 1fr;
 		}
 
+		.webinar-gallery {
+			grid-template-columns: 1fr;
+		}
+
+		.webinar-gallery-landscapes {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.webinar-photo-phone {
+			width: 100%;
+			max-width: 360px;
+			margin: 0 auto;
+		}
+
 		.testimonials-grid {
 			grid-template-columns: 1fr;
 		}
@@ -1414,6 +2012,54 @@
 
 		.features-architectural-grid {
 			grid-template-columns: 1fr;
+		}
+
+		.webinar-gallery-landscapes {
+			grid-template-columns: 1fr;
+		}
+
+		.webinar-photo figcaption {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
+		.webinar-photo-phone {
+			max-width: 330px;
+		}
+
+		.gallery-lightbox-card {
+			max-height: 94vh;
+			border-radius: 16px;
+		}
+
+		.gallery-lightbox-header {
+			padding: 12px 16px;
+		}
+
+		.gallery-lightbox-stage {
+			padding: 12px 48px;
+			min-height: 230px;
+		}
+
+		.lightbox-nav-btn {
+			width: 34px;
+			height: 34px;
+		}
+
+		.lightbox-nav-btn.prev {
+			left: 8px;
+		}
+
+		.lightbox-nav-btn.next {
+			right: 8px;
+		}
+
+		.gallery-lightbox-footer {
+			padding: 12px 16px;
+		}
+
+		.lightbox-hint {
+			display: none;
 		}
 
 		.proof-stats-bar {

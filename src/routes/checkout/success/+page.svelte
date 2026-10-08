@@ -127,7 +127,7 @@
 			<!-- CTA WhatsApp Group -->
 			<div style="margin-top: 32px;">
 				<a
-				href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/HxxCRbYiAEYIjfXNBPkU9d"}
+					href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/HxxCRbYiAEYIjfXNBPkU9d?s=cl&p=a&mlu=4&ilr=4"}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="btn-cta-whatsapp"

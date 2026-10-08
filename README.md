@@ -40,3 +40,7 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Course webinar gallery
+
+The `/course` page shows screenshots from previous Wajom Chat AI Mastery webinars in a responsive gallery. The original images are served from `static/gallery/course1.jpeg`, `course2.jpeg`, and `course3.jpeg`; each gallery card opens its full-size image in a new tab. When replacing photos, update their captions and intrinsic image dimensions in `src/routes/course/+page.svelte`.

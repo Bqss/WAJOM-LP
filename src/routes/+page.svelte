@@ -288,7 +288,7 @@
 <a href="/checkout" class="announce-bar">
 	<span class="announce-dot"></span>
 	<span class="announce-text">
-		<strong>Kelas Chat AI & Automasi WhatsApp</strong> — Live Zoom, 6 Sept 2026. RM30 + 1.5M AI Token.
+		<strong>Kelas Chat AI & Automasi WhatsApp</strong> — Live Zoom, 31 Okt 2026. RM30 + 1.5M AI Token.
 	</span>
 	<span class="announce-cta">Daftar Sekarang <ArrowRightIcon size={14} weight="bold" /></span>
 </a>

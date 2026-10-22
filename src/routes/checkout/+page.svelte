@@ -61,8 +61,8 @@
 	let transactionId = $state('');
 	let checkoutError = $state('');
 
-	// Real-time Dynamic Countdown Timer (Target: Ahad, 11 Oktober 2026, 9:00 AM MYT)
-	const TARGET_DATE = new Date('2026-10-11T09:00:00+08:00').getTime();
+	// Real-time Dynamic Countdown Timer (Target: Sabtu, 31 Oktober 2026, 9:00 AM MYT)
+	const TARGET_DATE = new Date('2026-10-31T09:00:00+08:00').getTime();
 
 	let days = $state(0);
 	let hours = $state(0);

@@ -24,7 +24,7 @@
 			title: 'Sesi Zoom Bersama Peserta',
 			caption: 'Tangkapan skrin sesi bimbingan live interaktif bersama para usahawan & leader yang menyertai kelas Wajom.',
 			badge: 'SESI WEBINAR LIVE',
-			alt: 'Paparan grid peserta semasa sesi Zoom Wajom Chat AI Mastery.',
+			alt: 'Paparan grid peserta semasa sesi Zoom Wajom Agent AI Mastery.',
 			width: 1600,
 			height: 1000,
 			aspect: 'landscape'
@@ -34,7 +34,7 @@
 			title: 'Suasana Di Dalam Kelas Wajom',
 			caption: 'Bimbingan praktikal langkah demi langkah dalam menyediakan AI closing gaya manusia dan automasi WhatsApp.',
 			badge: 'BIMBINGAN PRAKTIKAL',
-			alt: 'Peserta dalam paparan grid pada sesi Zoom Wajom Chat AI Mastery.',
+			alt: 'Peserta dalam paparan grid pada sesi Zoom Wajom Agent AI Mastery.',
 			width: 1600,
 			height: 1000,
 			aspect: 'landscape'
@@ -115,8 +115,8 @@
 	const courseJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: 'Wajom Mastery — Kursus Chat AI & Automasi WhatsApp',
-		description: 'Kursus praktikal bimbingan Wajom Chat AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik.',
+		name: 'Wajom Mastery — Kursus Agent AI & Automasi WhatsApp',
+		description: 'Kursus praktikal bimbingan Wajom Agent AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik.',
 		provider: {
 			'@type': 'Organization',
 			name: 'Wajom Academy',
@@ -132,8 +132,8 @@
 </script>
 
 <SEO
-	title="Wajom Mastery — Kursus Chat AI & Automasi WhatsApp (RM30)"
-	description="Kursus praktikal bimbingan Wajom Chat AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik. RM30 termasuk 1.5M Token."
+	title="Wajom Mastery — Kursus Agent AI & Automasi WhatsApp (RM30)"
+	description="Kursus praktikal bimbingan Wajom Agent AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik. RM30 termasuk 1.5M Token."
 	keywords="kursus wajom, wajom academy, modul whatsapp automation, panduan chat ai, strategi follow up whatsapp, latihan leader mlm, bengkel whatsapp malaysia"
 	canonical="https://wajom.co/course"
 	ogImage="https://wajom.co/logo.png"
@@ -147,10 +147,10 @@
 <!-- Hero Section (Seamlessly Connected to Pricing Page Design System) -->
 <section class="pricing-hero">
 	<div class="wrap hero-wrap">
-		<span class="eyebrow-pill bloom">Wajom Chat AI Mastery Course #4</span>
+		<span class="eyebrow-pill bloom">Wajom Agent AI Mastery Course #4</span>
 		
 		<h1 class="hero-heading bloom">
-			Stop Jadi Hamba WhatsApp. <em>Biar Chat AI Buat Kerja.</em>
+			Stop Jadi Hamba WhatsApp. <em>Biar Agent AI Buat Kerja.</em>
 		</h1>
 
 		<p class="hero-subtext bloom">
@@ -250,7 +250,7 @@
 				<div class="featured-indicator">MODUL UTAMA</div>
 				<div class="col-head">
 					<span class="tier-label emerald">MODUL 02</span>
-					<h3 class="tier-name">Setting Chat AI</h3>
+					<h3 class="tier-name">Setting Agent AI</h3>
 					<p class="tier-desc">AI yang menjawab dan closing mengikut gaya &amp; suara peribadi anda.</p>
 					
 					<!-- Interactive Demo Chat Card -->
@@ -303,7 +303,7 @@
 						</div>
 						<div class="agenda-item">
 							<span class="time">09:45</span>
-							<span class="task">Setting Chat AI Live</span>
+							<span class="task">Setting Agent AI Live</span>
 						</div>
 						<div class="agenda-item">
 							<span class="time">10:30</span>
@@ -332,7 +332,7 @@
 		<div class="section-title-block bloom">
 			<span class="eyebrow-pill">SILABUS KURSUS</span>
 			<h2>Kurikulum 5 Modul Lengkap</h2>
-			<p>Dari ekonomi token sehingga advanced setting — korang keluar kelas dengan Chat AI Wajom yang dah siap berfungsi:</p>
+			<p>Dari ekonomi token sehingga advanced setting — korang keluar kelas dengan Agent AI Wajom yang dah siap berfungsi:</p>
 		</div>
 
 		<div class="features-architectural-grid bloom">
@@ -341,7 +341,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 				</div>
 				<span class="mod-cell-tag">MODUL 01</span>
-				<h4>Chat AI Boleh Untung Ke?</h4>
+				<h4>Agent AI Boleh Untung Ke?</h4>
 				<p>Kira kos untuk close sales RM1,000 dan teknik jimatkan kos token. Faham ekonomi sebenar sebelum mula setup.</p>
 			</div>
 
@@ -350,8 +350,8 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 				</div>
 				<span class="mod-cell-tag">MODUL 02</span>
-				<h4>Chat AI Jawab Semua Soalan</h4>
-				<p>Chat AI menjawab soalan prospek 24/7. Admin menerima notifikasi serta-merta jika ada soalan khas — tiada prospek tertinggal.</p>
+				<h4>Agent AI Jawab Semua Soalan</h4>
+				<p>Agent AI menjawab soalan prospek 24/7. Admin menerima notifikasi serta-merta jika ada soalan khas — tiada prospek tertinggal.</p>
 			</div>
 
 			<div class="feat-cell">
@@ -442,7 +442,7 @@
 		<div class="section-title-block bloom">
 			<span class="eyebrow-pill">GALERI WEBINAR</span>
 			<h2 id="webinar-heading">Suasana Kelas Wajom</h2>
-			<p>Lihat sendiri suasana sesi Zoom Wajom Chat AI Mastery yang lalu.</p>
+			<p>Lihat sendiri suasana sesi Zoom Wajom Agent AI Mastery yang lalu.</p>
 		</div>
 
 		<div class="webinar-gallery bloom">
@@ -632,7 +632,7 @@
 		<div class="masterclass-card bloom">
 			<div class="mc-header">
 				<span class="mc-pill">TAWARAN MASIH DIBUKA</span>
-				<h3>Masterclass Chat AI RM30</h3>
+				<h3>Masterclass Agent AI RM30</h3>
 				<p>Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1,500,000 AI Tokens.</p>
 			</div>
 			<div class="mc-pricing-strip">
@@ -656,7 +656,7 @@
 			</div>
 			<h3>Jaminan Kepuasan &amp; Bimbingan Praktikal</h3>
 			<p>
-				Kami komited memastikan setiap peserta keluar dari sesi ini dengan sistem Chat AI yang berfungsi sepenuhnya. Jika anda memerlukan sebarang bantuan teknikal tambahan, pasukan teknikal kami sedia membantu anda.
+				Kami komited memastikan setiap peserta keluar dari sesi ini dengan sistem Agent AI yang berfungsi sepenuhnya. Jika anda memerlukan sebarang bantuan teknikal tambahan, pasukan teknikal kami sedia membantu anda.
 			</p>
 		</div>
 	</div>

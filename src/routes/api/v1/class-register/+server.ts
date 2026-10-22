@@ -7,7 +7,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const payload = await request.json();
 		console.log(`\n[${timestamp}] 🛒 [API /api/v1/class-register] Registration request received`);
-		console.log(`[API /api/v1/class-register] Payload:`, JSON.stringify(payload, null, 2));
+		console.log(`[API /api/v1/class-register] Payload:`, JSON.stringify({ ...payload, coupon_code: payload.coupon_code ? '[redacted]' : '' }, null, 2));
 
 		if (!payload.full_name || !payload.email || !payload.phone) {
 			console.warn(`[API /api/v1/class-register] ⚠️ Missing required fields (full_name, email, or phone).`);

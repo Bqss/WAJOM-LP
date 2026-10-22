@@ -56,6 +56,11 @@
 	let couponMsg = $state('');
 	let couponSuccess = $state(false);
 	let discountAmount = $state(0);
+	let showCoupon = $state(false);
+	let isCheckingCoupon = $state(false);
+	const COURSE_PRICE = 30;
+	const COURSE_SLUG = 'wajom-mastery-chat-ai-4';
+	let totalAmount = $derived(Math.max(0, COURSE_PRICE - discountAmount));
 	let isSubmitting = $state(false);
 	let showThankYouModal = $state(false);
 	let transactionId = $state('');
@@ -211,18 +216,34 @@
 		searchError = '';
 	}
 
-	function applyCoupon() {
+	async function applyCoupon() {
 		const code = couponCode.trim().toUpperCase();
-		if (code === 'WAJOMVIP' || code === 'WAJOM30') {
-			couponSuccess = true;
-			discountAmount = 0;
-			couponMsg = 'Kod kupon disahkan! Pakej khas 1.5M AI Token diaktifkan.';
-		} else if (code === '') {
-			couponSuccess = false;
+		couponSuccess = false;
+		discountAmount = 0;
+		if (!code) {
 			couponMsg = 'Sila masukkan kod kupon.';
-		} else {
-			couponSuccess = false;
-			couponMsg = 'Kod kupon tidak sah atau telah tamat tempoh.';
+			return;
+		}
+		isCheckingCoupon = true;
+		couponMsg = '';
+		try {
+			const res = await fetch('/api/v1/class-coupon/check', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ code, course_slug: COURSE_SLUG })
+			});
+			const data = await res.json();
+			if (res.ok && data.valid) {
+				couponSuccess = true;
+				discountAmount = COURSE_PRICE - Number(data.final_amount || 0);
+				couponMsg = `Kod disahkan! Jumlah bayaran: RM ${totalAmount.toFixed(2)}.`;
+			} else {
+				couponMsg = 'Kod kupon tidak sah atau telah tamat tempoh.';
+			}
+		} catch {
+			couponMsg = 'Gagal menyemak kod kupon. Sila cuba lagi.';
+		} finally {
+			isCheckingCoupon = false;
 		}
 	}
 
@@ -261,10 +282,10 @@
 			has_account: hasAccount === 'yes' || !!newAccountExistUser,
 			existing_user_id: selectedAccount?.id || newAccountExistUser?.id || null,
 			existing_user_email: selectedAccount?.email || newAccountExistUser?.email || null,
-			course_slug: 'wajom-mastery-chat-ai-4',
+			course_slug: COURSE_SLUG,
 			package_name: 'Wajom Mastery — Kelas Chat AI (Course 4)',
-			amount: 30 - discountAmount,
-			coupon_code: couponCode.trim().toUpperCase()
+			amount: totalAmount,
+			coupon_code: couponSuccess ? couponCode.trim().toUpperCase() : ''
 		};
 
 		try {
@@ -640,6 +661,41 @@
 							{/if}
 						{/if}
 
+						<!-- Coupon -->
+						<div style="margin-bottom: 16px;">
+							{#if !showCoupon}
+								<button
+									type="button"
+									onclick={() => (showCoupon = true)}
+									style="background: none; border: none; padding: 0; color: var(--ink-3); font-size: 0.84rem; text-decoration: underline; cursor: pointer;"
+								>
+									Ada kod kupon?
+								</button>
+							{:else}
+								<div style="display: flex; gap: 8px;">
+									<input
+										type="text"
+										bind:value={couponCode}
+										placeholder="Masukkan kod kupon"
+										autocomplete="off"
+										oninput={() => { couponSuccess = false; discountAmount = 0; couponMsg = ''; }}
+										style="flex: 1; min-width: 0; background: var(--bg-3); border: 1px solid var(--rule-2); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-family: var(--mono); font-size: 0.82rem;"
+									/>
+									<button
+										type="button"
+										onclick={applyCoupon}
+										disabled={isCheckingCoupon}
+										style="background: var(--bg-3); border: 1px solid var(--rule-2); color: var(--ink); font-weight: 600; font-size: 0.85rem; padding: 10px 16px; border-radius: 10px; cursor: pointer;"
+									>
+										{isCheckingCoupon ? 'Menyemak...' : 'Guna'}
+									</button>
+								</div>
+								{#if couponMsg}
+									<div style="font-size: 0.82rem; margin-top: 6px; color: {couponSuccess ? 'var(--emerald-2)' : 'var(--ruby)'};">{couponMsg}</div>
+								{/if}
+							{/if}
+						</div>
+
 						{#if checkoutError}
 							<div style="font-size: 0.84rem; color: var(--ruby); margin-bottom: 16px;">{checkoutError}</div>
 						{/if}
@@ -662,7 +718,7 @@
 								{#if isSubmitting}
 									<span>MEMPROSES PENDAFTARAN...</span>
 								{:else}
-									<span>BAYAR RM 30.00 SEKARANG</span>
+									<span>{totalAmount === 0 ? 'DAFTAR PERCUMA SEKARANG' : `BAYAR RM ${totalAmount.toFixed(2)} SEKARANG`}</span>
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
 								{/if}
 							</button>
@@ -713,9 +769,15 @@
 						<span>Subsubsidi Khas Wajom</span>
 						<span>-RM 200.00</span>
 					</div>
+					{#if discountAmount > 0}
+						<div style="display: flex; justify-content: space-between; color: var(--emerald-2);">
+							<span>Kod kupon</span>
+							<span>-RM {discountAmount.toFixed(2)}</span>
+						</div>
+					{/if}
 					<div style="border-top: 1px dashed var(--rule-2); padding-top: 12px; margin-top: 6px; display: flex; justify-content: space-between; align-items: center; font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink);">
 						<span>JUMLAH NETT:</span>
-						<span style="font-size: 1.6rem; color: var(--gold-2);">RM 30.00</span>
+						<span style="font-size: 1.6rem; color: var(--gold-2);">RM {totalAmount.toFixed(2)}</span>
 					</div>
 				</div>
 			</div>

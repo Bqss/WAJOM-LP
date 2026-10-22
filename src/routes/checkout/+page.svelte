@@ -14,10 +14,25 @@
 	let customBusinessType = $state('');
 	let reasonToJoin = $state('');
 
+	const DIAL_CODES = [
+		{ code: '60', label: '🇲🇾 +60' },
+		{ code: '62', label: '🇮🇩 +62' },
+		{ code: '65', label: '🇸🇬 +65' },
+		{ code: '673', label: '🇧🇳 +673' }
+	];
+	let dialCode = $state('60');
+	// Full number with dial code, digits only (e.g. 60123456789 / 6281234567890).
+	let fullPhone = $derived(phone.trim() ? `${dialCode}${phone.trim()}` : '');
+
 	function formatPhoneNumber(val: string): string {
 		let cleaned = val.replace(/\D/g, '');
-		if (cleaned.startsWith('60')) {
-			cleaned = cleaned.substring(2);
+		// A pasted number that already starts with a known dial code switches the selector to it.
+		const pastedDial = val.trim().startsWith('+') || cleaned.startsWith(dialCode)
+			? DIAL_CODES.find((d) => cleaned.startsWith(d.code))
+			: undefined;
+		if (pastedDial) {
+			dialCode = pastedDial.code;
+			cleaned = cleaned.substring(pastedDial.code.length);
 		}
 		return cleaned.replace(/^0+/, '');
 	}
@@ -113,7 +128,7 @@
 
 	async function checkNewUserAccount() {
 		const targetEmail = email.trim().toLowerCase();
-		const targetPhone = phone.trim();
+		const targetPhone = fullPhone;
 
 		if (!targetEmail && !targetPhone) return;
 
@@ -170,7 +185,7 @@
 	}
 
 	async function searchUserAccount() {
-		const query = searchQuery.trim() || email.trim() || phone.trim();
+		const query = searchQuery.trim() || email.trim() || fullPhone;
 		if (!query) {
 			searchResults = [];
 			searchError = '';
@@ -276,7 +291,7 @@
 		const payload = {
 			full_name: fullName.trim(),
 			email: email.trim().toLowerCase(),
-			phone: phone.trim(),
+			phone: `+${fullPhone}`,
 			business_type: finalBusinessType,
 			reason_to_join: reasonToJoin.trim(),
 			has_account: hasAccount === 'yes' || !!newAccountExistUser,
@@ -399,7 +414,15 @@
 						<div style="margin-bottom: 20px;">
 							<label for="phone" style="display: block; font-size: 0.86rem; font-weight: 600; margin-bottom: 6px; color: var(--ink);">Nombor WhatsApp / Telefon <span style="color: var(--ruby);">*</span></label>
 							<div style="display: flex; align-items: center; background: var(--bg-3); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden;">
-								<div style="padding: 12px 14px; background: var(--bg-2); border-right: 1px solid var(--rule); font-family: var(--mono); font-size: 0.88rem; color: var(--ink-3);">+60</div>
+								<select
+									bind:value={dialCode}
+									aria-label="Kod negara"
+									style="padding: 12px 10px; background: var(--bg-2); border: none; border-right: 1px solid var(--rule); font-family: var(--mono); font-size: 0.88rem; color: var(--ink); outline: none; cursor: pointer;"
+								>
+									{#each DIAL_CODES as d (d.code)}
+										<option value={d.code}>{d.label}</option>
+									{/each}
+								</select>
 								<input
 									type="tel"
 									id="phone"

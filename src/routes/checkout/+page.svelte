@@ -261,8 +261,8 @@
 			has_account: hasAccount === 'yes' || !!newAccountExistUser,
 			existing_user_id: selectedAccount?.id || newAccountExistUser?.id || null,
 			existing_user_email: selectedAccount?.email || newAccountExistUser?.email || null,
-			course_slug: 'wajom-mastery-chat-ai-3',
-			package_name: 'Wajom Mastery — Kelas Chat AI (Course 3)',
+			course_slug: 'wajom-mastery-chat-ai-4',
+			package_name: 'Wajom Mastery — Kelas Chat AI (Course 4)',
 			amount: 30 - discountAmount,
 			coupon_code: couponCode.trim().toUpperCase()
 		};
@@ -762,7 +762,7 @@
 
 			<div style="display: flex; flex-direction: column; gap: 12px;">
 				<a
-					href="https://chat.whatsapp.com/HxxCRbYiAEYIjfXNBPkU9d?s=cl&p=a&mlu=4&ilr=4"
+					href="https://chat.whatsapp.com/IRdXnqzhJ6qK5D72Lh75BU"
 					target="_blank"
 					style="background: #25D366; color: #ffffff; font-weight: 700; padding: 14px 24px; border-radius: 999px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;"
 				>

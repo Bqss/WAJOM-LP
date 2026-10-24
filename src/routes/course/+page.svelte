@@ -89,8 +89,8 @@
 			};
 		}
 	});
-	// Countdown target: Sabtu, 31 Oktober 2026, 9:00 AM MYT
-	const TARGET_DATE = new Date('2026-10-31T09:00:00+08:00');
+	// Countdown target: Sabtu, 31 Oktober 2026, 8:30 PM MYT
+	const TARGET_DATE = new Date('2026-10-31T20:30:00+08:00');
 
 	onMount(() => {
 		// IntersectionObserver for bloom scroll animations
@@ -162,7 +162,7 @@
 			<Countdown
 				endDate={TARGET_DATE}
 				label="MASA BERBAKI PENDAFTARAN"
-				sessionInfo="Sabtu, 31 Oktober 2026 (9:00 AM – 12:00 PM)"
+				sessionInfo="Sabtu, 31 Oktober 2026 (8:30 PM – 11:30 PM)"
 			/>
 		</div>
 
@@ -298,19 +298,19 @@
 					
 					<div class="agenda-timeline">
 						<div class="agenda-item">
-							<span class="time">09:00</span>
+							<span class="time">20:30</span>
 							<span class="task">Intro &amp; Setup Training Data</span>
 						</div>
 						<div class="agenda-item">
-							<span class="time">09:45</span>
+							<span class="time">21:15</span>
 							<span class="task">Setting Agent AI Live</span>
 						</div>
 						<div class="agenda-item">
-							<span class="time">10:30</span>
+							<span class="time">22:00</span>
 							<span class="task">Test Prospek Real-Time</span>
 						</div>
 						<div class="agenda-item">
-							<span class="time">11:15</span>
+							<span class="time">22:45</span>
 							<span class="task">Coaching &amp; Duplikasi Pasukan</span>
 						</div>
 					</div>

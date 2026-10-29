@@ -14,6 +14,7 @@
 		{ id: 'Plan', label: 'Plan' },
 		{ id: 'Campaign', label: 'Campaign' },
 		{ id: 'Chat AI', label: 'Chat AI' },
+		{ id: 'Agent AI', label: 'Agent AI' },
 		{ id: 'Tools & Extensions', label: 'Tools & Extensions' },
 		{ id: 'Data Management', label: 'Data Management' },
 		{ id: 'Integration', label: 'Integration' }

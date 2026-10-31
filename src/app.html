@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ms" data-theme="dark">
+<html lang="ms" data-theme="dark" data-locale="ms">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,10 +8,19 @@
 		<script>
 			(function () {
 				try {
-					var s = localStorage.getItem("wajom-theme");
-					if (!s) { s = "dark"; }
-					document.documentElement.setAttribute("data-theme", s);
-				} catch (e) { document.documentElement.setAttribute("data-theme", "dark"); }
+					var theme = localStorage.getItem("wajom-theme");
+					if (!theme) { theme = "dark"; }
+					document.documentElement.setAttribute("data-theme", theme);
+
+					var language = localStorage.getItem("wajom-language");
+					if (language !== "ms" && language !== "en") { language = "ms"; }
+					document.documentElement.lang = language;
+					document.documentElement.dataset.locale = language;
+				} catch (e) {
+					document.documentElement.setAttribute("data-theme", "dark");
+					document.documentElement.lang = "ms";
+					document.documentElement.dataset.locale = "ms";
+				}
 			})();
 		</script>
 		%sveltekit.head%

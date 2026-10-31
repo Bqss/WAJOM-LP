@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-
+	import { t } from '$lib/i18n.svelte';
 	const aboutJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'AboutPage',
@@ -32,25 +32,23 @@
 	<div class="wrap">
 		<div class="hero-split">
 			<div class="hero-text-col">
-				<span class="eyebrow-pill">MISI &amp; FALSAFAH WAJOM!</span>
-				<h1 class="hero-title">Leader Sepatutnya Memimpin. <em>Bukan Menjadi Admin.</em></h1>
-				<p class="hero-lead">
-					Kisah kami bukan tentang perisian semata-mata. Ini adalah misi memerdekakan potensi anda — mengembalikan fokus dan masa Top Leader kepada perkara utama: memimpin, membina, dan menginspirasikan pasukan.
-				</p>
+				<span class="eyebrow-pill">{t('about.eyebrow')}</span>
+				<h1 class="hero-title">{t('about.title')}</h1>
+				<p class="hero-lead">{t('about.lead')}</p>
 				<div class="hero-metrics-strip">
 					<div class="metric-item">
 						<span class="metric-val">24/7</span>
-						<span class="metric-lbl">Awan Automasi</span>
+						<span class="metric-lbl">{t('about.cloud')}</span>
 					</div>
 					<div class="metric-divider"></div>
 					<div class="metric-item">
 						<span class="metric-val">1-Klik</span>
-						<span class="metric-lbl">Duplikasi Pasukan</span>
+						<span class="metric-lbl">{t('about.duplication')}</span>
 					</div>
 					<div class="metric-divider"></div>
 					<div class="metric-item">
 						<span class="metric-val">100%</span>
-						<span class="metric-lbl">Gaya Penutupan Jualan</span>
+						<span class="metric-lbl">{t('about.closing')}</span>
 					</div>
 				</div>
 			</div>
@@ -60,7 +58,7 @@
 					<img src="/about-hero-bg.jpg" alt="Automasi Leadership Wajom!" class="visual-img" />
 					<div class="visual-badge">
 						<div class="badge-dot"></div>
-						<span>Platform Automasi No. 1 Leader Malaysia</span>
+						<span>{t('about.badge')}</span>
 					</div>
 				</div>
 			</div>
@@ -72,8 +70,8 @@
 <section class="problem-section">
 	<div class="wrap">
 		<div class="section-label-bar">
-			<span class="section-tag">PENGAMATAN KAMI</span>
-			<h2>Realiti Harian Yang Memenatkan Top Leader</h2>
+			<span class="section-tag">{t('about.observation')}</span>
+			<h2>{t('about.problemTitle')}</h2>
 		</div>
 
 		<div class="problem-bento-grid">
@@ -82,11 +80,11 @@
 				<div class="manifesto-content">
 					<svg class="quote-mark" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/></svg>
 					<p class="manifesto-text">
-						"Kami melihat ramai leader hebat di Malaysia terperangkap dengan tugasan pentadbiran harian yang berulang. Semangat membina pasukan itu ada — yang kurang hanyalah sistem yang membebaskan."
+						"{t('about.manifesto')}"
 					</p>
 					<div class="manifesto-author">
-						<strong>Pengasas Wajom!</strong>
-						<span>Kuala Lumpur, Malaysia</span>
+						<strong>{t('about.founder')}</strong>
+						<span>{t('about.location')}</span>
 					</div>
 				</div>
 			</div>
@@ -96,24 +94,24 @@
 				<div class="pain-tile">
 					<div class="tile-num">01</div>
 					<div class="tile-body">
-						<h4>Follow-up Lambat &amp; Prospek Sejuk</h4>
-						<p>Masa emas 5-15 minit pertama sering terlepas kerana perbualan dikendalikan secara manual, menyebabkan kadar penutupan jualan (closing rate) merudum.</p>
+						<h4>{t('about.pain1.title')}</h4>
+						<p>{t('about.pain1.body')}</p>
 					</div>
 				</div>
 
 				<div class="pain-tile">
 					<div class="tile-num">02</div>
 					<div class="tile-body">
-						<h4>Latihan Tidak Konsisten</h4>
-						<p>Ahli pasukan baru belajar mengikut nasib. Penyampaian ilmu dan panduan langkah demi langkah tidak dapat diduplikasi secara tersusun.</p>
+						<h4>{t('about.pain2.title')}</h4>
+						<p>{t('about.pain2.body')}</p>
 					</div>
 				</div>
 
 				<div class="pain-tile">
 					<div class="tile-num">03</div>
 					<div class="tile-body">
-						<h4>Tenggelam Dalam Notifikasi</h4>
-						<p>Mesej bertubi-tubi menuntut perhatian 24 jam sehari, menjadikan masa berkualiti bersama keluarga dan perancangan strategik terganggu.</p>
+						<h4>{t('about.pain3.title')}</h4>
+						<p>{t('about.pain3.body')}</p>
 					</div>
 				</div>
 			</div>
@@ -125,9 +123,9 @@
 <section class="solution-section">
 	<div class="wrap">
 		<div class="section-head center">
-			<span class="section-tag">REKA BENTUK SISTEM</span>
-			<h2>Lahirnya Enjin Automasi, Bukan Sekadar Alat</h2>
-			<p>Wajom! dicipta untuk menduplikasi standard terbaik anda dan membina pasukan yang berdikari.</p>
+			<span class="section-tag">{t('about.system')}</span>
+			<h2>{t('about.solutionTitle')}</h2>
+			<p>{t('about.solutionSub')}</p>
 		</div>
 
 		<div class="solution-bento">
@@ -136,11 +134,9 @@
 				<div class="bento-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><polyline points="9 11 12 14 22 4"/></svg>
 				</div>
-				<span class="bento-tag">TERAS SISTEM</span>
+				<span class="bento-tag">{t('about.core')}</span>
 				<h3>Evergreen Campaign &amp; Auto Follow Up</h3>
-				<p>
-					Modul latihan, bahan promosi, dan siri follow-up dihantar secara konsisten kepada setiap anak pasukan dan prospek pada masa yang tepat — bergerak automatik 24/7 di awan tanpa bergantung kepada peranti anda.
-				</p>
+				<p>{t('about.coreBody')}</p>
 			</div>
 
 			<!-- Bento 2 -->
@@ -149,7 +145,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="12" x="3" y="6" rx="2"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M12 2v4"/></svg>
 				</div>
 				<h3>Customer Service AI</h3>
-				<p>Kecerdasan buatan yang mengikut 100% gaya penutupan jualan top leader untuk menjawab soalan dan menangani bantahan prospek automatik.</p>
+				<p>{t('about.aiBody')}</p>
 			</div>
 
 			<!-- Bento 3 -->
@@ -158,7 +154,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 				</div>
 				<h3>1-Click Team Duplication</h3>
-				<p>Import dan duplikasi fail tetapan lengkap sistem anda kepada seluruh rangkaian anak pasukan dalam masa 1 saat sahaja.</p>
+				<p>{t('about.duplicationBody')}</p>
 			</div>
 
 			<!-- Bento 4 -->
@@ -166,8 +162,8 @@
 				<div class="bento-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
 				</div>
-				<h3>Sokongan Tempatan Malaysia</h3>
-				<p>Platform yang dibangunkan 100% oleh pasukan pakar tempatan yang memahami budaya perniagaan dan ekosistem usahawan Malaysia.</p>
+				<h3>{t('about.localTitle')}</h3>
+				<p>{t('about.localBody')}</p>
 			</div>
 		</div>
 	</div>
@@ -177,8 +173,8 @@
 <section class="industries-section">
 	<div class="wrap">
 		<div class="section-head center">
-			<span class="section-tag">INDUSTRI SASARAN</span>
-			<h2>Dibuat Khas Untuk Industri Berprestasi Tinggi</h2>
+			<span class="section-tag">{t('about.industries')}</span>
+			<h2>{t('about.industriesTitle')}</h2>
 		</div>
 
 		<div class="industries-grid">
@@ -190,8 +186,8 @@
 						<path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/>
 					</svg>
 				</div>
-				<h4>Hartanah &amp; Agensi</h4>
-				<p>Automasi temujanji viewing, susulan pembeli rumah &amp; pengurusan pangkalan data prospek.</p>
+				<h4>{t('about.industry1.title')}</h4>
+				<p>{t('about.industry1.body')}</p>
 			</div>
 
 			<div class="ind-card">
@@ -201,8 +197,8 @@
 						<path d="m9 12 2 2 4-4"/>
 					</svg>
 				</div>
-				<h4>Insurans &amp; Takaful</h4>
-				<p>Peringatan pembaharuan polisi automatik, edaran bahan kempen &amp; bimbingan ejen baharu.</p>
+				<h4>{t('about.industry2.title')}</h4>
+				<p>{t('about.industry2.body')}</p>
 			</div>
 
 			<div class="ind-card">
@@ -214,8 +210,8 @@
 						<path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 					</svg>
 				</div>
-				<h4>MLM &amp; Rangkaian</h4>
-				<p>Duplikasi skrip jualan 1-klik, modul bimbingan automatik &amp; broadcast perbualan kumpulan.</p>
+				<h4>{t('about.industry3.title')}</h4>
+				<p>{t('about.industry3.body')}</p>
 			</div>
 
 			<div class="ind-card">
@@ -229,8 +225,8 @@
 						<path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
 					</svg>
 				</div>
-				<h4>Pelaburan Emas &amp; Niaga</h4>
-				<p>Kemaskini harga harian automatik, makluman promosi stok &amp; borang pendaftaran pelanggan.</p>
+				<h4>{t('about.industry4.title')}</h4>
+				<p>{t('about.industry4.body')}</p>
 			</div>
 		</div>
 	</div>
@@ -240,14 +236,14 @@
 <section class="about-cta-section">
 	<div class="wrap">
 		<div class="about-cta-box">
-			<h2>Tiba Masanya Untuk Memimpin Tanpa Beban Admin.</h2>
-			<p>Sertai ratusan Top Leader di Malaysia yang telah menggunakan Wajom! untuk menggandakan jualan dan duplikasi pasukan.</p>
+			<h2>{t('about.ctaTitle')}</h2>
+			<p>{t('about.ctaSub')}</p>
 			<div class="cta-btn-group">
 				<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="cta-primary-pill">
-					Mula Trial Percuma 7 Hari →
+					{t('about.trial')}
 				</a>
 				<a href="/pricing" class="cta-secondary-pill">
-					Lihat Pakej &amp; Harga →
+					{t('about.viewPricing')}
 				</a>
 			</div>
 		</div>

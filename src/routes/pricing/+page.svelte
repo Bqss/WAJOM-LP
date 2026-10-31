@@ -1,7 +1,12 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
+	import { locale, t } from '$lib/i18n.svelte';
 
 	let isYearly = $state(false);
+
+	function copy(ms: string, en: string): string {
+		return locale.current === 'en' ? en : ms;
+	}
 
 	const pricingJsonLd = {
 		'@context': 'https://schema.org',
@@ -67,11 +72,9 @@
 <!-- Hero Section -->
 <section class="pricing-hero">
 	<div class="wrap hero-wrap">
-		<span class="eyebrow-pill">Pilihan Pelan Transparan</span>
-		<h1 class="hero-heading">Pakej Ringkas. <em>Kuantiti Tanpa Had.</em></h1>
-		<p class="hero-subtext">
-			Setiap pakej dilengkapi akses penuh ke semua ciri automasi &amp; AI Wajom! Pilih mengikut bilangan akaun WhatsApp yang ingin disambung.
-		</p>
+		<span class="eyebrow-pill">{t('pricing.eyebrow')}</span>
+		<h1 class="hero-heading">{t('pricing.title')}</h1>
+		<p class="hero-subtext">{t('pricing.sub')}</p>
 
 		<!-- Billing Cycle Switcher -->
 		<div class="billing-switcher">
@@ -80,15 +83,15 @@
 				class="switch-btn {!isYearly ? 'active' : ''}"
 				onclick={() => (isYearly = false)}
 			>
-				Bil Bulanan
+				{t('pricing.monthly')}
 			</button>
 			<button
 				type="button"
 				class="switch-btn {isYearly ? 'active' : ''}"
 				onclick={() => (isYearly = true)}
 			>
-				<span>Bil Tahunan</span>
-				<span class="discount-tag">JIMAT 2 BULAN</span>
+				<span>{t('pricing.yearly')}</span>
+				<span class="discount-tag">{t('pricing.saveTwoMonths')}</span>
 			</button>
 		</div>
 	</div>
@@ -102,40 +105,40 @@
 			<!-- Column 1: 1 WhatsApp -->
 			<div class="matrix-col">
 				<div class="col-head">
-					<span class="tier-label">ASAS</span>
+					<span class="tier-label">{copy('ASAS', 'STARTER')}</span>
 					<h3 class="tier-name">1 WhatsApp</h3>
-					<p class="tier-desc">Sesuai untuk perniagaan solo atau peniaga kecil yang baru bermula.</p>
+					<p class="tier-desc">{copy('Sesuai untuk perniagaan solo atau peniaga kecil yang baru bermula.', 'Ideal for solo businesses or small sellers getting started.')}</p>
 					<div class="price-display">
 						<span class="currency">RM</span>
 						<span class="amount">{isYearly ? '499' : '49'}</span>
-						<span class="cadence">/{isYearly ? 'tahun' : 'bulan'}</span>
+						<span class="cadence">/{isYearly ? copy('tahun', 'year') : copy('bulan', 'month')}</span>
 					</div>
 					{#if isYearly}
-						<span class="avg-note">RM41.58 / bulan</span>
+						<span class="avg-note">RM41.58 / {copy('bulan', 'month')}</span>
 					{/if}
 					<a href="https://portal.wajom.co/checkout" target="_blank" rel="noopener" class="tier-cta secondary">
-						Mula Dengan 1 WA →
+						{copy('Mula Dengan 1 WA', 'Start with 1 WhatsApp')} →
 					</a>
 				</div>
 
 				<div class="col-body">
-					<div class="spec-group-title">Termasuk Ciri Utama:</div>
+					<div class="spec-group-title">{copy('Termasuk Ciri Utama:', 'Includes Key Features:')}</div>
 					<ul class="spec-list">
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span><strong>1 Akaun WhatsApp</strong> disambung</span>
+							<span><strong>1 {copy('Akaun WhatsApp', 'WhatsApp Account')}</strong> {copy('disambung', 'connected')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Akses Penuh Semua Ciri Wajom!</span>
+							<span>{copy('Akses Penuh Semua Ciri Wajom!', 'Full Access to Every Wajom Feature!')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Broadcast Personal &amp; Kumpulan</span>
+							<span>{copy('Broadcast Personal &amp; Kumpulan', 'Personal &amp; Group Broadcasts')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Chatbot AI &amp; Auto Follow Up</span>
+							<span>AI Chatbot &amp; Auto Follow-Up</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -143,7 +146,7 @@
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Integrasi Webhook &amp; Form</span>
+							<span>{copy('Integrasi Webhook &amp; Form', 'Webhook &amp; Form Integrations')}</span>
 						</li>
 					</ul>
 				</div>
@@ -151,38 +154,38 @@
 
 			<!-- Column 2: 3 WhatsApp (Featured Tier) -->
 			<div class="matrix-col featured">
-				<div class="featured-indicator">PALING POPULAR</div>
+				<div class="featured-indicator">{copy('PALING POPULAR', 'MOST POPULAR')}</div>
 				<div class="col-head">
-					<span class="tier-label emerald">UTAMA</span>
+					<span class="tier-label emerald">{copy('UTAMA', 'CORE')}</span>
 					<h3 class="tier-name">3 WhatsApp</h3>
-					<p class="tier-desc">Paling popular untuk pasukan jualan, leader &amp; usahawan yang aktif.</p>
+					<p class="tier-desc">{copy('Paling popular untuk pasukan jualan, leader &amp; usahawan yang aktif.', 'Popular with active sales teams, leaders and entrepreneurs.')}</p>
 					<div class="price-display">
 						<span class="currency emerald">RM</span>
 						<span class="amount emerald">{isYearly ? '899' : '89'}</span>
-						<span class="cadence">/{isYearly ? 'tahun' : 'bulan'}</span>
+						<span class="cadence">/{isYearly ? copy('tahun', 'year') : copy('bulan', 'month')}</span>
 					</div>
 					{#if isYearly}
-						<span class="avg-note emerald">RM74.91 / bulan</span>
+						<span class="avg-note emerald">RM74.91 / {copy('bulan', 'month')}</span>
 					{/if}
 					<a href="https://portal.wajom.co/checkout" target="_blank" rel="noopener" class="tier-cta primary">
-						Langgan 3 WA (Popular) →
+						{copy('Langgan 3 WA (Popular)', 'Subscribe to 3 WhatsApp')} →
 					</a>
 				</div>
 
 				<div class="col-body">
-					<div class="spec-group-title">Segala Ciri 1 WA Plus:</div>
+					<div class="spec-group-title">{copy('Segala Ciri 1 WA Plus:', 'Everything in 1 WhatsApp, plus:')}</div>
 					<ul class="spec-list">
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span><strong>3 Akaun WhatsApp</strong> disambung</span>
+							<span><strong>3 {copy('Akaun WhatsApp', 'WhatsApp Accounts')}</strong> {copy('disambung', 'connected')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span><strong>Hantar Mesej Tanpa Had</strong></span>
+							<span><strong>{copy('Hantar Mesej Tanpa Had', 'Unlimited Messaging')}</strong></span>
 						</li>
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Auto Reply &amp; Chatbot AI Engine</span>
+							<span>Auto Reply &amp; AI Chatbot Engine</span>
 						</li>
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -190,11 +193,11 @@
 						</li>
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Sokongan VIP &amp; Backup Data</span>
+							<span>{copy('Sokongan VIP &amp; Backup Data', 'VIP Support &amp; Data Backup')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Akses Penuh Semua Integrasi</span>
+							<span>{copy('Akses Penuh Semua Integrasi', 'Full Access to Every Integration')}</span>
 						</li>
 					</ul>
 				</div>
@@ -203,32 +206,32 @@
 			<!-- Column 3: 5 WhatsApp -->
 			<div class="matrix-col">
 				<div class="col-head">
-					<span class="tier-label">EMPAYAR</span>
+					<span class="tier-label">{copy('EMPAYAR', 'EMPIRE')}</span>
 					<h3 class="tier-name">5 WhatsApp</h3>
-					<p class="tier-desc">Pereka khas untuk operasi HQ syarikat, agensi &amp; perniagaan berskala besar.</p>
+					<p class="tier-desc">{copy('Pereka khas untuk operasi HQ syarikat, agensi &amp; perniagaan berskala besar.', 'Built for company HQs, agencies and large-scale operations.')}</p>
 					<div class="price-display">
 						<span class="currency">RM</span>
 						<span class="amount">{isYearly ? '1499' : '149'}</span>
-						<span class="cadence">/{isYearly ? 'tahun' : 'bulan'}</span>
+						<span class="cadence">/{isYearly ? copy('tahun', 'year') : copy('bulan', 'month')}</span>
 					</div>
 					{#if isYearly}
-						<span class="avg-note">RM124.91 / bulan</span>
+						<span class="avg-note">RM124.91 / {copy('bulan', 'month')}</span>
 					{/if}
 					<a href="https://portal.wajom.co/checkout" target="_blank" rel="noopener" class="tier-cta secondary">
-						Mula Dengan 5 WA →
+						{copy('Mula Dengan 5 WA', 'Start with 5 WhatsApp')} →
 					</a>
 				</div>
 
 				<div class="col-body">
-					<div class="spec-group-title">Segala Ciri 3 WA Plus:</div>
+					<div class="spec-group-title">{copy('Segala Ciri 3 WA Plus:', 'Everything in 3 WhatsApp, plus:')}</div>
 					<ul class="spec-list">
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span><strong>5 Akaun WhatsApp</strong> disambung</span>
+							<span><strong>5 {copy('Akaun WhatsApp', 'WhatsApp Accounts')}</strong> {copy('disambung', 'connected')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Skala Pemasaran HQ &amp; Agensi</span>
+							<span>{copy('Skala Pemasaran HQ &amp; Agensi', 'HQ &amp; Agency Marketing Scale')}</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -240,11 +243,11 @@
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Custom Parameters &amp; Export JSON</span>
+							<span>Custom Parameters &amp; JSON Export</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Pengurus Akaun Khusus</span>
+							<span>{copy('Pengurus Akaun Khusus', 'Dedicated Account Manager')}</span>
 						</li>
 					</ul>
 				</div>
@@ -260,36 +263,36 @@
 		<div class="trial-strip">
 			<div class="trial-info">
 				<span class="trial-tag">TRY BEFORE YOU BUY</span>
-				<h2>Guna Wajom! <em>tanpa risiko.</em></h2>
+				<h2>{copy('Guna Wajom!', 'Use Wajom!')} <em>{copy('tanpa risiko.', 'risk-free.')}</em></h2>
 				<p>
-					Test dulu automasi WhatsApp Wajom. 100 Mesej, 10 Auto Reply dan 11,000 AI Token.
+					{copy('Test dulu automasi WhatsApp Wajom. 100 Mesej, 10 Auto Reply dan 11,000 AI Token.', 'Test Wajom WhatsApp automation first: 100 messages, 10 auto replies and 11,000 AI tokens.')}
 					FREE
 				</p>
 				<div class="trial-action">
 					<a href="https://portal.wajom.co/register" target="_blank" rel="noopener" class="trial-btn">
-						Mulakan Trial Percuma →
+						{copy('Mulakan Trial Percuma', 'Start Free Trial')} →
 					</a>
-					<span class="trial-note">RM0 tanpa had masa</span>
+					<span class="trial-note">RM0 {copy('tanpa had masa', 'with no time limit')}</span>
 				</div>
 			</div>
 
-			<div class="trial-preview" aria-label="Ringkasan trial percuma">
+			<div class="trial-preview" aria-label={copy('Ringkasan trial percuma', 'Free trial summary')}>
 				<div class="trial-preview-head">
-					<span class="trial-preview-label">TRIAL PERCUMA</span>
-					<span class="trial-preview-status"><span class="trial-status-dot" aria-hidden="true"></span>AKTIF</span>
+					<span class="trial-preview-label">{copy('TRIAL PERCUMA', 'FREE TRIAL')}</span>
+					<span class="trial-preview-status"><span class="trial-status-dot" aria-hidden="true"></span>{copy('AKTIF', 'ACTIVE')}</span>
 				</div>
 				<div class="trial-preview-title">
-					<span>Tanpa had masa untuk cuba</span>
+					<span>{copy('Tanpa had masa untuk cuba', 'No time limit to try')}</span>
 					<strong>RM0</strong>
 				</div>
 				<div class="trial-limit-grid">
 					<div class="trial-limit">
 						<strong>1</strong>
-						<span>Akaun WA</span>
+						<span>{copy('Akaun WA', 'WhatsApp Account')}</span>
 					</div>
 					<div class="trial-limit">
 						<strong>100</strong>
-						<span>Mesej</span>
+						<span>{copy('Mesej', 'Messages')}</span>
 					</div>
 					<div class="trial-limit">
 						<strong>10</strong>
@@ -297,7 +300,7 @@
 					</div>
 					<div class="trial-limit">
 						<strong>11K</strong>
-						<span>AI Token</span>
+						<span>AI Tokens</span>
 					</div>
 				</div>
 			</div>
@@ -310,17 +313,17 @@
 	<div class="wrap">
 		<div class="masterclass-card">
 			<div class="mc-header">
-				<span class="mc-pill">TAWARAN KHAS</span>
-				<h3>Masterclass Chat AI RM30</h3>
-				<p>Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1.5,000,000 AI Tokens.</p>
+				<span class="mc-pill">{copy('TAWARAN KHAS', 'SPECIAL OFFER')}</span>
+				<h3>AI Chat Masterclass RM30</h3>
+				<p>{copy('Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1.5,000,000 AI Tokens.', 'Live Zoom class to prepare your automation system, plus a 1,500,000 AI token bonus.')}</p>
 			</div>
 			<div class="mc-pricing-strip">
 				<span class="was-price">RM 200</span>
 				<span class="now-price">RM 30</span>
-				<span class="one-time">sekali bayar</span>
+				<span class="one-time">{copy('sekali bayar', 'one-time payment')}</span>
 			</div>
 			<a class="mc-cta-btn" href="/#masterclass">
-				Daftar Masterclass RM30 →
+				{copy('Daftar Masterclass RM30', 'Join AI Masterclass RM30')} →
 			</a>
 		</div>
 	</div>
@@ -330,8 +333,8 @@
 <section class="all-features-section">
 	<div class="wrap">
 		<div class="section-title-block">
-			<h2>Keupayaan Lengkap Platform</h2>
-			<p>Akses tanpa had ke seluruh suite automasi WhatsApp Wajom!:</p>
+			<h2>{copy('Keupayaan Lengkap Platform', 'Complete Platform Capabilities')}</h2>
+			<p>{copy('Akses tanpa had ke seluruh suite automasi WhatsApp Wajom!:', 'Unlimited access to the full Wajom WhatsApp automation suite:')}</p>
 		</div>
 
 		<div class="features-architectural-grid">
@@ -339,48 +342,48 @@
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
 				</div>
-				<h4>Awan (Cloud) 24/7</h4>
-				<p>Sistem berjalan automatik di pelayan cloud tanpa perlu membuka komputer atau telefon bimbit.</p>
+				<h4>Cloud 24/7</h4>
+				<p>{copy('Sistem berjalan automatik di pelayan cloud tanpa perlu membuka komputer atau telefon bimbit.', 'The system runs automatically on cloud servers without keeping a computer or phone open.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
 				</div>
-				<h4>Pelbagai Akaun WA</h4>
-				<p>Urus dari 1 hingga 5 nombor WhatsApp secara serentak dalam satu ruang kerja terpusat.</p>
+				<h4>{copy('Pelbagai Akaun WA', 'Multiple WhatsApp Accounts')}</h4>
+				<p>{copy('Urus dari 1 hingga 5 nombor WhatsApp secara serentak dalam satu ruang kerja terpusat.', 'Manage 1 to 5 WhatsApp numbers at the same time from one central workspace.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 				</div>
-				<h4>Pegawai CS &amp; Admin</h4>
-				<p>Tambah bilangan ahli pasukan khidmat pelanggan (CS) dan pentadbir tanpa batasan.</p>
+				<h4>CS &amp; Admin Staff</h4>
+				<p>{copy('Tambah bilangan ahli pasukan khidmat pelanggan (CS) dan pentadbir tanpa batasan.', 'Add unlimited customer service (CS) and admin team members.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 				</div>
-				<h4>Penghantaran Mesej</h4>
-				<p>Hantar mesej komunikasi dan promosi tanpa sebarang had kuota bulanan.</p>
+				<h4>{copy('Penghantaran Mesej', 'Message Delivery')}</h4>
+				<p>{copy('Hantar mesej komunikasi dan promosi tanpa sebarang had kuota bulanan.', 'Send communication and promotional messages without a monthly quota.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
 				</div>
-				<h4>Siaran Pukal (Broadcast)</h4>
-				<p>Hantar mesej siaran serentak terus ke mesej peribadi mahupun kumpulan WhatsApp.</p>
+				<h4>Bulk Broadcast</h4>
+				<p>{copy('Hantar mesej siaran serentak terus ke mesej peribadi mahupun kumpulan WhatsApp.', 'Send broadcasts directly to personal chats and WhatsApp Groups at the same time.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="12" x="3" y="6" rx="2"/><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M12 2v4"/></svg>
 				</div>
-				<h4>Chatbot Auto Reply &amp; AI</h4>
-				<p>Respons automatik berasaskan kata kunci pintar mahupun enjin kecerdasan buatan AI.</p>
+				<h4>Auto Reply &amp; AI Chatbot</h4>
+				<p>{copy('Respons automatik berasaskan kata kunci pintar mahupun enjin kecerdasan buatan AI.', 'Automated responses powered by smart keywords or an AI engine.')}</p>
 			</div>
 		</div>
 	</div>
@@ -393,9 +396,9 @@
 			<div class="g-icon-wrapper">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
 			</div>
-			<h3>Jaminan 30-Hari Pulangan Wang 100%</h3>
+			<h3>{copy('Jaminan 30-Hari Pulangan Wang 100%', '30-Day 100% Money-Back Guarantee')}</h3>
 			<p>
-				Kami komited memastikan Wajom! memberikan nilai sebenar untuk perniagaan anda. Jika anda merasa sistem ini tidak membantu dalam masa 30 hari, hubungi kami untuk pemulangan wang penuh tanpa syarat.
+				{copy('Kami komited memastikan Wajom! memberikan nilai sebenar untuk perniagaan anda. Jika anda merasa sistem ini tidak membantu dalam masa 30 hari, hubungi kami untuk pemulangan wang penuh tanpa syarat.', 'We are committed to delivering real value for your business. If Wajom does not help within 30 days, contact us for a full refund with no conditions.')}
 			</p>
 		</div>
 	</div>

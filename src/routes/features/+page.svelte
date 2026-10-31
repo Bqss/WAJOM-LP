@@ -1,13 +1,18 @@
 <script lang="ts">
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-
+	import { locale, t } from '$lib/i18n.svelte';
 	let isVideoModalOpen = $state(false);
 	let activeTab = $state<'evergreen' | 'ai' | 'share' | 'tracking'>('evergreen');
 	let searchQuery = $state('');
 	let selectedCategory = $state<'all' | 'ai' | 'automasi' | 'kempen' | 'pengurusan' | 'integration' | 'keselamatan'>('all');
 	let isSimulatingImport = $state(false);
 	let importCompleted = $state(false);
+
+	function copy(ms: string, en: string): string {
+		return locale.current === 'en' ? en : ms;
+	}
+
 
 	function runImportSimulation() {
 		isSimulatingImport = true;
@@ -331,19 +336,63 @@
 			iconSvg: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />'
 		}
 	];
+	const featureEnglish: Record<string, { categoryLabel: string; description: string; keywords: string }> = {
+		'add-contact': { categoryLabel: 'Management', description: 'Add prospect and team phone numbers to a specific list manually or through CSV, Google Form, Webhook, Tapsite or Elementor.', keywords: 'add contact list manual csv google form webhook tapsite elementor' },
+		campaign: { categoryLabel: 'Campaigns', description: 'Send copywriting, images, video and audio to personal or group WhatsApp numbers.', keywords: 'campaign marketing broadcast image video audio personal group' },
+		list: { categoryLabel: 'Management', description: 'Separate strangers, prospects, team members, customers and blocked phone numbers into clear lists.', keywords: 'list contacts manage strangers customer block' },
+		bot: { categoryLabel: 'Automation', description: 'An automated robot that works 24/7 without holidays to answer every prospect and team question.', keywords: 'bot automatic automation chatbot robot 24/7 reply' },
+		'chat-ai': { categoryLabel: 'Chat AI', description: 'Answer prospect questions according to your prompts with patience, empathy and the goal of closing high-value sales.', keywords: 'chat ai artificial intelligence prompt empathy sales closing conversation' },
+		'evergreen-campaign': { categoryLabel: 'Campaigns', description: 'Automatically send follow-up content for 30 days or longer to prospects, team members and customers without daily setup.', keywords: 'campaign evergreen automatic drip follow-up series content 30 days' },
+		'loop-message': { categoryLabel: 'Automation', description: 'Schedule posts to WhatsApp groups or personal chats by hour, day, week, month or year.', keywords: 'loop recurring scheduled post group hour day week month year' },
+		'daily-leads': { categoryLabel: 'Management', description: 'Automatically save every lead that arrives each day.', keywords: 'daily leads prospects customers records save' },
+		'otp-widget': { categoryLabel: 'Security & Protection', description: 'One Time Password verification for controlling access to learning portals, Telegram or private websites. Wajom creates a different OTP for each user automatically.', keywords: 'otp widget security one time password verification portal telegram website' },
+		'grab-group': { categoryLabel: 'Management', description: 'Extract phone numbers from every WhatsApp group you have joined.', keywords: 'grab group data whatsapp extract number' },
+		integration: { categoryLabel: 'Integrations', description: 'Integrate Wajom with Google Forms, Webhook, Tapsite and Elementor to send welcome messages and share prospect pool links.', keywords: 'integration platform api webhook google form tapsite elementor third-party' },
+		'whatsapp-api': { categoryLabel: 'Integrations', description: 'Send messages automatically with high, stable delivery quality and real-time notifications authorised by WhatsApp.', keywords: 'whatsapp api business cloud official delivery notification real-time' },
+		'bot-form': { categoryLabel: 'Automation', description: 'Ask prospects questions, save their answers in Wajom and export them to CSV.', keywords: 'form bot form builder questions prospect csv import' },
+		'move-copy-list': { categoryLabel: 'Management', description: 'Copy hundreds of phone numbers from Excel and paste them into a Wajom list in under 10 seconds.', keywords: 'move copy list excel paste fast 10 seconds' },
+		queue: { categoryLabel: 'Automation', description: 'View the status of scheduled campaigns: sent, failed, waiting and pending.', keywords: 'queue messages schedule status sent failed waiting pending' },
+		sequencer: { categoryLabel: 'Automation', description: 'Automatically generate sequential numbers for membership registration and customer invoices.', keywords: 'sequencer sequence auto increment member invoice' },
+		'spam-limiter': { categoryLabel: 'Security & Protection', description: 'Reduce the risk of WhatsApp bans by limiting and controlling how frequently one number sends messages.', keywords: 'spam limiter message frequency avoid ban security' },
+		'working-time-control': { categoryLabel: 'Automation', description: 'Limit when the Wajom chatbot works, such as pausing replies while people are expected to sleep.', keywords: 'working time control sleep avoid ban bot schedule' },
+		'whatsapp-training-circle': { categoryLabel: 'Security & Protection', description: 'Warm up unlimited WhatsApp numbers without linking them to Wajom, using content designed to build healthy sending activity.', keywords: 'whatsapp training circle number warm up' },
+		'instance-info': { categoryLabel: 'Management', description: 'See a summary of your WhatsApp instance, including login, logout and every feature assigned to the account.', keywords: 'instance info whatsapp summary login logout account' },
+		'human-handover': { categoryLabel: 'Automation', description: 'Quickly and easily transfer a conversation from the bot to a human agent.', keywords: 'human handover agent operator transfer chat conversation' },
+		'ai-add-to-list': { categoryLabel: 'Chat AI', description: 'Automatically save the phone number of a prospect who messages Chat AI without submitting a form.', keywords: 'ai add list automatic contact save number follow up' },
+		'ai-daily-leads': { categoryLabel: 'Chat AI', description: 'Keep an organised daily record of every new lead who messages your Chat AI number.', keywords: 'ai daily leads prospect record new chat ai' },
+		'share-owner': { categoryLabel: 'Management', description: 'Give another user full or selected access without sharing your username and password.', keywords: 'share owner access view edit role account' },
+		'24-7-on': { categoryLabel: 'Automation', description: 'No laptop, internet connection or phone needs to stay on. Wajom automation runs continuously in the cloud.', keywords: '24/7 always active laptop internet phone cloud' },
+		apps: { categoryLabel: 'Management', description: 'No laptop is not a problem. Set up and manage Wajom easily from your phone.', keywords: 'apps mobile phone setting smartphone' },
+		'sleep-notification': { categoryLabel: 'Security & Protection', description: 'Get a notification whenever WhatsApp disconnects so follow-ups and Chat AI replies do not silently fail.', keywords: 'sleep notification whatsapp disconnect alert warning' },
+		json: { categoryLabel: 'Management', description: 'Export all content from your Wajom account. Team members can import it and receive the leader’s complete content without typing it again.', keywords: 'json export import content team leader duplication' },
+		'unlimited-space': { categoryLabel: 'Management', description: 'Each media upload can be up to 10 MB, with no overall limit for your Wajom account.', keywords: 'unlimited space upload media storage cloud' },
+		'bot-berantai': { categoryLabel: 'Automation', description: 'One bot can send many messages and media in sequence, so you do not need to create multiple bots.', keywords: 'chain bot multiple messages media sequence' }
+	};
+
+	let localizedFeatures = $derived(
+		locale.current === 'en'
+			? features.map((item) => ({ ...item, ...featureEnglish[item.id] }))
+			: features
+	);
 
 	const categories = [
-		{ id: 'all', label: 'Semua' },
-		{ id: 'ai', label: 'Chat AI' },
-		{ id: 'automasi', label: 'Automasi' },
-		{ id: 'kempen', label: 'Kempen' },
-		{ id: 'pengurusan', label: 'Pengurusan' },
-		{ id: 'integration', label: 'Integration' },
-		{ id: 'keselamatan', label: 'Keselamatan & Perlindungan' }
+		{ id: 'all', label: 'Semua', en: 'All' },
+		{ id: 'ai', label: 'Chat AI', en: 'AI Chat' },
+		{ id: 'automasi', label: 'Automasi', en: 'Automation' },
+		{ id: 'kempen', label: 'Kempen', en: 'Campaigns' },
+		{ id: 'pengurusan', label: 'Pengurusan', en: 'Management' },
+		{ id: 'integration', label: 'Integration', en: 'Integrations' },
+		{ id: 'keselamatan', label: 'Keselamatan & Perlindungan', en: 'Security & Protection' }
 	] as const;
 
+	function categoryName(id: (typeof categories)[number]['id']): string {
+		const category = categories.find((item) => item.id === id);
+		return locale.current === 'en' ? (category?.en ?? id) : (category?.label ?? id);
+	}
+
+
 	let filteredFeatures = $derived(
-		features.filter((item) => {
+		localizedFeatures.filter((item) => {
 			const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
 			const query = searchQuery.trim().toLowerCase();
 			const matchesQuery =
@@ -358,8 +407,8 @@
 	);
 
 	function countForCategory(catId: string) {
-		if (catId === 'all') return features.length;
-		return features.filter((f) => f.category === catId).length;
+		if (catId === 'all') return localizedFeatures.length;
+		return localizedFeatures.filter((f) => f.category === catId).length;
 	}
 
 	const featuresJsonLd = {
@@ -391,30 +440,28 @@
 		<div class="hero-stage">
 			<div class="hero-eyebrow">
 				<span class="dot"></span>
-				Dashboard &amp; Katalog Ciri Wajom
+				{t('features.eyebrow')}
 			</div>
 
-			<h1>Eksplorasi 30+ Ciri Canggih <em>Wajom Automation Engine</em></h1>
+			<h1>{t('features.title')}</h1>
 
-			<p class="lede">
-				Uruskan kempen follow-up automatik, enjin Chat AI, pengurusan prospek, dan integrasi WhatsApp di satu tempat tersusun. Jom pilih automasi impian anda hari ini.
-			</p>
+			<p class="lede">{t('features.lede')}</p>
 
 			<div class="hero-buttons">
 				<a class="cta-primary" href="/register">
-					Dapatkan Akses Wajom Sekarang <span style="margin-left: 4px;">→</span>
+					{t('features.access')} <span style="margin-left: 4px;">→</span>
 				</a>
 				<button
 					class="cta-secondary"
 					type="button"
 					onclick={() => (isVideoModalOpen = true)}
 				>
-					Tonton Demo Automasi
+					{t('features.demo')}
 				</button>
 			</div>
 
 			<div class="hero-trust-strip">
-				<span>Persediaan 5 Minit</span> · <span>Perlindungan Anti-Spam</span> · <span>24/7 Awan Beroperasi</span>
+				<span>{t('features.trustSetup')}</span> · <span>{t('features.trustSpam')}</span> · <span>{t('features.trustCloud')}</span>
 			</div>
 		</div>
 	</div>
@@ -431,14 +478,14 @@
 				<input
 					type="text"
 					bind:value={searchQuery}
-					placeholder="Cari feature yang anda impikan (e.g. Chat AI, OTP, Bot, Evergreen)..."
-					aria-label="Cari feature Wajom"
+					placeholder={t('features.searchPlaceholder')}
+					aria-label={t('features.searchLabel')}
 				/>
 				{#if searchQuery.length > 0}
 					<button
 						class="clear-search-btn"
 						onclick={() => (searchQuery = '')}
-						aria-label="Kosongkan carian"
+						aria-label={t('features.searchLabel')}
 					>
 						✕
 					</button>
@@ -453,7 +500,7 @@
 						class:active={selectedCategory === cat.id}
 						onclick={() => (selectedCategory = cat.id)}
 					>
-						<span>{cat.label}</span>
+						<span>{categoryName(cat.id)}</span>
 						<span class="count-badge">{countForCategory(cat.id)}</span>
 					</button>
 				{/each}
@@ -469,14 +516,14 @@
 			<div class="grid-title">
 				<h2>
 					{#if selectedCategory === 'all'}
-						Semua Ciri ({filteredFeatures.length})
+						{t('features.showingAll')} ({filteredFeatures.length})
 					{:else}
-						Kategori: <em>{categories.find(c => c.id === selectedCategory)?.label}</em> ({filteredFeatures.length})
+						{t('features.category')}: <em>{categoryName(selectedCategory)}</em> ({filteredFeatures.length})
 					{/if}
 				</h2>
 				{#if searchQuery.trim().length > 0}
 					<p class="search-result-hint">
-						Menunjukkan hasil untuk "<span class="query-highlight">{searchQuery}</span>"
+						{t('features.searchResults')} "<span class="query-highlight">{searchQuery}</span>"
 					</p>
 				{/if}
 			</div>
@@ -489,10 +536,10 @@
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
 					</svg>
 				</div>
-				<h3>Tiada Feature Ditemui</h3>
-				<p>Carian untuk "{searchQuery}" tidak menemui padanan. Sila cuba kata kunci lain atau pilih kategori "Semua".</p>
+				<h3>{t('features.empty')}</h3>
+				<p>{t('features.emptyText')}</p>
 				<button class="cta-secondary" onclick={() => { searchQuery = ''; selectedCategory = 'all'; }}>
-					Reset Carian &amp; Filter
+					{t('features.reset')}
 				</button>
 			</div>
 		{:else}
@@ -516,7 +563,7 @@
 						<div class="feature-card-footer">
 							<span class="feature-status">
 								<span class="status-dot" style="background: {item.badgeColor};"></span>
-								Tersedia Dalam Wajom
+								{t('features.available')}
 							</span>
 						</div>
 					</div>
@@ -533,9 +580,9 @@
 	<div class="wrap">
 		<div style="text-align: center; margin-bottom: 48px;">
 			<span class="badge-tag">ENGINE ARCHITECTURE</span>
-			<h2 class="sec-title" style="margin-top: 10px;">Bedah Ciri <em>Modul Impian Top Leader</em></h2>
+			<h2 class="sec-title" style="margin-top: 10px;">{copy('Bedah Ciri', 'Explore')} <em>{copy('Modul Impian Top Leader', 'Top Leader Modules')}</em></h2>
 			<p class="sec-desc" style="margin: 0 auto;">
-				Pilih modul di bawah untuk melihat simulasi enjin automasi tersusun yang melonjakkan kadar penutupan jualan pasukan anda.
+				{copy('Pilih modul di bawah untuk melihat simulasi enjin automasi tersusun yang melonjakkan kadar penutupan jualan pasukan anda.', 'Choose a module below to explore the organised automation engine that improves your team’s closing rate.')}
 			</p>
 		</div>
 
@@ -596,12 +643,12 @@
 				<div class="hud-grid">
 					<!-- Left Info -->
 					<div class="hud-info-side">
-						<span class="hud-mod-badge">MODUL 01 // EVERGREEN DRIP ENGINE</span>
+						<span class="hud-mod-badge">MODULE 01 // EVERGREEN DRIP ENGINE</span>
 						<h3 class="hud-headline">
-							Urutan Susulan 30 Hari <em>Auto-Trigger 24/7</em>
+							{copy('Urutan Susulan 30 Hari', '30-Day Follow-Up')} <em>Auto-Trigger 24/7</em>
 						</h3>
 						<p class="hud-desc">
-							Sekali tetapkan urutan mesej drip (Hari 1, 3, 7, 14, 30), anda boleh menutup laptop dan Wajom akan menghantar mesej secara automatik ke nombor personal dan Group WhatsApp.
+							{copy('Sekali tetapkan urutan mesej drip (Hari 1, 3, 7, 14, 30), anda boleh menutup laptop dan Wajom akan menghantar mesej secara automatik ke nombor personal dan Group WhatsApp.', 'Set a drip sequence for days 1, 3, 7, 14 and 30, then let Wajom send messages automatically to personal numbers and WhatsApp Groups while you work elsewhere.')}
 						</p>
 
 						<div class="hud-feature-list">
@@ -610,8 +657,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Siri Mesej Berganti (Drip Sequence)</strong>
-									<p>Hantar copywriting, gambar, video &amp; voice note mengikut sela masa tepat.</p>
+									<strong>{copy('Siri Mesej Berganti (Drip Sequence)', 'Drip Message Sequence')}</strong>
+									<p>{copy('Hantar copywriting, gambar, video &amp; voice note mengikut sela masa tepat.', 'Send copy, images, videos and voice notes at precise intervals.')}</p>
 								</div>
 							</div>
 							<div class="hud-feat-item">
@@ -619,8 +666,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Auto-Pause Apabila Respon</strong>
-									<p>Mencegah mesej promosi berulang jika prospek telah membalas atau membeli.</p>
+									<strong>{copy('Auto-Pause Apabila Respon', 'Auto-Pause When Prospects Reply')}</strong>
+									<p>{copy('Mencegah mesej promosi berulang jika prospek telah membalas atau membeli.', 'Prevent repeated promotional messages when a prospect replies or buys.')}</p>
 								</div>
 							</div>
 							<div class="hud-feat-item">
@@ -629,7 +676,7 @@
 								</span>
 								<div>
 									<strong>Group &amp; Personal Dispatch</strong>
-									<p>Mencapai ribuan prospek serentak di Group WhatsApp &amp; chat peribadi.</p>
+									<p>{copy('Mencapai ribuan prospek serentak di Group WhatsApp &amp; chat peribadi.', 'Reach thousands of prospects at once in WhatsApp Groups and personal chats.')}</p>
 								</div>
 							</div>
 						</div>
@@ -644,22 +691,22 @@
 				<div class="hud-grid">
 					<!-- Left Info -->
 					<div class="hud-info-side">
-						<span class="hud-mod-badge">MODUL 02 // NEURAL CS AI ENGINE</span>
+						<span class="hud-mod-badge">MODULE 02 // NEURAL CS AI ENGINE</span>
 						<h3 class="hud-headline">
-							Customer Service AI <em>Gaya Penutupan Leader</em>
+							Customer Service AI <em>{copy('Gaya Penutupan Leader', 'Top Leader Closing Style')}</em>
 						</h3>
 						<p class="hud-desc">
-							Bukan sekadar bot kaku. AI ini dilatih khusus untuk memahami nada pertuturan Top Leader, melayan soalan prospek dengan penuh empati, dan menyelesaikan bantahan harga serta-merta 24/7.
+							{copy('Bukan sekadar bot kaku. AI ini dilatih khusus untuk memahami nada pertuturan Top Leader, melayan soalan prospek dengan penuh empati, dan menyelesaikan bantahan harga serta-merta 24/7.', 'More than a rigid bot. This AI learns your Top Leader tone, answers prospect questions empathetically and handles price objections around the clock.')}
 						</p>
 
 						<div class="hud-metrics-row">
 							<div class="hud-metric-card">
 								<span class="m-val">&lt; 0.4s</span>
-								<span class="m-lbl">Masa Respon AI</span>
+								<span class="m-lbl">{copy('Masa Respon AI', 'AI Response Time')}</span>
 							</div>
 							<div class="hud-metric-card">
 								<span class="m-val">99.8%</span>
-								<span class="m-lbl">Ketepatan Nada</span>
+								<span class="m-lbl">{copy('Ketepatan Nada', 'Tone Accuracy')}</span>
 							</div>
 							<div class="hud-metric-card">
 								<span class="m-val">1.5M</span>
@@ -673,8 +720,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Pengendalian Bantahan (Objection Handling)</strong>
-									<p>Menjawab bantahan "mahal", "tiada masa", dan "ragu-ragu" dengan hujah bernilai tinggi.</p>
+									<strong>{copy('Pengendalian Bantahan (Objection Handling)', 'Objection Handling')}</strong>
+									<p>{copy('Menjawab bantahan "mahal", "tiada masa", dan "ragu-ragu" dengan hujah bernilai tinggi.', 'Answer “too expensive”, “no time” and “not sure” objections with high-value responses.')}</p>
 								</div>
 							</div>
 							<div class="hud-feat-item">
@@ -682,8 +729,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Pautan Pembayaran Automatik</strong>
-									<p>Mengecam niat membeli dan terus berkongsi link checkout untuk closing pantas.</p>
+									<strong>{copy('Pautan Pembayaran Automatik', 'Automatic Payment Links')}</strong>
+									<p>{copy('Mengecam niat membeli dan terus berkongsi link checkout untuk closing pantas.', 'Detect buying intent and share a checkout link for faster closing.')}</p>
 								</div>
 							</div>
 						</div>
@@ -698,12 +745,12 @@
 				<div class="hud-grid">
 					<!-- Left Info -->
 					<div class="hud-info-side">
-						<span class="hud-mod-badge">MODUL 03 // SHARE OWNER &amp; JSON HUB</span>
+						<span class="hud-mod-badge">MODULE 03 // SHARE OWNER &amp; JSON HUB</span>
 						<h3 class="hud-headline">
-							Duplikasi Kempen 30-Hari <em>Dalam 10 Saat</em>
+							{copy('Duplikasi Kempen 30-Hari', 'Duplicate a 30-Day Campaign')} <em>{copy('Dalam 10 Saat', 'in 10 Seconds')}</em>
 						</h3>
 						<p class="hud-desc">
-							Sistem duplikasi impian setiap leader network! Anda tidak perlu lagi berkongsi username atau password. Cuma eksport 1 fail JSON kempen anda, dan anak team boleh mengimportnya dalam 1-klik.
+							{copy('Sistem duplikasi impian setiap leader network! Anda tidak perlu lagi berkongsi username atau password. Cuma eksport 1 fail JSON kempen anda, dan anak team boleh mengimportnya dalam 1-klik.', 'The ideal duplication system for every network leader. Export one campaign JSON file instead of sharing passwords, then let your team import it with one click.')}
 						</p>
 
 						<div class="hud-feature-list">
@@ -712,8 +759,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Eksport &amp; Import 1-Klik Fail JSON</strong>
-									<p>Seluruh ayat follow-up, tetapan bot &amp; skrip AI disalin terus ke akaun team.</p>
+									<strong>1-Click JSON File Export &amp; Import</strong>
+									<p>{copy('Seluruh ayat follow-up, tetapan bot &amp; skrip AI disalin terus ke akaun team.', 'Copy every follow-up message, bot setting and AI script directly to a team account.')}</p>
 								</div>
 							</div>
 							<div class="hud-feat-item">
@@ -721,8 +768,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Kawalan Akses Share Owner</strong>
-									<p>Berikan akses tertentu kepada ajut visual atau admin tanpa mendedahkan kata laluan utama.</p>
+									<strong>Share Owner Access Control</strong>
+									<p>{copy('Berikan akses tertentu kepada ajut visual atau admin tanpa mendedahkan kata laluan utama.', 'Grant selected access to visual assistants or admins without exposing the main password.')}</p>
 								</div>
 							</div>
 						</div>
@@ -737,12 +784,12 @@
 				<div class="hud-grid">
 					<!-- Left Info -->
 					<div class="hud-info-side">
-						<span class="hud-mod-badge">MODUL 04 // LIVE CRM PIPELINE</span>
+						<span class="hud-mod-badge">MODULE 04 // LIVE CRM PIPELINE</span>
 						<h3 class="hud-headline">
-							Penjejakan Prospek <em>&amp; Matriks Jualan</em>
+							{copy('Penjejakan Prospek', 'Prospect Tracking')} <em>&amp; {copy('Matriks Jualan', 'Sales Matrix')}</em>
 						</h3>
 						<p class="hud-desc">
-							Tinggalkan buku listing dan fail Excel yang bersepah. Wajom mengkategorikan prospek anda secara automatik mengikut tahap minat (Cold, Warm, Hot, Closed VIP) secara real-time.
+							{copy('Tinggalkan buku listing dan fail Excel yang bersepah. Wajom mengkategorikan prospek anda secara automatik mengikut tahap minat (Cold, Warm, Hot, Closed VIP) secara real-time.', 'Leave scattered listing notebooks and spreadsheets behind. Wajom automatically categorises prospects by interest level — Cold, Warm, Hot or Closed VIP — in real time.')}
 						</p>
 
 						<div class="hud-feature-list">
@@ -751,8 +798,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Pemasukan Leads Harian (Daily Leads)</strong>
-									<p>Setiap nombor baharu yang memulakan chat disimpan dalam pangkalan data teratur.</p>
+									<strong>Daily Lead Capture</strong>
+									<p>{copy('Setiap nombor baharu yang memulakan chat disimpan dalam pangkalan data teratur.', 'Every new number that starts a chat is saved in an organised database.')}</p>
 								</div>
 							</div>
 							<div class="hud-feat-item">
@@ -760,8 +807,8 @@
 									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
 								</span>
 								<div>
-									<strong>Analisis Kadar Closing (Conversion Metrics)</strong>
-									<p>Pantau peratusan kejayaan kempen anda dan prestasi respons AI secara tepat.</p>
+									<strong>Closing Rate Analysis</strong>
+									<p>{copy('Pantau peratusan kejayaan kempen anda dan prestasi respons AI secara tepat.', 'Track campaign success rates and AI response performance with precision.')}</p>
 								</div>
 							</div>
 						</div>
@@ -781,9 +828,9 @@
 <section style="padding: 40px 0 80px;">
 	<div class="wrap">
 		<div style="text-align: center; margin-bottom: 44px;">
-			<h2 class="sec-title">Perbandingan <em>Wajom vs Cara Manual</em></h2>
+			<h2 class="sec-title">{copy('Perbandingan', 'Wajom')} <em>{copy('Wajom vs Cara Manual', 'vs Manual Workflows')}</em></h2>
 			<p class="sec-desc" style="margin: 0 auto;">
-				Lihat mengapa ratusan Top Leader beralih ke Wajom untuk menggandakan hasil jualan mereka.
+				{copy('Lihat mengapa ratusan Top Leader beralih ke Wajom untuk menggandakan hasil jualan mereka.', 'See why hundreds of Top Leaders switch to Wajom to multiply their sales results.')}
 			</p>
 		</div>
 
@@ -791,31 +838,31 @@
 			<table class="comp-table">
 				<thead>
 					<tr>
-						<th>Ciri / Fungsi</th>
-						<th style="color: var(--ruby);">Cara Manual / Admin</th>
+						<th>{copy('Ciri / Fungsi', 'Feature / Function')}</th>
+						<th style="color: var(--ruby);">{copy('Cara Manual / Admin', 'Manual Work / Admin')}</th>
 						<th style="color: var(--emerald-2); background: rgba(55,159,118,0.1); border-radius: 12px 12px 0 0;">Wajom Automation Platform</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<td class="feature-col">Masa Follow-up Mesej</td>
-						<td class="bad-col">4 - 6 Jam Sehari (Penat)</td>
-						<td class="good-col">100% Automatik 24/7 (Tutup Laptop)</td>
+						<td class="feature-col">{copy('Masa Follow-up Mesej', 'Message Follow-Up Time')}</td>
+						<td class="bad-col">{copy('4 - 6 Jam Sehari (Penat)', '4–6 Hours a Day (Exhausting)')}</td>
+						<td class="good-col">{copy('100% Automatik 24/7 (Tutup Laptop)', '100% Automated 24/7 (Close the Laptop)')}</td>
 					</tr>
 					<tr>
-						<td class="feature-col">Duplikasi Sistem Pasukan</td>
-						<td class="bad-col">Sukar &amp; Kucar-kacir</td>
-						<td class="good-col">1-Click Import Fail JSON</td>
+						<td class="feature-col">{copy('Duplikasi Sistem Pasukan', 'Team System Duplication')}</td>
+						<td class="bad-col">{copy('Sukar &amp; Kucar-kacir', 'Difficult &amp; Messy')}</td>
+						<td class="good-col">1-Click JSON File Import</td>
 					</tr>
 					<tr>
-						<td class="feature-col">Respon Soalan &amp; Objection</td>
-						<td class="bad-col">Lambat, Prospek Sejuk</td>
-						<td class="good-col">AI Engine 100% Gaya Top Leader</td>
+						<td class="feature-col">{copy('Respon Soalan &amp; Objection', 'Questions &amp; Objection Response')}</td>
+						<td class="bad-col">{copy('Lambat, Prospek Sejuk', 'Slow, Prospects Go Cold')}</td>
+						<td class="good-col">AI Engine 100% Top Leader Style</td>
 					</tr>
 					<tr>
-						<td class="feature-col">Kapasiti Prospek</td>
-						<td class="bad-col">Terhad 50-100 orang/hari</td>
-						<td class="good-col">Tanpa Had (Unlimited Scale)</td>
+						<td class="feature-col">{copy('Kapasiti Prospek', 'Prospect Capacity')}</td>
+						<td class="bad-col">{copy('Terhad 50-100 orang/hari', 'Limited to 50–100 people/day')}</td>
+						<td class="good-col">{copy('Tanpa Had (Unlimited Scale)', 'Unlimited Scale')}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -828,34 +875,34 @@
 	<div class="wrap">
 		<div class="final-cta-card">
 			<div class="cta-inner">
-				<span class="cta-badge">TAWARAN TERHAD</span>
-				<h2 class="cta-title">Siap untuk <span class="gold-highlight">Revolusi</span> WhatsApp Anda?</h2>
+				<span class="cta-badge">{copy('TAWARAN TERHAD', 'LIMITED OFFER')}</span>
+				<h2 class="cta-title">{copy('Siap untuk', 'Ready for the')} <span class="gold-highlight">{copy('Revolusi', 'WhatsApp Revolution')}</span>?</h2>
 				<p class="cta-sub">
-					Lebih daripada 30+ ciri canggih menanti anda! Automasi WhatsApp, Chat AI, Pengurusan Kempen, dan duplikasi pasukan. Sertai ribuan perniagaan yang telah merasai transformasi digital.
+					{copy('Lebih daripada 30+ ciri canggih menanti anda! Automasi WhatsApp, Chat AI, Pengurusan Kempen, dan duplikasi pasukan. Sertai ribuan perniagaan yang telah merasai transformasi digital.', 'More than 30 advanced features are waiting for you: WhatsApp automation, AI chat, campaign management and team duplication. Join thousands of businesses already experiencing digital transformation.')}
 				</p>
 
 				<div class="cta-stats-grid">
 					<div class="cta-stat-item">
 						<div class="stat-num">30+</div>
-						<div class="stat-lbl">Ciri Canggih</div>
+						<div class="stat-lbl">{copy('Ciri Canggih', 'Advanced Features')}</div>
 					</div>
 					<div class="cta-stat-item">
 						<div class="stat-num">24/7</div>
-						<div class="stat-lbl">Support AI</div>
+						<div class="stat-lbl">AI Support</div>
 					</div>
 					<div class="cta-stat-item">
 						<div class="stat-num">∞</div>
-						<div class="stat-lbl">Kemungkinan</div>
+						<div class="stat-lbl">{copy('Kemungkinan', 'Possibilities')}</div>
 					</div>
 				</div>
 
 				<div style="margin-top: 32px;">
 					<a class="cta-primary big-cta" href="/register">
-						MULA SEKARANG!
+						{copy('MULA SEKARANG!', 'START NOW!')}
 						<span style="margin-left: 8px;">→</span>
 					</a>
 					<p class="cta-micro font-mono">
-						Persediaan dalam 5 minit • Jaminan kepuasan • Data selamat
+						{copy('Persediaan dalam 5 minit • Jaminan kepuasan • Data selamat', 'Ready in 5 minutes • Satisfaction guaranteed • Data protected')}
 					</p>
 				</div>
 			</div>

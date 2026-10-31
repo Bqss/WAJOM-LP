@@ -3,8 +3,9 @@
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import Countdown from '$lib/components/Countdown.svelte';
-
+	import { locale, t } from '$lib/i18n.svelte';
 	let isVideoModalOpen = $state(false);
+
 	let selectedGalleryIndex = $state<number | null>(null);
 
 	interface GalleryItem {
@@ -50,6 +51,36 @@
 			aspect: 'portrait'
 		}
 	];
+	function copy(ms: string, en: string): string {
+		return locale.current === 'en' ? en : ms;
+	}
+
+	const galleryEnglishCopy: Pick<GalleryItem, 'title' | 'caption' | 'badge' | 'alt'>[] = [
+		{
+			title: 'Live Participant Zoom Session',
+			caption: 'A live interactive coaching session with entrepreneurs and leaders attending the Wajom class.',
+			badge: 'LIVE WEBINAR SESSION',
+			alt: 'Participant grid during the Wajom Agent AI Mastery Zoom session.'
+		},
+		{
+			title: 'Inside the Wajom Class',
+			caption: 'Step-by-step practical coaching for human-style AI closing and WhatsApp automation.',
+			badge: 'PRACTICAL COACHING',
+			alt: 'Participants in a grid view during the Wajom Agent AI Mastery Zoom session.'
+		},
+		{
+			title: 'Easy Phone-First Class Access',
+			caption: 'Follow the coaching and slides directly from a smartphone, wherever you are.',
+			badge: 'PHONE-FIRST GUIDE',
+			alt: 'Wajom class on a phone showing the presenter and slides.'
+		}
+	];
+
+	const localizedGalleryItems = $derived(
+		locale.current === 'en'
+			? galleryItems.map((item, index) => ({ ...item, ...galleryEnglishCopy[index] }))
+			: galleryItems
+	);
 
 	function openGalleryModal(index: number) {
 		selectedGalleryIndex = index;
@@ -147,29 +178,25 @@
 <!-- Hero Section (Seamlessly Connected to Pricing Page Design System) -->
 <section class="pricing-hero">
 	<div class="wrap hero-wrap">
-		<span class="eyebrow-pill bloom">Wajom Agent AI Mastery Course #4</span>
-		
-		<h1 class="hero-heading bloom">
-			Stop Jadi Hamba WhatsApp. <em>Biar Agent AI Buat Kerja.</em>
-		</h1>
+		<span class="eyebrow-pill bloom">{t('course.eyebrow')}</span>
 
-		<p class="hero-subtext bloom">
-			Bimbingan praktikal 3 jam bersama Wajom AI. Settingkan skrip closing gaya peribadi anda, auto follow-up 24/7, dan duplikasikan ke pasukan dalam 1-klik.
-		</p>
+		<h1 class="hero-heading bloom">{t('course.title')}</h1>
+
+		<p class="hero-subtext bloom">{t('course.sub')}</p>
 
 		<!-- Animated Countdown Timer -->
 		<div class="bloom" style="margin-bottom: 28px;">
 			<Countdown
 				endDate={TARGET_DATE}
-				label="MASA BERBAKI PENDAFTARAN"
-				sessionInfo="Sabtu, 31 Oktober 2026 (8:30 PM – 11:30 PM)"
+				label={t('course.countdown')}
+				sessionInfo={copy('Sabtu, 31 Oktober 2026 (8:30 PM – 11:30 PM)', 'Saturday, 31 October 2026 (8:30 PM – 11:30 PM)')}
 			/>
 		</div>
 
 		<!-- Action CTAs matching Pricing Buttons -->
 		<div class="hero-actions-row bloom">
 			<a href="/checkout" class="tier-cta primary" style="padding: 14px 32px; font-size: 1rem; text-decoration: none;">
-				Daftar Masterclass (RM30) →
+				{t('course.register')}
 			</a>
 			<button
 				type="button"
@@ -178,7 +205,7 @@
 				onclick={() => (isVideoModalOpen = true)}
 			>
 				<svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" style="width: 14px; height: 14px; color: var(--emerald-2);"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-				<span>Tonton Video Demo</span>
+				<span>{t('course.demo')}</span>
 			</button>
 		</div>
 
@@ -186,17 +213,17 @@
 		<div class="hero-value-strip bloom">
 			<div class="val-item">
 				<span class="val-bold">RM 30</span>
-				<span class="val-sub">Sekali bayar (Asal RM200)</span>
+				<span class="val-sub">{copy('Sekali bayar (Asal RM200)', 'One-time payment (Was RM200)')}</span>
 			</div>
 			<div class="val-sep"></div>
 			<div class="val-item">
 				<span class="val-bold">+ 1.5M Tokens</span>
-				<span class="val-sub">Bonus percuma terus ke akaun</span>
+				<span class="val-sub">{copy('Bonus percuma terus ke akaun', 'Free bonus credited to your account')}</span>
 			</div>
 			<div class="val-sep"></div>
 			<div class="val-item">
 				<span class="val-bold">Full Recording</span>
-				<span class="val-sub">Akses Zoom seumur hidup</span>
+				<span class="val-sub">{copy('Akses Zoom seumur hidup', 'Lifetime Zoom access')}</span>
 			</div>
 		</div>
 	</div>
@@ -206,22 +233,20 @@
 <section class="pricing-matrix-section" id="mechanism">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">PRAKTIKAL LIVE</span>
+			<span class="eyebrow-pill">{t('course.practical')}</span>
 			<h2 class="hero-heading" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">
-				Bukan Kelas Ajar Teori. <em>Terus Praktikal Setting AI.</em>
+				{t('course.practicalTitle')}
 			</h2>
-			<p class="hero-subtext" style="margin-bottom: 0;">
-				Wajom bukan sekadar software automasi. Kita fokus coaching pasukan — Wajom mengendalikan objection &amp; closing secara automatik.
-			</p>
+			<p class="hero-subtext" style="margin-bottom: 0;">{t('course.practicalSub')}</p>
 		</div>
 
 		<div class="matrix-container bloom" style="margin-top: 36px;">
 			<!-- Column 1: Modul 01 -->
 			<div class="matrix-col">
 				<div class="col-head">
-					<span class="tier-label">MODUL 01</span>
+					<span class="tier-label">MODULE 01</span>
 					<h3 class="tier-name">Pre-Class Setup</h3>
-					<p class="tier-desc">Siapkan semuanya sebelum kelas bermula supaya masa Zoom 100% praktikal.</p>
+					<p class="tier-desc">{copy('Siapkan semuanya sebelum kelas bermula supaya masa Zoom 100% praktikal.', 'Prepare everything before class so your Zoom time is 100% practical.')}</p>
 					<ul class="spec-list">
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
@@ -229,29 +254,29 @@
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Pautkan 1st WhatsApp Number &amp; EC</span>
+							<span>Connect 1st WhatsApp Number &amp; EC</span>
 						</li>
 						<li>
 							<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-							<span>Terima 1.5M AI Token terus ke akaun</span>
+							<span>{copy('Terima 1.5M AI Token terus ke akaun', 'Receive 1.5M AI Tokens directly in your account')}</span>
 						</li>
 					</ul>
 				</div>
 				<div class="col-footer">
 					<span class="step-status-tag">
 						<svg class="spec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 13px; height: 13px; display: inline-block; vertical-align: -1px; margin-right: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
-						Peserta sedia sebelum Zoom
+						{copy('Peserta sedia sebelum Zoom', 'Participants ready before Zoom')}
 					</span>
 				</div>
 			</div>
 
 			<!-- Column 2: Modul 02 (Featured Tier) -->
 			<div class="matrix-col featured">
-				<div class="featured-indicator">MODUL UTAMA</div>
+				<div class="featured-indicator">{copy('MODUL UTAMA', 'CORE MODULE')}</div>
 				<div class="col-head">
-					<span class="tier-label emerald">MODUL 02</span>
+					<span class="tier-label emerald">MODULE 02</span>
 					<h3 class="tier-name">Setting Agent AI</h3>
-					<p class="tier-desc">AI yang menjawab dan closing mengikut gaya &amp; suara peribadi anda.</p>
+					<p class="tier-desc">{copy('AI yang menjawab dan closing mengikut gaya &amp; suara peribadi anda.', 'An AI that answers and closes in your personal style and voice.')}</p>
 					
 					<!-- Interactive Demo Chat Card -->
 					<div class="chat-demo-card">
@@ -260,12 +285,12 @@
 						</div>
 						<div class="chat-demo-body">
 							<div class="c-msg in">
-								<span class="c-who">Prospek</span>
-								<p>Hai, ini mahal la untuk saya sekarang...</p>
+								<span class="c-who">Prospect</span>
+								<p>{copy('Hai, ini mahal la untuk saya sekarang...', 'Hi, this is a little expensive for me right now...')}</p>
 							</div>
 							<div class="c-msg out">
-								<span class="c-who">AI · Korang</span>
-								<p>Saya faham. Tapi bayangkan kalau 1 team member follow up 200 leads tanpa tertinggal — itu nilai sebenar.</p>
+								<span class="c-who">AI · You</span>
+								<p>{copy('Saya faham. Tapi bayangkan kalau 1 team member follow up 200 leads tanpa tertinggal — itu nilai sebenar.', 'I understand. But imagine one team member following up with 200 leads without missing anyone — that is the real value.')}</p>
 							</div>
 						</div>
 					</div>
@@ -284,7 +309,7 @@
 				<div class="col-footer">
 					<span class="step-status-tag emerald">
 						<svg class="spec-icon emerald" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 13px; height: 13px; display: inline-block; vertical-align: -1px; margin-right: 4px;"><polyline points="20 6 9 17 4 12"/></svg>
-						Prospek ready · Leader notified
+						{copy('Prospek ready · Leader notified', 'Prospect ready · Leader notified')}
 					</span>
 				</div>
 			</div>
@@ -292,9 +317,9 @@
 			<!-- Column 3: Modul 03 -->
 			<div class="matrix-col">
 				<div class="col-head">
-					<span class="tier-label">MODUL 03</span>
-					<h3 class="tier-name">Praktikal &amp; Coaching</h3>
-					<p class="tier-desc">3 jam sesi live Zoom interaktif — setting, test real-time &amp; duplikasi.</p>
+					<span class="tier-label">MODULE 03</span>
+					<h3 class="tier-name">Practical Coaching</h3>
+					<p class="tier-desc">{copy('3 jam sesi live Zoom interaktif — setting, test real-time &amp; duplikasi.', 'Three hours of interactive live Zoom: setup, real-time testing and duplication.')}</p>
 					
 					<div class="agenda-timeline">
 						<div class="agenda-item">
@@ -303,15 +328,15 @@
 						</div>
 						<div class="agenda-item">
 							<span class="time">21:15</span>
-							<span class="task">Setting Agent AI Live</span>
+							<span class="task">Live Agent AI Setup</span>
 						</div>
 						<div class="agenda-item">
 							<span class="time">22:00</span>
-							<span class="task">Test Prospek Real-Time</span>
+							<span class="task">Real-Time Prospect Test</span>
 						</div>
 						<div class="agenda-item">
 							<span class="time">22:45</span>
-							<span class="task">Coaching &amp; Duplikasi Pasukan</span>
+							<span class="task">Coaching &amp; Team Duplication</span>
 						</div>
 					</div>
 				</div>
@@ -330,9 +355,9 @@
 <section class="all-features-section" id="syllabus">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">SILABUS KURSUS</span>
-			<h2>Kurikulum 5 Modul Lengkap</h2>
-			<p>Dari ekonomi token sehingga advanced setting — korang keluar kelas dengan Agent AI Wajom yang dah siap berfungsi:</p>
+			<span class="eyebrow-pill">{t('course.syllabus')}</span>
+			<h2>{t('course.syllabusTitle')}</h2>
+			<p>{copy('Dari ekonomi token sehingga advanced setting — korang keluar kelas dengan Agent AI Wajom yang dah siap berfungsi:', 'From token economics to advanced settings — leave class with a working Wajom Agent AI:')}</p>
 		</div>
 
 		<div class="features-architectural-grid bloom">
@@ -340,54 +365,54 @@
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
 				</div>
-				<span class="mod-cell-tag">MODUL 01</span>
-				<h4>Agent AI Boleh Untung Ke?</h4>
-				<p>Kira kos untuk close sales RM1,000 dan teknik jimatkan kos token. Faham ekonomi sebenar sebelum mula setup.</p>
+				<span class="mod-cell-tag">{copy('MODUL 01', 'MODULE 01')}</span>
+				<h4>Can Agent AI Be Profitable?</h4>
+				<p>{copy('Kira kos untuk close sales RM1,000 dan teknik jimatkan kos token. Faham ekonomi sebenar sebelum mula setup.', 'Calculate the cost of closing a RM1,000 sale and learn token-saving techniques before setup.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
 				</div>
-				<span class="mod-cell-tag">MODUL 02</span>
-				<h4>Agent AI Jawab Semua Soalan</h4>
-				<p>Agent AI menjawab soalan prospek 24/7. Admin menerima notifikasi serta-merta jika ada soalan khas — tiada prospek tertinggal.</p>
+				<span class="mod-cell-tag">{copy('MODUL 02', 'MODULE 02')}</span>
+				<h4>Agent AI Answers Every Question</h4>
+				<p>{copy('Agent AI menjawab soalan prospek 24/7. Admin menerima notifikasi serta-merta jika ada soalan khas — tiada prospek tertinggal.', 'Agent AI answers prospect questions 24/7. Admins get instant notifications for special questions — no prospect is left behind.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12 2.1 10a10.05 10.05 0 0 1 19.8 0Z"/></svg>
 				</div>
-				<span class="mod-cell-tag">MODUL 03</span>
-				<h4>Setting AI Macam Pakar NLP</h4>
-				<p>AI menanya soalan semula untuk wujudkan perbualan 2-hala semulajadi. Rasa nampak real seperti bercakap dengan pakar manusia.</p>
+				<span class="mod-cell-tag">{copy('MODUL 03', 'MODULE 03')}</span>
+				<h4>Set Up AI Like an NLP Expert</h4>
+				<p>{copy('AI menanya soalan semula untuk wujudkan perbualan 2-hala semulajadi. Rasa nampak real seperti bercakap dengan pakar manusia.', 'AI asks follow-up questions to create natural two-way conversations that feel like speaking with a human expert.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
 				</div>
-				<span class="mod-cell-tag">MODUL 04</span>
+				<span class="mod-cell-tag">{copy('MODUL 04', 'MODULE 04')}</span>
 				<h4>Human Handover</h4>
-				<p>Tak perlu penat layan soalan berulang. AI urus awal; bila prospek sedia bayar, admin mesej takeover untuk teruskan transaksi.</p>
+				<p>{copy('Tak perlu penat layan soalan berulang. AI urus awal; bila prospek sedia bayar, admin mesej takeover untuk teruskan transaksi.', 'Stop spending energy on repeated questions. AI handles the first step, then an admin takes over when a prospect is ready to pay.')}</p>
 			</div>
 
 			<div class="feat-cell">
 				<div class="feat-cell-icon">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 				</div>
-				<span class="mod-cell-tag">MODUL 05</span>
-				<h4>Advanced Setting</h4>
-				<p>Respons AI untuk voice note, gambar &amp; video. Tetapan lanjutan untuk bawa sistem kecerdasan buatan anda ke tahap profesional.</p>
+				<span class="mod-cell-tag">{copy('MODUL 05', 'MODULE 05')}</span>
+				<h4>Advanced Settings</h4>
+				<p>{copy('Respons AI untuk voice note, gambar &amp; video. Tetapan lanjutan untuk bawa sistem kecerdasan buatan anda ke tahap profesional.', 'Enable AI responses for voice notes, images and video, with advanced settings for a professional-grade system.')}</p>
 			</div>
 
 			<div class="feat-cell highlighted-cell">
 				<div class="feat-cell-icon gold">
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
 				</div>
-				<span class="mod-cell-tag gold">BONUS ABUKAN</span>
+				<span class="mod-cell-tag gold">EXTRA BONUS</span>
 				<h4>1,500,000 Wajom Tokens</h4>
-				<p>Diberikan secara percuma bersama pendaftaran RM30 anda untuk terus menjalankan automasi secara real-time.</p>
+				<p>{copy('Diberikan secara percuma bersama pendaftaran RM30 anda untuk terus menjalankan automasi secara real-time.', 'Included free with your RM30 registration so you can run automation in real time.')}</p>
 			</div>
 		</div>
 	</div>
@@ -397,39 +422,39 @@
 <section class="transformation-section" id="before-after">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">TRANSFORMASI OPERASI</span>
-			<h2>Sebelum &amp; Selepas Wajom</h2>
-			<p>Perubahan drastik operasi harian anda dari Admin manual kepada Leader berstrategi:</p>
+			<span class="eyebrow-pill">{t('course.transform')}</span>
+			<h2>{t('course.transformTitle')}</h2>
+			<p>{copy('Perubahan drastik operasi harian anda dari Admin manual kepada Leader berstrategi:', 'Transform your daily operations from manual admin work to strategic leadership:')}</p>
 		</div>
 
 		<div class="diff-matrix bloom">
 			<!-- Before Card -->
 			<div class="diff-card before">
 				<div class="diff-card-header">
-					<span class="diff-tag ruby">SEBELUM WAJOM</span>
+					<span class="diff-tag ruby">{copy('SEBELUM WAJOM', 'BEFORE WAJOM')}</span>
 					<h3>Life Admin</h3>
 				</div>
 				<ul class="diff-list">
-					<li><span class="mk ruby">×</span> 80% masa harian habis untuk manual follow-up</li>
-					<li><span class="mk ruby">×</span> Leads tertinggal sebab lambat reply mesej</li>
-					<li><span class="mk ruby">×</span> Setiap ahli pasukan di-train satu per satu, tak konsisten</li>
-					<li><span class="mk ruby">×</span> Database bersepah dalam Excel, phone &amp; notebook</li>
-					<li><span class="mk ruby">×</span> Burnout menjawab soalan sama berulang kali</li>
+					<li><span class="mk ruby">×</span> {copy('80% masa harian habis untuk manual follow-up', '80% of each day goes to manual follow-ups')}</li>
+					<li><span class="mk ruby">×</span> {copy('Leads tertinggal sebab lambat reply mesej', 'Leads are lost because messages are answered too slowly')}</li>
+					<li><span class="mk ruby">×</span> {copy('Setiap ahli pasukan di-train satu per satu, tak konsisten', 'Every team member is trained one by one, with no consistency')}</li>
+					<li><span class="mk ruby">×</span> {copy('Database bersepah dalam Excel, phone &amp; notebook', 'Data is scattered across Excel, phones and notebooks')}</li>
+					<li><span class="mk ruby">×</span> {copy('Burnout menjawab soalan sama berulang kali', 'Burnout from answering the same questions repeatedly')}</li>
 				</ul>
 			</div>
 
 			<!-- After Card -->
 			<div class="diff-card after">
 				<div class="diff-card-header">
-					<span class="diff-tag emerald">SELEPAS WAJOM</span>
+					<span class="diff-tag emerald">{copy('SELEPAS WAJOM', 'AFTER WAJOM')}</span>
 					<h3>Life Leader</h3>
 				</div>
 				<ul class="diff-list">
-					<li><span class="mk emerald">→</span> 80% masa fokus pada coaching &amp; strategi perniagaan</li>
-					<li><span class="mk emerald">→</span> Auto-reply 24/7, prospek hot diserahkan terus ke anda</li>
-					<li><span class="mk emerald">→</span> Seluruh pasukan import 1 fail JSON — sistem seragam</li>
-					<li><span class="mk emerald">→</span> Setiap prospek di-tag &amp; di-track secara automatik</li>
-					<li><span class="mk emerald">→</span> AI jawab gaya peribadi anda; anda close bila penting</li>
+					<li><span class="mk emerald">→</span> {copy('80% masa fokus pada coaching &amp; strategi perniagaan', '80% of your time goes to coaching and business strategy')}</li>
+					<li><span class="mk emerald">→</span> {copy('Auto-reply 24/7, prospek hot diserahkan terus ke anda', '24/7 auto-replies hand hot prospects straight to you')}</li>
+					<li><span class="mk emerald">→</span> {copy('Seluruh pasukan import 1 fail JSON — sistem seragam', 'The whole team imports one JSON file — one consistent system')}</li>
+					<li><span class="mk emerald">→</span> {copy('Setiap prospek di-tag &amp; di-track secara automatik', 'Every prospect is tagged and tracked automatically')}</li>
+					<li><span class="mk emerald">→</span> {copy('AI jawab gaya peribadi anda; anda close bila penting', 'AI answers in your personal style; you close when it matters')}</li>
 				</ul>
 			</div>
 		</div>
@@ -440,9 +465,9 @@
 <section class="webinar-section" id="galeri-webinar" aria-labelledby="webinar-heading">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">GALERI WEBINAR</span>
-			<h2 id="webinar-heading">Suasana Kelas Wajom</h2>
-			<p>Lihat sendiri suasana sesi Zoom Wajom Agent AI Mastery yang lalu.</p>
+			<span class="eyebrow-pill">{t('course.gallery')}</span>
+			<h2 id="webinar-heading">{t('course.galleryTitle')}</h2>
+			<p>{copy('Lihat sendiri suasana sesi Zoom Wajom Agent AI Mastery yang lalu.', 'See the atmosphere from previous Wajom Agent AI Mastery Zoom sessions.')}</p>
 		</div>
 
 		<div class="webinar-gallery bloom">
@@ -451,15 +476,15 @@
 					type="button"
 					class="webinar-photo"
 					onclick={() => openGalleryModal(0)}
-					aria-label="Lihat butiran foto: {galleryItems[0].title}"
+					aria-label={copy('Lihat butiran foto', 'View photo details') + `: ${localizedGalleryItems[0].title}`}
 				>
 					<figure>
-						<img src={galleryItems[0].src} alt={galleryItems[0].alt} width={galleryItems[0].width} height={galleryItems[0].height} loading="lazy" decoding="async" />
+						<img src={localizedGalleryItems[0].src} alt={localizedGalleryItems[0].alt} width={localizedGalleryItems[0].width} height={localizedGalleryItems[0].height} loading="lazy" decoding="async" />
 						<figcaption>
-							<span>{galleryItems[0].title}</span>
+							<span>{localizedGalleryItems[0].title}</span>
 							<span class="webinar-open">
 								<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-								Lihat Butiran
+								{copy('Lihat Butiran', 'View Details')}
 							</span>
 						</figcaption>
 					</figure>
@@ -468,15 +493,15 @@
 					type="button"
 					class="webinar-photo"
 					onclick={() => openGalleryModal(1)}
-					aria-label="Lihat butiran foto: {galleryItems[1].title}"
+					aria-label={copy('Lihat butiran foto', 'View photo details') + `: ${localizedGalleryItems[1].title}`}
 				>
 					<figure>
-						<img src={galleryItems[1].src} alt={galleryItems[1].alt} width={galleryItems[1].width} height={galleryItems[1].height} loading="lazy" decoding="async" />
+						<img src={localizedGalleryItems[1].src} alt={localizedGalleryItems[1].alt} width={localizedGalleryItems[1].width} height={localizedGalleryItems[1].height} loading="lazy" decoding="async" />
 						<figcaption>
-							<span>{galleryItems[1].title}</span>
+							<span>{localizedGalleryItems[1].title}</span>
 							<span class="webinar-open">
 								<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-								Lihat Butiran
+								{copy('Lihat Butiran', 'View Details')}
 							</span>
 						</figcaption>
 					</figure>
@@ -486,15 +511,15 @@
 				type="button"
 				class="webinar-photo webinar-photo-phone"
 				onclick={() => openGalleryModal(2)}
-				aria-label="Lihat butiran foto: {galleryItems[2].title}"
+				aria-label={copy('Lihat butiran foto', 'View photo details') + `: ${localizedGalleryItems[2].title}`}
 			>
 				<figure>
-					<img src={galleryItems[2].src} alt={galleryItems[2].alt} width={galleryItems[2].width} height={galleryItems[2].height} loading="lazy" decoding="async" />
+					<img src={localizedGalleryItems[2].src} alt={localizedGalleryItems[2].alt} width={localizedGalleryItems[2].width} height={localizedGalleryItems[2].height} loading="lazy" decoding="async" />
 					<figcaption>
-						<span>{galleryItems[2].title}</span>
+						<span>{localizedGalleryItems[2].title}</span>
 						<span class="webinar-open">
 							<svg class="zoom-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-							Lihat Butiran
+							{copy('Lihat Butiran', 'View Details')}
 						</span>
 					</figcaption>
 				</figure>
@@ -507,9 +532,9 @@
 <section class="proof-section" id="testimonials">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">BUKTI &amp; TESTIMONI</span>
-			<h2>Leader Yang Dah Jalankan</h2>
-			<p>Ulasan sebenar daripada pimpinan perniagaan yang menggunakan Wajom hari ini:</p>
+			<span class="eyebrow-pill">{t('course.testimonials')}</span>
+			<h2>{copy('Leader Yang Dah Jalankan', 'Leaders Already Running It')}</h2>
+			<p>{copy('Ulasan sebenar daripada pimpinan perniagaan yang menggunakan Wajom hari ini:', 'Real feedback from business leaders using Wajom today:')}</p>
 		</div>
 
 		<div class="testimonials-grid bloom">
@@ -522,11 +547,11 @@
 					<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 				</div>
 				<blockquote>
-					"Alhamdulillah Wajom sangat menjimatkan masa. Dulu untuk follow up 200 leads ambil masa hampir sejam. Sekarang leads masuk auto dari Form, terus auto follow up &amp; auto respon by AI. Saya hanya takeover bila prospek buat pembayaran."
+					"{copy('Alhamdulillah Wajom sangat menjimatkan masa. Dulu untuk follow up 200 leads ambil masa hampir sejam. Sekarang leads masuk auto dari Form, terus auto follow up &amp; auto respon by AI. Saya hanya takeover bila prospek buat pembayaran.', 'Wajom saves a tremendous amount of time. Following up with 200 leads used to take nearly an hour. Now leads arrive automatically from forms, get instant follow-ups and AI responses, and I only step in when they are ready to pay.')}"
 				</blockquote>
 				<div class="quote-author">
 					<strong>Lila Maskhon</strong>
-					<span>Ex Engineer · Top Recruiter FLP MY</span>
+					<span>{copy('Ex Engineer · Top Recruiter FLP MY', 'Former Engineer · Top Recruiter')}</span>
 				</div>
 			</div>
 
@@ -539,11 +564,11 @@
 					<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
 				</div>
 				<blockquote>
-					"Dulu nak follow up kena buat satu-satu, ada masa lupa. Sekarang dengan Wajom semua dah siap setting — takkan ada tertinggal hari untuk follow up lagi. Dengan AI Wajom, hari-hari boleh close sales."
+					"{copy('Dulu nak follow up kena buat satu-satu, ada masa lupa. Sekarang dengan Wajom semua dah siap setting — takkan ada tertinggal hari untuk follow up lagi. Dengan AI Wajom, hari-hari boleh close sales.', 'Follow-ups used to be manual and easy to forget. With Wajom everything is scheduled in advance — no follow-up day is ever missed. AI keeps sales closing every single day.')}"
 				</blockquote>
 				<div class="quote-author">
 					<strong>Aira Halim</strong>
-					<span>Ex Banker · Top Rookie · Founder RRC</span>
+					<span>{copy('Ex Banker · Top Rookie · Founder RRC', 'Former Banker · Top Rookie · Founder RRC')}</span>
 				</div>
 			</div>
 		</div>
@@ -552,19 +577,19 @@
 		<div class="proof-stats-bar bloom">
 			<div class="stat-item">
 				<span class="stat-num">500+</span>
-				<span class="stat-lbl">Leader Aktif</span>
+				<span class="stat-lbl">{copy('Leader Aktif', 'Active Leaders')}</span>
 			</div>
 			<div class="stat-item">
 				<span class="stat-num">95%</span>
-				<span class="stat-lbl">Kadar Kepuasan</span>
+				<span class="stat-lbl">{copy('Kadar Kepuasan', 'Satisfaction Rate')}</span>
 			</div>
 			<div class="stat-item">
 				<span class="stat-num">24/7</span>
-				<span class="stat-lbl">Automasi Berjalan</span>
+				<span class="stat-lbl">{copy('Automasi Berjalan', 'Running Automation')}</span>
 			</div>
 			<div class="stat-item">
 				<span class="stat-num">4.9 / 5</span>
-				<span class="stat-lbl">Penarafan Purata</span>
+				<span class="stat-lbl">{copy('Penarafan Purata', 'Average Rating')}</span>
 			</div>
 		</div>
 	</div>
@@ -574,52 +599,52 @@
 <section class="faq-section" id="faq">
 	<div class="wrap">
 		<div class="section-title-block bloom">
-			<span class="eyebrow-pill">SOALAN LAZIM</span>
-			<h2>Benda Yang Korang Berhak Tanya</h2>
-			<p>Jawapan jujur &amp; transparan untuk setiap persoalan anda:</p>
+			<span class="eyebrow-pill">{t('course.faq')}</span>
+			<h2>{copy('Benda Yang Korang Berhak Tanya', 'Questions You Deserve Honest Answers To')}</h2>
+			<p>{copy('Jawapan jujur &amp; transparan untuk setiap persoalan anda:', 'Clear and honest answers to your most common questions:')}</p>
 		</div>
 
 		<div class="faq-accordion bloom">
 			<details class="faq-card">
-				<summary>Wajom ni produk WhatsApp rasmi ke?</summary>
+				<summary>{copy('Wajom ni produk WhatsApp rasmi ke?', 'Is Wajom an official WhatsApp product?')}</summary>
 				<div class="faq-answer">
-					<span class="badge-mini ruby">BUKAN RASMI</span>
-					<p>Wajom bukan aplikasi WhatsApp itu sendiri. Ia dibina di atas teknologi selamat dan mesra perniagaan yang di-layer di atas WhatsApp. Kursus ini mengajar tetapan terbaik untuk menjaga kesihatan akaun anda.</p>
+					<span class="badge-mini ruby">{copy('BUKAN RASMI', 'UNOFFICIAL')}</span>
+					<p>{copy('Wajom bukan aplikasi WhatsApp itu sendiri. Ia dibina di atas teknologi selamat dan mesra perniagaan yang di-layer di atas WhatsApp. Kursus ini mengajar tetapan terbaik untuk menjaga kesihatan akaun anda.', 'Wajom is not WhatsApp itself. It is a secure, business-friendly layer built to work with WhatsApp, and this course shows you how to protect account health.')}</p>
 				</div>
 			</details>
 
 			<details class="faq-card">
-				<summary>Tak ada laptop. Boleh guna tak?</summary>
+				<summary>{copy('Tak ada laptop. Boleh guna tak?', 'I do not have a laptop. Can I still use it?')}</summary>
 				<div class="faq-answer">
-					<p>Boleh. Wajom boleh di-setup sepenuhnya menggunakan telefon bimbit. Panduan kursus direka phone-first untuk kemudahan anda.</p>
+					<p>{copy('Boleh. Wajom boleh di-setup sepenuhnya menggunakan telefon bimbit. Panduan kursus direka phone-first untuk kemudahan anda.', 'Yes. Wajom can be set up entirely from a mobile phone, and this course is designed phone-first for your convenience.')}</p>
 				</div>
 			</details>
 
 			<details class="faq-card">
-				<summary>Boleh guna pada iPhone, Mac, dan iPad?</summary>
+				<summary>{copy('Boleh guna pada iPhone, Mac, dan iPad?', 'Does it work on iPhone, Mac and iPad?')}</summary>
 				<div class="faq-answer">
-					<p>Ya, Wajom beroperasi secara berasaskan pelayan cloud menerusi pelayar web (browser) dan sangat serasi dengan peranti Apple iOS / macOS.</p>
+					<p>{copy('Ya, Wajom beroperasi secara berasaskan pelayan cloud menerusi pelayar web (browser) dan sangat serasi dengan peranti Apple iOS / macOS.', 'Yes. Wajom is cloud-based and runs in any modern browser, working smoothly across Apple iOS and macOS devices.')}</p>
 				</div>
 			</details>
 
 			<details class="faq-card">
-				<summary>Saya kurang teknikal. Adakah susah nak faham?</summary>
+				<summary>{copy('Saya kurang teknikal. Adakah susah nak faham?', 'I am not technical. Will this be hard to follow?')}</summary>
 				<div class="faq-answer">
-					<p>Tidak. Kursus ini adalah langkah-demi-langkah dengan panduan Zoom live &amp; rakaman. Pasukan sokongan Wajom sedia membantu anda sehingga sistem anda siap berfungsi.</p>
+					<p>{copy('Tidak. Kursus ini adalah langkah-demi-langkah dengan panduan Zoom live &amp; rakaman. Pasukan sokongan Wajom sedia membantu anda sehingga sistem anda siap berfungsi.', 'No. The course is step-by-step with live Zoom guidance and recordings. Our support team is here until your system is fully running.')}</p>
 				</div>
 			</details>
 
 			<details class="faq-card">
-				<summary>Apa yang saya akan dapat dengan nilai RM30 ini?</summary>
+				<summary>{copy('Apa yang saya akan dapat dengan nilai RM30 ini?', 'What do I get for RM30?')}</summary>
 				<div class="faq-answer">
-					<p>Anda mendapat akses penuh ke sesi Masterclass Zoom Live 3 Jam, rakaman penuh sesi, fail duplikasi sistem, dan <strong>1,500,000 Wajom Tokens</strong> secara percuma.</p>
+					<p>{copy('Anda mendapat akses penuh ke sesi Masterclass Zoom Live 3 Jam, rakaman penuh sesi, fail duplikasi sistem, dan <strong>1,500,000 Wajom Tokens</strong> secara percuma.', 'You receive full access to the 3-hour live Zoom Masterclass, the complete recording, system duplication files, and 1,500,000 free Wajom tokens.')}</p>
 				</div>
 			</details>
 
 			<details class="faq-card">
-				<summary>Adakah kursus ini untuk leader MLM sahaja?</summary>
+				<summary>{copy('Adakah kursus ini untuk leader MLM sahaja?', 'Is this course only for MLM leaders?')}</summary>
 				<div class="faq-answer">
-					<p>Bukan. Wajom direka untuk pelbagai bidang perniagaan yang menggunakan WhatsApp seperti MLM, hartanah, insurans, ejen jualan, dan kedai e-dagang.</p>
+					<p>{copy('Bukan. Wajom direka untuk pelbagai bidang perniagaan yang menggunakan WhatsApp seperti MLM, hartanah, insurans, ejen jualan, dan kedai e-dagang.', 'No. Wajom is built for any business using WhatsApp: direct selling, real estate, insurance, sales agents and ecommerce stores.')}</p>
 				</div>
 			</details>
 		</div>
@@ -631,17 +656,17 @@
 	<div class="wrap">
 		<div class="masterclass-card bloom">
 			<div class="mc-header">
-				<span class="mc-pill">TAWARAN MASIH DIBUKA</span>
-				<h3>Masterclass Agent AI RM30</h3>
-				<p>Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1,500,000 AI Tokens.</p>
+				<span class="mc-pill">{copy('TAWARAN MASIH DIBUKA', 'OFFER STILL OPEN')}</span>
+				<h3>Agent AI Masterclass RM30</h3>
+				<p>{copy('Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1,500,000 AI Tokens.', 'Live Zoom class to configure your automation system, plus a 1,500,000 AI token bonus.')}</p>
 			</div>
 			<div class="mc-pricing-strip">
 				<span class="was-price">RM 200</span>
 				<span class="now-price">RM 30</span>
-				<span class="one-time">sekali bayar</span>
+				<span class="one-time">{copy('sekali bayar', 'one-time payment')}</span>
 			</div>
 			<a class="mc-cta-btn" href="/checkout">
-				Daftar Kursus Sekarang →
+				{t('course.enroll')}
 			</a>
 		</div>
 	</div>
@@ -654,9 +679,9 @@
 			<div class="g-icon-wrapper">
 				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
 			</div>
-			<h3>Jaminan Kepuasan &amp; Bimbingan Praktikal</h3>
+			<h3>{copy('Jaminan Kepuasan &amp; Bimbingan Praktikal', 'Satisfaction Guarantee &amp; Practical Guidance')}</h3>
 			<p>
-				Kami komited memastikan setiap peserta keluar dari sesi ini dengan sistem Agent AI yang berfungsi sepenuhnya. Jika anda memerlukan sebarang bantuan teknikal tambahan, pasukan teknikal kami sedia membantu anda.
+				{copy('Kami komited memastikan setiap peserta keluar dari sesi ini dengan sistem Agent AI yang berfungsi sepenuhnya. Jika anda memerlukan sebarang bantuan teknikal tambahan, pasukan teknikal kami sedia membantu anda.', 'We are committed to making sure every attendee leaves with a working Agent AI. If you need extra technical help, our team is always on standby.')}
 			</p>
 		</div>
 	</div>
@@ -664,7 +689,7 @@
 
 <!-- Gallery Lightbox / Detail Modal -->
 {#if selectedGalleryIndex !== null}
-	{@const item = galleryItems[selectedGalleryIndex]}
+	{@const item = localizedGalleryItems[selectedGalleryIndex]}
 	<div
 		class="gallery-lightbox-overlay"
 		onclick={closeGalleryModal}
@@ -685,13 +710,13 @@
 					<h3 class="lightbox-heading">{item.title}</h3>
 				</div>
 				<div class="gallery-lightbox-controls">
-					<span class="lightbox-counter">{selectedGalleryIndex + 1} / {galleryItems.length}</span>
+					<span class="lightbox-counter">{selectedGalleryIndex + 1} / {localizedGalleryItems.length}</span>
 					<button
 						type="button"
 						class="lightbox-close-btn"
 						onclick={closeGalleryModal}
-						aria-label="Tutup butiran galeri"
-						title="Tutup (Esc)"
+						aria-label={copy('Tutup butiran galeri', 'Close gallery details')}
+						title={copy('Tutup (Esc)', 'Close (Esc)')}
 					>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
 					</button>
@@ -704,8 +729,8 @@
 					type="button"
 					class="lightbox-nav-btn prev"
 					onclick={prevGalleryItem}
-					aria-label="Foto sebelumnya"
-					title="Foto sebelumnya (Panah Kiri)"
+					aria-label={copy('Foto sebelumnya', 'Previous photo')}
+					title={copy('Foto sebelumnya (Panah Kiri)', 'Previous photo (Left Arrow)')}
 				>
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
 				</button>
@@ -721,8 +746,8 @@
 					type="button"
 					class="lightbox-nav-btn next"
 					onclick={nextGalleryItem}
-					aria-label="Foto seterusnya"
-					title="Foto seterusnya (Panah Kanan)"
+					aria-label={copy('Foto seterusnya', 'Next photo')}
+					title={copy('Foto seterusnya (Panah Kanan)', 'Next photo (Right Arrow)')}
 				>
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
 				</button>
@@ -732,13 +757,13 @@
 			<div class="gallery-lightbox-footer">
 				<p class="lightbox-caption">{item.caption}</p>
 				<div class="lightbox-footer-actions">
-					<span class="lightbox-hint">Kekunci &larr; &rarr; untuk navigasi, Esc untuk tutup</span>
+					<span class="lightbox-hint">{copy('Kekunci &larr; &rarr; untuk navigasi, Esc untuk tutup', 'Use &larr; &rarr; to navigate, Esc to close')}</span>
 					<a
 						href="#enroll"
 						class="lightbox-enroll-link"
 						onclick={closeGalleryModal}
 					>
-						Daftar Kursus Sekarang (RM30) &rarr;
+						{t('course.enroll')}
 					</a>
 				</div>
 			</div>

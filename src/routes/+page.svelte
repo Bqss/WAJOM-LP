@@ -4,6 +4,9 @@
 	import HeroShowcase from '$lib/components/HeroShowcase.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import { initReveals, counter } from '$lib/motion';
+	import { locale, t } from '$lib/i18n.svelte';
+	import * as landingMs from '$lib/data/landing.ms';
+	import * as landingEn from '$lib/data/landing.en';
 
 	import {
 		ArrowRight as ArrowRightIcon,
@@ -12,213 +15,21 @@
 		Plus as PlusIcon,
 		CheckCircle as CheckCircleIcon,
 		Quotes as QuotesIcon,
-		ArrowsClockwise as ArrowsClockwiseIcon,
-		GraduationCap as GraduationCapIcon,
-		ChatsCircle as ChatsCircleIcon,
-		Database as DatabaseIcon,
-		TrendDown as TrendDownIcon,
-		UserMinus as UserMinusIcon,
-		Lightning as LightningIcon,
-		Robot as RobotIcon,
-		ShareNetwork as ShareNetworkIcon,
-		VideoCamera as VideoCameraIcon,
-		Coins as CoinsIcon,
-		ChatCircleText as ChatCircleTextIcon,
-		Headset as HeadsetIcon,
-		ShieldCheck as ShieldCheckIcon,
-		HandCoins as HandCoinsIcon
 	} from 'phosphor-svelte';
 
 	let isVideoModalOpen = $state(false);
 
 	onMount(() => initReveals());
+	let landingContent = $derived(locale.current === 'en' ? landingEn : landingMs);
+	let visibleMetrics = $derived(landingContent.metrics);
+	let visibleProblems = $derived(landingContent.problems);
+	let visibleShifts = $derived(landingContent.shifts);
+	let visiblePillars = $derived(landingContent.pillars);
+	let visiblePersonas = $derived(landingContent.personas);
+	let visibleInclusions = $derived(landingContent.inclusions);
+	let visibleFaqs = $derived(landingContent.faqs);
+	let visiblePromises = $derived(landingContent.promises);
 
-	const metrics = [
-		{ pre: '+', value: 300, suffix: '%', label: 'Lebih banyak prospek' },
-		{ pre: '', value: 24, suffix: '/7', label: 'Balasan automatik' },
-		{ pre: '', value: 500, suffix: '+', label: 'Leader aktif' },
-		{ pre: '', value: 95, suffix: '%', label: 'Kadar kepuasan' }
-	];
-
-	const problems = [
-		{
-			icon: ArrowsClockwiseIcon,
-			title: 'Follow-up manual memenatkan',
-			body: 'Setiap hari beratus prospek kena follow-up satu-satu. Prospek berkualiti tetap terlepas, downline pula tak tersentuh.'
-		},
-		{
-			icon: GraduationCapIcon,
-			title: 'Training anak team tak konsisten',
-			body: 'Tak cukup masa nak ajar sorang-sorang. Tanpa sistem, setiap anak team belajar versi yang berbeza.'
-		},
-		{
-			icon: ChatsCircleIcon,
-			title: 'Soalan sama, setiap hari',
-			body: 'Leader habiskan hari melayan benda basic. Strategi, coaching dan development team semua tergendala.'
-		},
-		{
-			icon: DatabaseIcon,
-			title: 'Database bersepah',
-			body: 'Sebahagian dalam Excel, sebahagian dalam telefon, sebahagian dalam buku. Progress team tak dapat dibaca.'
-		},
-		{
-			icon: TrendDownIcon,
-			title: 'Bisnes susah nak grow',
-			body: 'Sepatutnya makin ramai team makin banyak sales. Tanpa automasi, tambah team bermakna tambah beban.'
-		},
-		{
-			icon: UserMinusIcon,
-			title: 'Name listing dah habis',
-			body: 'Bila leader tak tahu di mana nak cari leads berkualiti, anak team perlahan-lahan berhenti berusaha.'
-		}
-	];
-
-	const shifts = [
-		{
-			label: 'Masa',
-			was: '80% masa habis untuk kerja admin',
-			now: '80% masa untuk leadership dan strategi'
-		},
-		{
-			label: 'Follow-up',
-			was: 'Manual, tak konsisten, mudah terlepas',
-			now: 'Automatik dan konsisten, 24 jam sehari'
-		},
-		{
-			label: 'Duplikasi',
-			was: 'Setiap anak team buat cara sendiri',
-			now: 'Satu fail JSON, seluruh team guna sistem sama'
-		},
-		{
-			label: 'Respons',
-			was: 'Prospek hilang kerana lambat dibalas',
-			now: 'Balasan segera walaupun laptop tertutup'
-		},
-		{
-			label: 'Skala',
-			was: 'Sistem tersekat bila prospek bertambah',
-			now: '10 hingga 10,000 prospek, beban kerja sama'
-		},
-		{
-			label: 'Tenaga',
-			was: 'Burnout kerana kerja yang berulang',
-			now: 'Fokus pada growth, bukan kerja admin'
-		}
-	];
-
-	const pillars = [
-		{
-			icon: LightningIcon,
-			name: 'Evergreen Campaign',
-			body: 'Hantar content follow-up tanpa had kepada prospek dan team tanpa perlu setting setiap hari. Lepas setting sekali, Wajom hantar non-stop.',
-			points: ['Follow-up automatik non-stop', 'Personal dan group WhatsApp', 'Prospek tanpa had'],
-			image: '/feature-drip-visual.jpg',
-			alt: 'Papan pemuka Wajom memaparkan garis masa kempen drip 30 hari dan analitik penghantaran'
-		},
-		{
-			icon: RobotIcon,
-			name: 'Customer Service AI',
-			body: 'AI yang menulis 100% gaya top leader anda: jawab soalan, handle objection, dan bawa prospek sampai ke closing.',
-			points: ['Gaya jawapan top leader', 'Handle objection pantas', 'Closing pakej tinggi'],
-			image: '/feature-ai-visual.jpg',
-			alt: 'Papan pemuka Chat AI Wajom sedang membalas beberapa perbualan WhatsApp pelanggan'
-		},
-		{
-			icon: ShareNetworkIcon,
-			name: 'Share Owner',
-			body: 'Team masuk dashboard leader dan tiru setting tanpa perlu tukar username atau password. Leader pula boleh semak dan betulkan setting team.',
-			points: ['Akses dashboard terkawal', 'Tiru setting leader satu klik', 'Semakan dan coaching team'],
-			image: '/tab-duplication-visual.jpg',
-			alt: 'Paparan duplikasi tetapan kempen daripada satu akaun leader kepada 50 akaun downline'
-		}
-	];
-
-	const personas = [
-		{
-			name: 'Leader MLM',
-			body: 'Leader baru dan lama yang mahu automasi follow-up untuk seluruh team.',
-			tags: ['Automasi recruitment', 'Training konsisten', 'Duplikasi team'],
-			image: '/persona-mlm.jpg',
-			alt: 'Seorang leader MLM membentangkan strategi kepada pasukannya di dalam bilik mesyuarat'
-		},
-		{
-			name: 'Leader Agensi Hartanah',
-			body: 'Menguruskan team agent dan mahu proses follow-up client yang standard.',
-			tags: ['Lead nurturing', 'Follow-up client', 'Tracking prestasi'],
-			image: '/persona-hartanah.jpg',
-			alt: 'Leader agensi hartanah memegang telefon di hadapan model pembangunan hartanah'
-		},
-		{
-			name: 'Leader Team Insurans',
-			body: 'Mahu automasi follow-up client dan sistem training untuk agent bawahan.',
-			tags: ['Follow-up polisi', 'Training agent', 'Retensi client'],
-			image: '/persona-insurans.jpg',
-			alt: 'Leader team insurans menyemak dokumen polisi di meja kerjanya'
-		},
-		{
-			name: 'Leader Pelaburan Emas',
-			body: 'Menguruskan investor dan mahu automasi proses edukasi untuk setiap prospek.',
-			tags: ['Edukasi investor', 'Update pasaran', 'Perkongsian ilmu'],
-			image: '/persona-emas.jpg',
-			alt: 'Leader pelaburan emas memeriksa jongkong emas di atas meja'
-		}
-	];
-
-	const inclusions = [
-		{
-			icon: VideoCameraIcon,
-			title: 'Akses kelas Zoom live',
-			body: 'Bimbingan terus cara setup Chat AI dan closing automatik.'
-		},
-		{
-			icon: CoinsIcon,
-			title: '1.5M AI tokens percuma',
-			body: 'Bernilai RM150, dipindahkan terus ke akaun Wajom anda.'
-		},
-		{
-			icon: ChatCircleTextIcon,
-			title: 'WhatsApp group kelas',
-			body: 'Notifikasi Zoom dan perbincangan bimbingan berterusan.'
-		},
-		{
-			icon: HeadsetIcon,
-			title: 'Bantuan 1-on-1',
-			body: 'Sokongan persediaan akaun sebelum kelas bermula.'
-		}
-	];
-
-	const faqs = [
-		{
-			q: 'Berapa lama masa diperlukan untuk setup Wajom?',
-			a: 'Dalam 15 minit anda sudah boleh mula guna sistem automasi kami. Team support akan bantu anda step-by-step sampai semuanya berjalan sempurna.'
-		},
-		{
-			q: 'Adakah Wajom selamat digunakan dengan WhatsApp Business?',
-			a: 'Ya. Wajom dibangunkan mengikut guidelines WhatsApp dan menggunakan WhatsApp Business API yang official. Ia telah digunakan oleh ribuan business owner tanpa masalah.'
-		},
-		{
-			q: 'Boleh saya customize message dan campaign ikut bisnes saya?',
-			a: 'Boleh sepenuhnya. Anda kawal semua message, campaign flow dan branding: set tone of voice, letak logo company, dan bina campaign khusus untuk industri anda.'
-		},
-		{
-			q: 'Bagaimana jika saya tidak tech-savvy?',
-			a: 'Wajom direka untuk sesiapa sahaja. Interface kami drag-and-drop, dan anda dapat training lengkap serta support 24/7 sepanjang perjalanan.'
-		},
-		{
-			q: 'Ada trial period atau money-back guarantee?',
-			a: 'Ada. Kami tawarkan jaminan 30 hari wang dikembalikan. Jika anda tidak berpuas hati dengan hasilnya dalam 30 hari, kami refund 100% tanpa soalan.'
-		},
-		{
-			q: 'Berapa banyak prospek yang boleh saya handle?',
-			a: 'Tiada had. Sistem kami scale bersama bisnes anda, dari 100 prospek hingga 100,000 prospek, dengan efisiensi yang sama.'
-		}
-	];
-
-	const promises = [
-		{ icon: ShieldCheckIcon, text: 'Jaminan 30 hari wang dikembalikan' },
-		{ icon: HandCoinsIcon, text: 'Tiada komitmen awal' },
-		{ icon: HeadsetIcon, text: 'Sokongan 1-on-1' }
-	];
 
 	const indexJsonLd = [
 		{
@@ -288,9 +99,9 @@
 <a href="/checkout" class="announce-bar">
 	<span class="announce-dot"></span>
 	<span class="announce-text">
-		<strong>Kelas Chat AI & Automasi WhatsApp</strong> — Live Zoom, 31 Okt 2026. RM30 + 1.5M AI Token.
+		<strong>{t('home.announcement')}</strong> — Live Zoom, 31 Okt 2026. RM30 + 1.5M AI Token.
 	</span>
-	<span class="announce-cta">Daftar Sekarang <ArrowRightIcon size={14} weight="bold" /></span>
+	<span class="announce-cta">{t('home.registerNow')} <ArrowRightIcon size={14} weight="bold" /></span>
 </a>
 
 <!-- ═══ HERO ═══════════════════════════════════════════════ -->
@@ -300,30 +111,24 @@
 
 	<div class="wrap stage-grid">
 		<div class="stage-copy">
-			<p class="eyebrow" style="--i:0">Platform automasi WhatsApp #1 di Malaysia</p>
+			<p class="eyebrow" style="--i:0">{t('home.heroEyebrow')}</p>
 			<h1 style="--i:1">
-				<span>Tutup laptop.</span>
-				<em>Follow-up jalan sendiri.</em>
+				<span>{t('home.heroTitle')}</span>
+				<em>{t('home.heroTitleAccent')}</em>
 			</h1>
-			<p class="sub" style="--i:2">
-				Automasi WhatsApp untuk top leader. Follow-up 1,000 prospek serentak, 24 jam sehari, tanpa
-				anda menaip sepatah.
-			</p>
+			<p class="sub" style="--i:2">{t('home.heroSub')}</p>
 			<div class="stage-actions" style="--i:3">
-				<a
-					class="cta-primary"
-					href="/checkout"
-				>
-					Mula Sekarang <ArrowRightIcon size={18} weight="bold" />
+				<a class="cta-primary" href="/checkout">
+					{t('home.startNow')} <ArrowRightIcon size={18} weight="bold" />
 				</a>
 				<button class="cta-secondary" type="button" onclick={() => (isVideoModalOpen = true)}>
-					<PlayIcon size={16} weight="fill" /> Lihat Demo
+					<PlayIcon size={16} weight="fill" /> {t('home.watchDemo')}
 				</button>
+			</div>
 				</div>
-		</div>
 
 		<dl class="hero-stats">
-			{#each metrics as m, i (m.label)}
+			{#each visibleMetrics as m, i (m.label)}
 				<div class="hero-stat" data-reveal>
 					<dt>
 						{#if m.pre}<span class="fix">{m.pre}</span>{/if}<span
@@ -342,14 +147,11 @@
 	<div class="pan">
 		<div class="pan-vp">
 			<div class="pan-lead wrap">
-				<h2 class="ruby" data-reveal>Masalah semua <em>top leader</em>.</h2>
-				<p class="sub" data-reveal>
-					Siang hari dilihat sebagai pembina visi. Malam hari jadi admin tanpa henti. Ini realiti ramai
-					leader di Malaysia.
-				</p>
+				<h2 class="ruby" data-reveal>{t('home.problemTitle')}</h2>
+				<p class="sub" data-reveal>{t('home.problemSub')}</p>
 			</div>
 			<div class="pan-track">
-				{#each problems as p (p.title)}
+				{#each visibleProblems as p (p.title)}
 					<article class="prob">
 						<span class="prob-ico"><p.icon size={22} weight="bold" /></span>
 						<h3>{p.title}</h3>
@@ -362,11 +164,8 @@
 
 	<div class="wrap">
 		<div class="callout" data-reveal>
-			<p class="callout-main">Bila leader jadi admin, anak team perlahan-lahan akan hilang.</p>
-			<p class="callout-sub">
-				Leader sepatutnya fokus coaching: guide anak team cara dapatkan beribu leads, handle
-				objection, closing yang powerful, dan cara kejar insentif.
-			</p>
+			<p class="callout-main">{t('home.calloutTitle')}</p>
+			<p class="callout-sub">{t('home.calloutSub')}</p>
 		</div>
 	</div>
 </section>
@@ -374,22 +173,19 @@
 <!-- ═══ SOLUTION (scroll-driven before/after wipe) ═════════ -->
 <section id="solusi" class="solve">
 	<div class="wrap lead centered">
-		<h2 data-reveal>Memperkenalkan Wajom. <em>Sistem automatik 100%.</em></h2>
-		<p class="sub" data-reveal>
-			Marketing, follow-up, closing dan duplikasi berjalan sendiri di WhatsApp. Tatal untuk lihat apa
-			yang berubah.
-		</p>
+		<h2 data-reveal>{t('home.solutionTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.solutionSub')}</p>
 	</div>
 
 	<div class="wrap">
 		<div class="shift-head" data-reveal>
-			<span class="shift-tag was">Sebelum Wajom</span>
+			<span class="shift-tag was">{t('home.before')}</span>
 			<span class="shift-rule"></span>
-			<span class="shift-tag now">Selepas Wajom</span>
+			<span class="shift-tag now">{t('home.after')}</span>
 		</div>
 
 		<div class="shift-grid">
-			{#each shifts as s (s.label)}
+			{#each visibleShifts as s (s.label)}
 				<article class="tile">
 					<span class="tile-label">{s.label}</span>
 					<span class="tile-copy">
@@ -401,8 +197,7 @@
 		</div>
 
 		<p class="result" data-reveal>
-			<b>Hasilnya:</b> leader yang lebih produktif dan pasukan yang lebih berjaya. Anda fokus memimpin,
-			sistem uruskan selebihnya.
+			<b>{t('home.result')}</b> {t('home.resultText')}
 		</p>
 	</div>
 </section>
@@ -410,15 +205,13 @@
 <!-- ═══ HOW IT WORKS (sticky stack) ════════════════════════ -->
 <section id="cara-kerja" class="how">
 	<div class="wrap lead">
-		<h2 data-reveal>Tiga feature yang <em>ubah keseluruhan game</em>.</h2>
-		<p class="sub" data-reveal>
-			Dicipta khas untuk top leader yang mahu hasil maksimum dengan usaha minimum.
-		</p>
+		<h2 data-reveal>{t('home.howTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.howSub')}</p>
 	</div>
 
 	<div class="wrap">
 		<div class="stack">
-			{#each pillars as p, i (p.name)}
+			{#each visiblePillars as p, i (p.name)}
 				{#if i > 0}<span class="probe" aria-hidden="true"></span>{/if}
 				<article class="pillar">
 					<div class="pillar-copy">
@@ -445,13 +238,11 @@
 			{/each}
 		</div>
 
-		<p class="synergy" data-reveal>
-			Ketiga-tiga feature ini bakal <b>letupkan team sales anda 10x</b>
-		</p>
+		<p class="synergy" data-reveal>{t('home.howTitle')}</p>
 
 		<div class="lead-link" data-reveal>
 			<a class="cta-secondary" href="/detail-of-service">
-				Lihat Ciri Penuh <ArrowUpRightIcon size={16} weight="bold" />
+				{t('home.fullFeatures')} <ArrowUpRightIcon size={16} weight="bold" />
 			</a>
 		</div>
 	</div>
@@ -460,14 +251,12 @@
 <!-- ═══ AUDIENCE (bento) ═══════════════════════════════════ -->
 <section id="target-audience" class="who">
 	<div class="wrap lead">
-		<h2 data-reveal>Siapa yang sesuai guna <em>Wajom?</em></h2>
-		<p class="sub" data-reveal>
-			Dicipta untuk top leader yang serius nak scale bisnes dan bawa ramai anak team jadi jaguh.
-		</p>
+		<h2 data-reveal>{t('home.audienceTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.audienceSub')}</p>
 	</div>
 
 	<div class="wrap bento">
-		{#each personas as p (p.name)}
+		{#each visiblePersonas as p (p.name)}
 			<article class="persona" data-reveal>
 				<img src={p.image} alt={p.alt} width="1200" height="800" loading="lazy" decoding="async" />
 				<div class="persona-body">
@@ -482,7 +271,7 @@
 <!-- ═══ TESTIMONIALS (editorial band) ══════════════════════ -->
 <section id="testimoni" class="voices-sec">
 	<div class="wrap lead">
-		<h2 data-reveal>Apa kata pemimpin <em>pasukan lain?</em></h2>
+		<h2 data-reveal>{t('home.testimonialsTitle')}</h2>
 	</div>
 
 	<div class="wrap voices">
@@ -526,25 +315,20 @@
 <!-- ═══ MASTERCLASS OFFER (ticket) ═════════════════════════ -->
 <section id="masterclass" class="offer">
 	<div class="wrap lead centered">
-		<p class="eyebrow gold" data-reveal>Tawaran khas masterclass</p>
-		<h2 data-reveal>Wajom Mastery <em>Kelas Chat AI</em></h2>
-		<p class="sub" data-reveal>
-			Kelas praktikal Zoom live untuk memiliki sistem automasi penutupan jualan anda sendiri.
-		</p>
+		<p class="eyebrow gold" data-reveal>{t('home.specialOffer')}</p>
+		<h2 data-reveal>{t('home.masterclassTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.masterclassSub')}</p>
 	</div>
 
 	<div class="wrap">
 		<div class="ticket" data-reveal>
 			<div class="ticket-main">
-				<span class="ticket-badge">Pakej edisi terhad</span>
-				<h3>Praktik Chat AI, voice closing dan duplikasi pasukan</h3>
-				<p>
-					Belajar terus cara konfigurasi Chat AI Wajom untuk automasi jualan, jawab soalan prospek 24
-					jam, dan duplikasi strategi ke seluruh anak team anda.
-				</p>
+				<span class="ticket-badge">{t('home.limitedPackage')}</span>
+				<h3>{t('home.offerTitle')}</h3>
+				<p>{t('home.offerBody')}</p>
 
 				<div class="incl">
-					{#each inclusions as item (item.title)}
+					{#each visibleInclusions as item (item.title)}
 						<div class="incl-item">
 							<span class="incl-ico"><item.icon size={18} weight="bold" /></span>
 							<div>
@@ -557,14 +341,14 @@
 			</div>
 
 			<aside class="stub">
-				<span class="stub-label">Harga masuk</span>
+				<span class="stub-label">{t('home.entryPrice')}</span>
 				<span class="stub-old">RM 200.00</span>
 				<span class="stub-now">RM 30.00</span>
-				<span class="stub-save">Jimat RM 170.00</span>
+				<span class="stub-save">{t('home.save')}</span>
 				<a class="cta-primary" href="/checkout">
-					Daftar Kelas RM30 <ArrowRightIcon size={18} weight="bold" />
+					{t('home.registerClass')} <ArrowRightIcon size={18} weight="bold" />
 				</a>
-				<p class="stub-fine">Termasuk 1.5M AI tokens bernilai RM150.</p>
+				<p class="stub-fine">{t('home.includedTokens')}</p>
 			</aside>
 		</div>
 	</div>
@@ -573,14 +357,12 @@
 <!-- ═══ FAQ ════════════════════════════════════════════════ -->
 <section id="faq" class="faq">
 	<div class="wrap lead centered">
-		<h2 data-reveal>Masih ada <em>soalan?</em></h2>
-		<p class="sub" data-reveal>
-			Berikut jawapan kepada soalan yang paling kerap ditanya sebelum mula.
-		</p>
+		<h2 data-reveal>{t('home.faqTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.faqSub')}</p>
 	</div>
 
 	<div class="wrap qa">
-		{#each faqs as item (item.q)}
+		{#each visibleFaqs as item (item.q)}
 			<details class="q" data-reveal>
 				<summary>
 					<span>{item.q}</span>
@@ -595,20 +377,15 @@
 <!-- ═══ CLOSING ════════════════════════════════════════════ -->
 <section class="closing" id="final-cta">
 	<div class="wrap closing-in">
-		<h2 data-reveal>Jom transform bisnes <em>sekarang.</em></h2>
-		<p class="sub" data-reveal>
-			Wajom adalah jawapan kepada masalah scaling yang anda hadapi hari ini.
-		</p>
+		<h2 data-reveal>{t('home.closingTitle')}</h2>
+		<p class="sub" data-reveal>{t('home.closingSub')}</p>
 		<div class="closing-cta" data-reveal>
-			<a
-				class="cta-primary big"
-				href="/checkout"
-			>
-				Mula Sekarang <ArrowRightIcon size={19} weight="bold" />
+			<a class="cta-primary big" href="/checkout">
+				{t('home.startNow')} <ArrowRightIcon size={19} weight="bold" />
 			</a>
 		</div>
 		<ul class="promises" data-reveal>
-			{#each promises as p (p.text)}
+			{#each visiblePromises as p (p.text)}
 				<li><p.icon size={17} weight="bold" /> {p.text}</li>
 			{/each}
 		</ul>

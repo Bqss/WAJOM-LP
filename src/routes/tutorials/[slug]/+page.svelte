@@ -1,13 +1,22 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import SEO from '$lib/components/SEO.svelte';
+	import { locale, t } from '$lib/i18n.svelte';
+	import { tutorials as tutorialsEn } from '$lib/data/tutorials.en';
 	import type { PageData } from './$types';
-
 	let { data }: { data: PageData } = $props();
 
-	let tutorial = $derived(data.tutorial);
-	let prevTutorial = $derived(data.prevTutorial);
-	let nextTutorial = $derived(data.nextTutorial);
+	let tutorial = $derived(locale.current === 'en' ? tutorialsEn.find((item) => item.slug === data.tutorial.slug) ?? data.tutorial : data.tutorial);
+	let prevTutorial = $derived(
+		locale.current === 'en' && data.prevTutorial
+			? tutorialsEn.find((item) => item.slug === data.prevTutorial?.slug) ?? data.prevTutorial
+			: data.prevTutorial
+	);
+	let nextTutorial = $derived(
+		locale.current === 'en' && data.nextTutorial
+			? tutorialsEn.find((item) => item.slug === data.nextTutorial?.slug) ?? data.nextTutorial
+			: data.nextTutorial
+	);
 
 	let readingProgress = $state(0);
 	let activeHeadingId = $state('');
@@ -16,11 +25,167 @@
 
 	let articleContainer: HTMLElement | null = $state(null);
 
+	const tutorialReferencePaths: Record<string, string> = {
+		'/agent-ai/cara-menetapkan-gaya-sembang':
+			'/tutorials/cara-mengatur-persona-gaya-chat-agent-ai',
+		'/agent-ai/cara-menetapkan-knowledge': '/tutorials/cara-mengatur-knowledge-agent-ai',
+		'/agent-ai/playground': '/tutorials/simulasi-playground-agent-ai',
+		'/agent-ai/cara-mengaktifkan': '/tutorials/cara-mengaktifkan-agent-ai'
+	};
+
+	function escapeHtml(value: string): string {
+		return value
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;');
+	}
+
+	function resolveReferenceHref(rawHref: string): string | null {
+		if (rawHref.startsWith('//')) return null;
+
+		if (rawHref.startsWith('/')) {
+			try {
+				const url = new URL(rawHref, 'https://wajom.co');
+				if (url.origin !== 'https://wajom.co') return null;
+				const path = tutorialReferencePaths[url.pathname] ?? url.pathname;
+				return `${path}${url.search}${url.hash}`;
+			} catch {
+				return null;
+			}
+		}
+
+		return /^https?:\/\//i.test(rawHref) ? rawHref : null;
+	}
+
+	function formatReferenceLinks(html: string): string {
+		const codeBlocks: string[] = [];
+		const withoutCode = html.replace(/<pre\b[\s\S]*?<\/pre>|<code\b[\s\S]*?<\/code>/gi, (block) => {
+			const index = codeBlocks.push(block) - 1;
+			return `\u0000${index}\u0000`;
+		});
+
+		const linked = withoutCode.replace(/(^|>)([^<>]+)(?=<|$)/g, (match, boundary, text) => {
+			const formattedText = text.replace(
+				/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/gi,
+				(markdown: string, label: string, rawHref: string) => {
+					const href = resolveReferenceHref(rawHref);
+					if (!href) return markdown;
+					return `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
+				}
+			);
+			return `${boundary}${formattedText}`;
+		});
+
+		return linked.replace(/\u0000(\d+)\u0000/g, (match, index) => codeBlocks[Number(index)] ?? match);
+	}
+
+	type FlowchartNode = {
+		id: string;
+		label: string;
+	};
+
+	function renderFlowchart(source: string): string {
+		const cleanSource = source
+			.replace(/<\/?p\b[^>]*>/gi, '\n')
+			.replace(/&amp;/g, '&')
+			.trim();
+		const nodes = new Map<string, FlowchartNode>();
+		const edges: { from: string; to: string }[] = [];
+
+		for (const match of cleanSource.matchAll(/\b([A-Za-z]\w*)\s*\[([^\]]+)\]/g)) {
+			nodes.set(match[1], { id: match[1], label: match[2].trim() });
+		}
+
+		for (const line of cleanSource.split(/\r?\n/)) {
+			const edge = line.match(
+				/^\s*([A-Za-z]\w*)(?:\s*\[[^\]]+\])?\s*(?:-->|→)\s*([A-Za-z]\w*)/
+			);
+			if (edge) edges.push({ from: edge[1], to: edge[2] });
+		}
+
+		if (!nodes.size || !edges.length) {
+			return `<pre class="tutorial-flowchart"><code>${escapeHtml(source.trim())}</code></pre>`;
+		}
+
+		const children = new Map<string, string[]>();
+		for (const edge of edges) {
+			const list = children.get(edge.from) ?? [];
+			if (!list.includes(edge.to)) list.push(edge.to);
+			children.set(edge.from, list);
+		}
+
+		const targetIds = new Set(edges.map((edge) => edge.to));
+		const root = [...nodes.keys()].find((id) => !targetIds.has(id)) ?? [...nodes.keys()][0];
+		const branchIds = children.get(root) ?? [];
+		const branchMarkup = branchIds
+			.map((branchId) => {
+				const branch = nodes.get(branchId);
+				if (!branch) return '';
+
+				const leafMarkup = (children.get(branchId) ?? [])
+					.map((leafId) => {
+						const leaf = nodes.get(leafId);
+						return leaf
+							? `<div class="flowchart-leaf"><span class="flowchart-node-id">${escapeHtml(leaf.id)}</span><span>${escapeHtml(leaf.label)}</span></div>`
+							: '';
+					})
+					.join('');
+
+				return `
+					<section class="flowchart-branch">
+						<div class="flowchart-node flowchart-category">
+							<span class="flowchart-node-id">${escapeHtml(branch.id)}</span>
+							<span>${escapeHtml(branch.label)}</span>
+						</div>
+						${leafMarkup ? `<div class="flowchart-leaves">${leafMarkup}</div>` : ''}
+					</section>
+				`;
+			})
+			.join('');
+
+		if (!branchMarkup) {
+			return `<pre class="tutorial-flowchart"><code>${escapeHtml(source.trim())}</code></pre>`;
+		}
+
+		const rootNode = nodes.get(root);
+		return `
+			<div class="tutorial-flowchart" role="group" aria-label="Diagram alur ${escapeHtml(rootNode?.label ?? 'tutorial')}">
+				<div class="flowchart-root-row">
+					<div class="flowchart-node flowchart-root">
+						<span class="flowchart-node-id">${escapeHtml(root)}</span>
+						<span>${escapeHtml(rootNode?.label ?? root)}</span>
+					</div>
+				</div>
+				<div class="flowchart-branches" style="--flowchart-branch-count: ${branchIds.length}">${branchMarkup}</div>
+			</div>
+		`;
+	}
+
+
 	// Clean content HTML: format steps, callouts, and clean image wrappers with tight compact padding
 	function processContent(html: string): string {
 		if (!html) return '';
 
 		let processed = html;
+		processed = formatReferenceLinks(processed);
+
+		// Render the imported Mermaid subset as a visual tree instead of exposing its source syntax.
+		processed = processed.replace(
+			/<pre\b[^>]*>\s*<code\b[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi,
+			(match, codeContent) => {
+				if (!/^\s*flowchart\s+TD\b/i.test(codeContent)) return match;
+
+				const code = codeContent
+					.replace(/<\/?p\b[^>]*>/gi, '\n')
+					.replace(/[ \t]+\n/g, '\n')
+					.replace(/\n[ \t]*\n(?:[ \t]*\n)+/g, '\n\n')
+					.trim();
+
+				return renderFlowchart(code);
+			}
+		);
+
 
 		// 1. Format Alert callout boxes
 		processed = processed.replace(
@@ -30,7 +195,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
 				</div>
 				<div class="callout-body">
-					<span class="callout-tag">PERHATIAN KESELAMATAN</span>
+					<span class="callout-tag">${t('tutorial.detail.alert')}</span>
 					<p>$1</p>
 				</div>
 			</div>`
@@ -44,7 +209,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3a7 7 0 00-7 7c0 2.38 1.157 4.49 2.946 5.8.6.44.954 1.13.954 1.87V19a1 1 0 001 1h4a1 1 0 001-1v-1.33c0-.74.354-1.43.954-1.87A7.001 7.001 0 0019 10a7 7 0 00-7-7z"/></svg>
 				</div>
 				<div class="callout-body">
-					<span class="callout-tag">TIPS AMALAN BEST</span>
+					<span class="callout-tag">${t('tutorial.detail.tip')}</span>
 					<p>$1</p>
 				</div>
 			</div>`
@@ -92,6 +257,12 @@
 					</div>
 				`;
 			}
+		);
+
+		processed = processed.replace(
+			/<table\b[^>]*>[\s\S]*?<\/table>/gi,
+			(table) =>
+				`<div class="prose-table-scroll" role="region" aria-label="${t('tutorial.detail.table')}" tabindex="0">${table}</div>`
 		);
 
 		return processed;
@@ -243,12 +414,12 @@
 <header class="detail-hero">
 	<div class="wrap">
 		<!-- Breadcrumbs -->
-		<nav class="breadcrumbs" aria-label="Breadcrumb">
-			<a href="/">Utama</a>
+		<nav class="breadcrumbs" aria-label={t('tutorial.detail.contents')}>
+			<a href="/">{t('nav.main')}</a>
 			<svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M9 18l6-6-6-6" />
 			</svg>
-			<a href="/tutorials">Tutorials</a>
+			<a href="/tutorials">{t('nav.tutorials')}</a>
 			<svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M9 18l6-6-6-6" />
 			</svg>
@@ -265,7 +436,7 @@
 					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<path d="M19 12H5M12 19l-7-7 7-7" />
 					</svg>
-					<span>Kembali ke Senarai</span>
+					<span>{t('tutorial.detail.back')}</span>
 				</a>
 			</div>
 
@@ -278,7 +449,7 @@
 						<circle cx="12" cy="12" r="10" />
 						<polyline points="12 6 12 16 14" />
 					</svg>
-					<span>Masa Bacaan: <strong>{tutorial.duration}</strong></span>
+					<span>{t('tutorial.detail.readingTime')}: <strong>{tutorial.duration}</strong></span>
 				</div>
 
 				<div class="meta-item">
@@ -288,7 +459,7 @@
 						<line x1="8" y1="2" x2="8" y2="6" />
 						<line x1="3" y1="10" x2="21" y2="10" />
 					</svg>
-					<span>Tarikh Kemaskini: <strong>{tutorial.date}</strong></span>
+					<span>{t('tutorial.detail.updated')}: <strong>{tutorial.date}</strong></span>
 				</div>
 
 				<div class="meta-item">
@@ -296,7 +467,7 @@
 						<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
 						<circle cx="12" cy="7" r="4" />
 					</svg>
-					<span>Penulis: <strong>{tutorial.author}</strong></span>
+					<span>{t('tutorial.detail.author')}: <strong>{tutorial.author}</strong></span>
 				</div>
 			</div>
 		</div>
@@ -316,11 +487,11 @@
 					{#if tocHeadings.length > 0}
 						<div class="sidebar-card toc-card">
 							<div class="toc-header">
-								<span class="toc-eyebrow">NAVIGASI SEKSYEN</span>
-								<h3 class="toc-title">Kandungan Tutorial</h3>
+								<span class="toc-eyebrow">{t('tutorial.detail.navigation')}</span>
+								<h3 class="toc-title">{t('tutorial.detail.contents')}</h3>
 							</div>
 
-							<nav class="toc-nav-list" aria-label="Kandungan Tutorial">
+							<nav class="toc-nav-list" aria-label={t('tutorial.detail.contents')}>
 								{#each tocHeadings as item}
 									<a
 										href="#{item.id}"
@@ -338,7 +509,7 @@
 					<!-- Reading Progress Card -->
 					<div class="sidebar-card progress-card">
 						<div class="progress-header">
-							<span class="progress-label">PROGRESS BACAAN</span>
+							<span class="progress-label">{t('tutorial.detail.progress')}</span>
 							<span class="progress-percent">{readingProgress}%</span>
 						</div>
 						<div class="progress-track">
@@ -348,9 +519,9 @@
 
 					<!-- Quick Help Support Card -->
 					<div class="sidebar-card help-card">
-						<span class="help-tag">SOKONGAN TEKNIKAL</span>
-						<h4 class="help-title">Bantuan Live Setup</h4>
-						<p class="help-desc">Hubungi tim sokongan kami jika anda perlukan bantuan tetapan khas.</p>
+						<span class="help-tag">{t('tutorial.detail.supportTag')}</span>
+						<h4 class="help-title">{t('tutorial.detail.liveSetup')}</h4>
+						<p class="help-desc">{t('tutorial.detail.supportDesc')}</p>
 						<a
 							href="https://wa.me/628567892460?text=Hi%20saya%20nak%20tanya%20tentang%20tutorial%20{encodeURIComponent(tutorial.title)}"
 							target="_blank"
@@ -360,7 +531,7 @@
 							<svg viewBox="0 0 24 24" fill="currentColor">
 								<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.515"/>
 							</svg>
-							<span>Sembang WhatsApp</span>
+							<span>{t('tutorial.detail.chat')}</span>
 						</a>
 					</div>
 
@@ -379,23 +550,23 @@
 				<div class="nav-bottom-grid">
 					{#if prevTutorial}
 						<a href="/tutorials/{prevTutorial.slug}" class="nav-bottom-card prev">
-							<span class="nav-dir-label">← TUTORIAL SEBELUMNYA</span>
+							<span class="nav-dir-label">{t('tutorial.detail.previous')}</span>
 							<strong class="nav-item-title">{prevTutorial.title}</strong>
 						</a>
 					{:else}
 						<div class="nav-bottom-card disabled">
-							<span class="nav-dir-label">TUTORIAL PERTAMA</span>
+							<span class="nav-dir-label">{t('tutorial.detail.first')}</span>
 						</div>
 					{/if}
 
 					{#if nextTutorial}
 						<a href="/tutorials/{nextTutorial.slug}" class="nav-bottom-card next">
-							<span class="nav-dir-label">TUTORIAL SETERUSNYA →</span>
+							<span class="nav-dir-label">{t('tutorial.detail.next')}</span>
 							<strong class="nav-item-title">{nextTutorial.title}</strong>
 						</a>
 					{:else}
 						<div class="nav-bottom-card disabled">
-							<span class="nav-dir-label">TUTORIAL TERAKHIR</span>
+							<span class="nav-dir-label">{t('tutorial.detail.last')}</span>
 						</div>
 					{/if}
 				</div>
@@ -403,11 +574,8 @@
 				<!-- Support Banner -->
 				<div class="detail-support-banner">
 					<div class="support-banner-content">
-						<h3>Perlukan Sesi Panduan Live?</h3>
-						<p>
-							Jika anda perlukan demonstrasi skrin atau bantuan tetapan teknikal, tim sokongan Wajom
-							sedia membantu.
-						</p>
+						<h3>{t('tutorial.detail.liveTitle')}</h3>
+						<p>{t('tutorial.detail.liveDesc')}</p>
 					</div>
 					<a
 						href="https://wa.me/628567892460?text=Hi%20bantu%20saya%20dengan%20tutorial%20{encodeURIComponent(tutorial.title)}"
@@ -418,7 +586,7 @@
 						<svg viewBox="0 0 24 24" fill="currentColor">
 							<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.515"/>
 						</svg>
-						<span>Hubungi Sokongan WhatsApp</span>
+						<span>{t('tutorial.detail.contact')}</span>
 					</a>
 				</div>
 			</main>
@@ -677,11 +845,14 @@
 		padding: 8px 12px;
 		border-radius: var(--r-sm);
 		line-height: 1.4;
-		transition: all 0.15s ease;
+		transition:
+			color 0.15s ease,
+			background-color 0.15s ease,
+			box-shadow 0.15s ease;
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		border-left: 3px solid transparent;
+		border-left: 1px solid transparent;
 		text-decoration: none;
 	}
 
@@ -694,6 +865,9 @@
 		padding: 2px 7px;
 		border-radius: 4px;
 		flex-shrink: 0;
+		transition:
+			color 0.15s ease,
+			background-color 0.15s ease;
 	}
 
 	.toc-text {
@@ -706,11 +880,22 @@
 		background: var(--bg-3);
 	}
 
+	.toc-nav-item:focus-visible {
+		outline: 2px solid var(--emerald-2);
+		outline-offset: 2px;
+	}
+
 	.toc-nav-item.active {
-		color: var(--emerald-2);
-		background: var(--emerald-dim);
+		color: var(--ink);
+		background: rgba(78, 194, 148, 0.08);
 		border-left-color: var(--emerald-2);
+		box-shadow: inset 0 0 0 1px rgba(78, 194, 148, 0.12);
 		font-weight: 600;
+	}
+
+	.toc-nav-item.active .toc-num {
+		color: var(--bg);
+		background: var(--emerald-2);
 	}
 
 	/* Progress Box */
@@ -821,6 +1006,9 @@
 
 	/* Prose Content Typography & Spacing */
 	:global(.prose-content) {
+		width: 100%;
+		max-width: 76ch;
+		min-width: 0;
 		color: var(--ink);
 		font-size: 1.04rem;
 		line-height: 1.75;
@@ -870,6 +1058,224 @@
 	:global(.prose-content a:hover) {
 		color: var(--emerald);
 	}
+
+	:global(.prose-content a:focus-visible) {
+		outline: 2px solid var(--emerald-2);
+		outline-offset: 3px;
+		border-radius: 2px;
+	}
+
+	:global(.prose-content pre) {
+		max-width: 100%;
+		margin: 20px 0 26px;
+		padding: 18px 20px;
+		overflow: auto;
+		border: 1px solid var(--rule-2);
+		border-radius: var(--r-md);
+		background: var(--bg-3);
+		color: var(--ink);
+		font-family: var(--mono);
+		font-size: 0.82rem;
+		line-height: 1.65;
+		white-space: pre;
+		tab-size: 2;
+	}
+
+	:global(.prose-content pre code) {
+		color: inherit;
+		font: inherit;
+	}
+
+	:global(.prose-content .tutorial-flowchart) {
+		max-width: 100%;
+		margin: 26px 0 30px;
+		padding: 24px 20px 22px;
+		overflow-x: auto;
+		border: 1px solid var(--rule-2);
+		border-radius: var(--r-md);
+		background: var(--bg-3);
+		color: var(--ink);
+		-webkit-overflow-scrolling: touch;
+	}
+
+	:global(.flowchart-root-row) {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		min-width: 0;
+		padding-bottom: 30px;
+	}
+
+	:global(.flowchart-root-row::before) {
+		content: '';
+		position: absolute;
+		bottom: 1px;
+		left: calc(50% - 4px);
+		width: 8px;
+		height: 8px;
+		border-right: 1px solid var(--emerald-2);
+		border-bottom: 1px solid var(--emerald-2);
+		transform: rotate(45deg);
+	}
+
+	:global(.flowchart-root-row::after) {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+		width: 1px;
+		height: 22px;
+		background: var(--emerald-2);
+	}
+
+	:global(.flowchart-branches) {
+		position: relative;
+		display: grid;
+		grid-template-columns: repeat(var(--flowchart-branch-count), minmax(0, 1fr));
+		gap: 10px;
+		min-width: 0;
+		padding-top: 24px;
+	}
+
+	:global(.flowchart-branches::before) {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: calc(100% / (var(--flowchart-branch-count) * 2));
+		right: calc(100% / (var(--flowchart-branch-count) * 2));
+		height: 1px;
+		background: var(--rule-2);
+	}
+
+	:global(.flowchart-branch) {
+		position: relative;
+		min-width: 0;
+	}
+
+	:global(.flowchart-branch::before) {
+		content: '';
+		position: absolute;
+		top: -24px;
+		left: 50%;
+		width: 1px;
+		height: 24px;
+		background: var(--rule-2);
+	}
+
+	:global(.flowchart-node) {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+		min-height: 48px;
+		padding: 12px 13px;
+		border: 1px solid var(--rule-2);
+		border-radius: var(--r-sm);
+		background: var(--bg-2);
+		font-size: 0.82rem;
+		font-weight: 600;
+		line-height: 1.35;
+	}
+
+	:global(.flowchart-root) {
+		min-width: 190px;
+		border-color: rgba(78, 194, 148, 0.45);
+		background: rgba(78, 194, 148, 0.12);
+		color: var(--emerald-2);
+	}
+
+	:global(.flowchart-category) {
+		border-color: rgba(78, 194, 148, 0.28);
+		color: var(--ink);
+	}
+
+	:global(.flowchart-leaves) {
+		display: grid;
+		gap: 8px;
+		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid var(--rule);
+	}
+
+	:global(.flowchart-leaf) {
+		display: flex;
+		align-items: flex-start;
+		gap: 7px;
+		padding: 9px 10px;
+		border: 1px solid var(--rule);
+		border-radius: var(--r-sm);
+		background: rgba(10, 15, 13, 0.3);
+		color: var(--ink-2);
+		font-size: 0.76rem;
+		line-height: 1.4;
+	}
+
+	:global(.flowchart-node-id) {
+		flex: 0 0 auto;
+		color: var(--emerald-2);
+		font-family: var(--mono);
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+
+	@media (max-width: 640px) {
+		:global(.flowchart-root-row),
+		:global(.flowchart-branches) {
+			min-width: 680px;
+		}
+	}
+
+
+	:global(.prose-table-scroll) {
+		max-width: 100%;
+		margin: 26px 0;
+		overflow-x: auto;
+		border: 1px solid var(--rule-2);
+		border-radius: var(--r-sm);
+		background: var(--bg-3);
+		overscroll-behavior-inline: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	:global(.prose-table-scroll:focus-visible) {
+		outline: 2px solid var(--emerald-2);
+		outline-offset: 3px;
+	}
+
+	:global(.prose-table-scroll table) {
+		width: 100%;
+		min-width: 36rem;
+		border-collapse: collapse;
+		font-size: 0.9rem;
+		line-height: 1.55;
+	}
+
+	:global(.prose-table-scroll th),
+	:global(.prose-table-scroll td) {
+		padding: 12px 16px;
+		text-align: left;
+		vertical-align: top;
+		border-bottom: 1px solid var(--rule);
+	}
+
+	:global(.prose-table-scroll th) {
+		background: var(--bg-2);
+		color: var(--ink);
+		font-weight: 700;
+	}
+
+	:global(.prose-table-scroll td) {
+		color: var(--ink-2);
+	}
+
+	:global(.prose-table-scroll tbody tr:last-child td) {
+		border-bottom: 0;
+	}
+
+	:global(.prose-table-scroll tbody tr:nth-child(even) td) {
+		background: color-mix(in srgb, var(--bg-2) 55%, transparent);
+	}
+
 
 	:global(.prose-content ul),
 	:global(.prose-content ol) {

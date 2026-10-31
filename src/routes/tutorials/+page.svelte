@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { tutorials, type Tutorial } from '$lib/data/tutorials';
+	import { tutorials as tutorialsMs, type Tutorial } from '$lib/data/tutorials.ms';
+	import { tutorials as tutorialsEn } from '$lib/data/tutorials.en';
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-
+	import { locale, t } from '$lib/i18n.svelte';
 	let searchQuery = $state('');
 	let selectedCategory = $state('all');
 	let isVideoModalOpen = $state(false);
+	let tutorials = $derived(locale.current === 'en' ? tutorialsEn : tutorialsMs);
 
 	const categories = [
 		{ id: 'all', label: 'Semua Tutorial' },
@@ -20,13 +22,23 @@
 		{ id: 'Integration', label: 'Integration' }
 	];
 
-	// Filter tutorials dynamically based on search query & category selection
+	const categoryLabelsEn: Record<string, string> = {
+		all: 'All Tutorials',
+		'Asas': 'Basics',
+		'Warm Up': 'Warm Up',
+		'Plan': 'Plans',
+		'Campaign': 'Campaigns',
+		'Chat AI': 'Chat AI',
+		'Agent AI': 'Agent AI',
+		'Tools & Extensions': 'Tools & Extensions',
+		'Data Management': 'Data Management',
+		'Integration': 'Integrations'
+	};
+
 	let filteredTutorials = $derived(
 		tutorials.filter((item) => {
-			const matchesCategory =
-				selectedCategory === 'all' ||
-				item.category.toLowerCase() === selectedCategory.toLowerCase();
-
+			const category = locale.current === 'en' ? categoryLabelsEn[selectedCategory] ?? selectedCategory : selectedCategory;
+			const matchesCategory = selectedCategory === 'all' || item.category.toLowerCase() === category.toLowerCase();
 			const q = searchQuery.trim().toLowerCase();
 			const matchesQuery =
 				!q ||
@@ -40,8 +52,9 @@
 	);
 
 	function getCategoryCount(catId: string): number {
+		const category = locale.current === 'en' ? categoryLabelsEn[catId] ?? catId : catId;
 		if (catId === 'all') return tutorials.length;
-		return tutorials.filter((t) => t.category.toLowerCase() === catId.toLowerCase()).length;
+		return tutorials.filter((tutorial) => tutorial.category.toLowerCase() === category.toLowerCase()).length;
 	}
 
 	const tutorialsJsonLd = {
@@ -68,13 +81,10 @@
 <section class="page-hero">
 	<div class="wrap" style="text-align: center;">
 		<div class="eyebrow-container">
-			<span class="eyebrow-tag">DOKUMENTASI &amp; PANDUAN RASMI</span>
+			<span class="eyebrow-tag">{t('tutorials.eyebrow')}</span>
 		</div>
-		<h1>Pusat Tutorial <em>Penggunaan Wajom</em></h1>
-		<p class="sub">
-			Panduan langkah-demi-langkah dari persediaan akaun pertama, pautan nombor WhatsApp,
-			automasi Chat AI, hingga teknik duplikasi fail JSON 1-klik ke seluruh pasukan anda.
-		</p>
+		<h1>{t('tutorials.title')}</h1>
+		<p class="sub">{t('tutorials.sub')}</p>
 
 		<div class="hero-actions">
 			<button
@@ -85,7 +95,7 @@
 				<svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
 					<path d="M8 5v14l11-7z" />
 				</svg>
-				<span>Tonton Video Live Zoom Tutorial</span>
+				<span>{t('tutorials.watch')}</span>
 			</button>
 		</div>
 	</div>
@@ -112,15 +122,15 @@
 				<input
 					type="text"
 					bind:value={searchQuery}
-					placeholder="Cari tutorial mengikut kata kunci (contoh: Warm Up, Chat AI, QR Code, CSV)..."
-					aria-label="Cari tutorial"
+					placeholder={t('tutorials.searchPlaceholder')}
+					aria-label={t('tutorials.searchLabel')}
 				/>
 				{#if searchQuery}
 					<button
 						type="button"
 						class="clear-btn"
 						onclick={() => (searchQuery = '')}
-						aria-label="Padam carian"
+						aria-label={t('tutorials.clear')}
 					>
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<path d="M18 6L6 18M6 6l12 12" />
@@ -130,7 +140,7 @@
 			</div>
 
 			<!-- Category Filter Pills -->
-			<div class="category-pills" role="tablist" aria-label="Kategori Tutorial">
+			<div class="category-pills" role="tablist" aria-label={t('tutorials.categoryLabel')}>
 				{#each categories as cat}
 					{@const count = getCategoryCount(cat.id)}
 					<button
@@ -140,7 +150,7 @@
 						class="cat-pill {selectedCategory === cat.id ? 'active' : ''}"
 						onclick={() => (selectedCategory = cat.id)}
 					>
-						<span>{cat.label}</span>
+						<span>{locale.current === 'en' ? categoryLabelsEn[cat.id] : cat.label}</span>
 						<span class="count-badge">{count}</span>
 					</button>
 				{/each}
@@ -155,7 +165,7 @@
 		<div class="grid-status-bar">
 			<span class="status-indicator"></span>
 			<p class="results-text">
-				Menunjukkan <strong>{filteredTutorials.length}</strong> daripada {tutorials.length} tutorial
+				{t('tutorials.results')} <strong>{filteredTutorials.length}</strong> {t('tutorials.of')} {tutorials.length} {t('tutorials.items')}
 			</p>
 		</div>
 
@@ -168,10 +178,9 @@
 						<path d="M8 11h6" />
 					</svg>
 				</div>
-				<h3>Tiada Tutorial Dijumpai</h3>
+				<h3>{t('tutorials.emptyTitle')}</h3>
 				<p>
-					Tiada padanan untuk carian "<strong>{searchQuery}</strong>". Cuba kata kunci yang lain atau
-					pilih kategori semula.
+					{t('tutorials.emptyText')} "<strong>{searchQuery}</strong>"
 				</p>
 				<button
 					type="button"
@@ -181,7 +190,7 @@
 						selectedCategory = 'all';
 					}}
 				>
-					Tunjukkan Semua Tutorial
+					{t('tutorials.showAll')}
 				</button>
 			</div>
 		{:else}
@@ -228,8 +237,8 @@
 								</div>
 							</div>
 
-							<a href="/tutorials/{item.slug}" class="read-btn" aria-label="Baca tutorial {item.title}">
-								<span>Baca Tutorial</span>
+							<a href="/tutorials/{item.slug}" class="read-btn" aria-label={`${t('tutorials.read')} ${item.title}`}>
+								<span>{t('tutorials.read')}</span>
 								<svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<path d="M5 12h14M12 5l7 7-7 7" />
 								</svg>
@@ -247,12 +256,9 @@
 	<div class="wrap">
 		<div class="support-card">
 			<div class="support-content">
-				<span class="support-tag">SOKONGAN LANGSUNG</span>
-				<h2>Perlukan Bantuan Peribadi Setup Wajom?</h2>
-				<p>
-					Jika anda perlukan bantuan teknikal tambahan, pertanyaan integrasi khas, atau ingin sesi
-					panduan langsung bersama tim sokongan Wajom, hubungi kami menerusi WhatsApp.
-				</p>
+				<span class="support-tag">{t('tutorials.supportTag')}</span>
+				<h2>{t('tutorials.supportTitle')}</h2>
+				<p>{t('tutorials.supportSub')}</p>
 			</div>
 			<a
 				href="https://wa.me/628567892460?text=Hi%20saya%20perlukan%20bantuan%20tutorial%20Wajom"

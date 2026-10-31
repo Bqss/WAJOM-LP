@@ -1,7 +1,7 @@
 <script lang="ts">
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
-
+	import { t } from '$lib/i18n.svelte';
 	let isVideoModalOpen = $state(false);
 	let copiedJson = $state(false);
 
@@ -48,19 +48,16 @@
 <!-- Hero Section -->
 <section class="page-hero">
 	<div class="wrap" style="text-align: center;">
-		<span class="badge-tag">Pusat Bimbingan &amp; Dokumentasi</span>
-		<h1>Panduan Lengkap <em>Penggunaan Wajom</em></h1>
-		<p class="sub" style="margin: 0 auto 32px;">
-			Ketahui cara mengkonfigurasi akaun Wajom anda dalam masa 15 minit. Daripada pautan nombor
-			WhatsApp sehingga duplikasi 1-klik ke seluruh anak team.
-		</p>
+		<span class="badge-tag">{t('tutorial.eyebrow')}</span>
+		<h1>{t('tutorial.title')}</h1>
+		<p class="sub" style="margin: 0 auto 32px;">{t('tutorial.sub')}</p>
 
 		<button
 			class="cta-primary"
 			type="button"
 			onclick={() => (isVideoModalOpen = true)}
 		>
-			🎬 Tonton Video Tutorial Rasmi (Zoom Live)
+			{t('tutorial.watch')}
 		</button>
 	</div>
 </section>
@@ -71,10 +68,8 @@
 <section style="padding: 60px 0 80px;">
 	<div class="wrap">
 		<div style="text-align: center; margin-bottom: 48px;">
-			<h2 class="sec-title">4 Langkah Mudah <em>Mula Beroperasi</em></h2>
-			<p class="sec-desc" style="margin: 0 auto;">
-				Ikuti langkah-langkah praktikal di bawah untuk mengautomasikan jualan anda hari ini.
-			</p>
+			<h2 class="sec-title">{t('tutorial.stepsTitle')}</h2>
+			<p class="sec-desc" style="margin: 0 auto;">{t('tutorial.stepsSub')}</p>
 		</div>
 
 		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
@@ -85,11 +80,10 @@
 					01
 				</div>
 				<h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 0 0 10px; color: var(--ink);">
-					Daftar &amp; Link WhatsApp
+					{t('tutorial.step1.title')}
 				</h3>
 				<p style="font-size: 0.9rem; color: var(--ink-2); line-height: 1.6; margin: 0;">
-					Log masuk ke dashboard portal Wajom, imbas Kod QR menggunakan aplikasi WhatsApp Business
-					anda untuk menghubungkan peranti pertama.
+					{t('tutorial.step1.body')}
 				</p>
 			</div>
 
@@ -99,11 +93,10 @@
 					02
 				</div>
 				<h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 0 0 10px; color: var(--ink);">
-					Bina Kempen Evergreen
+					{t('tutorial.step2.title')}
 				</h3>
 				<p style="font-size: 0.9rem; color: var(--ink-2); line-height: 1.6; margin: 0;">
-					Cipta urutan mesej susulan (Hari 1, Hari 3, Hari 7). Tetapkan sasaran ke prospek individu
-					atau terus ke WhatsApp Group pasukan anda.
+					{t('tutorial.step2.body')}
 				</p>
 			</div>
 
@@ -113,11 +106,10 @@
 					03
 				</div>
 				<h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 0 0 10px; color: var(--ink);">
-					Latih Customer Service AI
+					{t('tutorial.step3.title')}
 				</h3>
 				<p style="font-size: 0.9rem; color: var(--ink-2); line-height: 1.6; margin: 0;">
-					Masukkan maklumat produk &amp; jawapan objection biasa. AI akan automatik membalas mesej
-					prospek dengan gaya perbualan Top Leader.
+					{t('tutorial.step3.body')}
 				</p>
 			</div>
 
@@ -127,11 +119,10 @@
 					04
 				</div>
 				<h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 0 0 10px; color: var(--ink);">
-					Export &amp; Duplikasi (Share Owner)
+					{t('tutorial.step4.title')}
 				</h3>
 				<p style="font-size: 0.9rem; color: var(--ink-2); line-height: 1.6; margin: 0;">
-					Eksport fail JSON tetapan kempen anda. Hantar fail ini dalam WhatsApp Group team untuk
-					diimport oleh anak team dalam 1-klik.
+					{t('tutorial.step4.body')}
 				</p>
 			</div>
 
@@ -145,9 +136,9 @@
 		<div style="background: var(--bg-2); border: 1px solid var(--rule-2); border-radius: 24px; padding: clamp(24px, 4vw, 40px);">
 			<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px;">
 				<div>
-					<span class="mod-tag">CONTOH FAIL JSON DUPLIKASI</span>
+					<span class="mod-tag">{t('tutorial.jsonTag')}</span>
 					<h3 style="font-family: var(--serif); font-size: 1.5rem; margin: 4px 0 0; color: var(--ink);">
-						Struktur Fail Duplikasi Pasukan (Share Owner)
+						{t('tutorial.jsonTitle')}
 					</h3>
 				</div>
 				<button
@@ -155,7 +146,7 @@
 					onclick={copyJson}
 					style="background: var(--bg-3); border: 1px solid var(--rule-2); color: var(--emerald-2); font-family: var(--mono); font-size: 0.8rem; padding: 8px 16px; border-radius: 8px; cursor: pointer;"
 				>
-					{copiedJson ? '✓ DISALIN!' : '📋 SALIN CONTOH JSON'}
+					{copiedJson ? t('tutorial.copied') : t('tutorial.copy')}
 				</button>
 			</div>
 

@@ -1,1 +1,6 @@
-export { tutorials, type Tutorial } from './tutorials';
+export {
+	tutorialsMy as tutorials,
+	type Tutorial,
+	getTutorials,
+	getTutorialBySlug
+} from './tutorialLoader';

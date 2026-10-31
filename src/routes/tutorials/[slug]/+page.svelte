@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import { locale, t } from '$lib/i18n.svelte';
 	import { tutorials as tutorialsEn } from '$lib/data/tutorials.en';
@@ -17,258 +17,24 @@
 			? tutorialsEn.find((item) => item.slug === data.nextTutorial?.slug) ?? data.nextTutorial
 			: data.nextTutorial
 	);
-
+	let formattedContent = $derived(tutorial.contentHtml);
 	let readingProgress = $state(0);
 	let activeHeadingId = $state('');
-	let tocHeadings = $state<{ id: string; text: string; num: string }[]>([]);
+
+	function extractHeadings(html: string) {
+		const matches = [...html.matchAll(/<h2(?:\s+id="([^"]+)")?[^>]*>([\s\S]*?)<\/h2>/gi)];
+		return matches.map((m, idx) => {
+			const id = m[1] || `section-${idx + 1}`;
+			let text = m[2].replace(/<[^>]+>/g, '').trim();
+			text = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
+			const numStr = (idx + 1) < 10 ? `0${idx + 1}` : `${idx + 1}`;
+			return { id, text, num: numStr };
+		});
+	}
+
+	let tocHeadings = $derived(extractHeadings(formattedContent));
 	let zoomedImageSrc = $state<string | null>(null);
-
 	let articleContainer: HTMLElement | null = $state(null);
-
-	const tutorialReferencePaths: Record<string, string> = {
-		'/agent-ai/cara-menetapkan-gaya-sembang':
-			'/tutorials/cara-mengatur-persona-gaya-chat-agent-ai',
-		'/agent-ai/cara-menetapkan-knowledge': '/tutorials/cara-mengatur-knowledge-agent-ai',
-		'/agent-ai/playground': '/tutorials/simulasi-playground-agent-ai',
-		'/agent-ai/cara-mengaktifkan': '/tutorials/cara-mengaktifkan-agent-ai'
-	};
-
-	function escapeHtml(value: string): string {
-		return value
-			.replace(/&/g, '&amp;')
-			.replace(/</g, '&lt;')
-			.replace(/>/g, '&gt;')
-			.replace(/"/g, '&quot;');
-	}
-
-	function resolveReferenceHref(rawHref: string): string | null {
-		if (rawHref.startsWith('//')) return null;
-
-		if (rawHref.startsWith('/')) {
-			try {
-				const url = new URL(rawHref, 'https://wajom.co');
-				if (url.origin !== 'https://wajom.co') return null;
-				const path = tutorialReferencePaths[url.pathname] ?? url.pathname;
-				return `${path}${url.search}${url.hash}`;
-			} catch {
-				return null;
-			}
-		}
-
-		return /^https?:\/\//i.test(rawHref) ? rawHref : null;
-	}
-
-	function formatReferenceLinks(html: string): string {
-		const codeBlocks: string[] = [];
-		const withoutCode = html.replace(/<pre\b[\s\S]*?<\/pre>|<code\b[\s\S]*?<\/code>/gi, (block) => {
-			const index = codeBlocks.push(block) - 1;
-			return `\u0000${index}\u0000`;
-		});
-
-		const linked = withoutCode.replace(/(^|>)([^<>]+)(?=<|$)/g, (match, boundary, text) => {
-			const formattedText = text.replace(
-				/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/gi,
-				(markdown: string, label: string, rawHref: string) => {
-					const href = resolveReferenceHref(rawHref);
-					if (!href) return markdown;
-					return `<a href="${escapeHtml(href)}">${escapeHtml(label)}</a>`;
-				}
-			);
-			return `${boundary}${formattedText}`;
-		});
-
-		return linked.replace(/\u0000(\d+)\u0000/g, (match, index) => codeBlocks[Number(index)] ?? match);
-	}
-
-	type FlowchartNode = {
-		id: string;
-		label: string;
-	};
-
-	function renderFlowchart(source: string): string {
-		const cleanSource = source
-			.replace(/<\/?p\b[^>]*>/gi, '\n')
-			.replace(/&amp;/g, '&')
-			.trim();
-		const nodes = new Map<string, FlowchartNode>();
-		const edges: { from: string; to: string }[] = [];
-
-		for (const match of cleanSource.matchAll(/\b([A-Za-z]\w*)\s*\[([^\]]+)\]/g)) {
-			nodes.set(match[1], { id: match[1], label: match[2].trim() });
-		}
-
-		for (const line of cleanSource.split(/\r?\n/)) {
-			const edge = line.match(
-				/^\s*([A-Za-z]\w*)(?:\s*\[[^\]]+\])?\s*(?:-->|→)\s*([A-Za-z]\w*)/
-			);
-			if (edge) edges.push({ from: edge[1], to: edge[2] });
-		}
-
-		if (!nodes.size || !edges.length) {
-			return `<pre class="tutorial-flowchart"><code>${escapeHtml(source.trim())}</code></pre>`;
-		}
-
-		const children = new Map<string, string[]>();
-		for (const edge of edges) {
-			const list = children.get(edge.from) ?? [];
-			if (!list.includes(edge.to)) list.push(edge.to);
-			children.set(edge.from, list);
-		}
-
-		const targetIds = new Set(edges.map((edge) => edge.to));
-		const root = [...nodes.keys()].find((id) => !targetIds.has(id)) ?? [...nodes.keys()][0];
-		const branchIds = children.get(root) ?? [];
-		const branchMarkup = branchIds
-			.map((branchId) => {
-				const branch = nodes.get(branchId);
-				if (!branch) return '';
-
-				const leafMarkup = (children.get(branchId) ?? [])
-					.map((leafId) => {
-						const leaf = nodes.get(leafId);
-						return leaf
-							? `<div class="flowchart-leaf"><span class="flowchart-node-id">${escapeHtml(leaf.id)}</span><span>${escapeHtml(leaf.label)}</span></div>`
-							: '';
-					})
-					.join('');
-
-				return `
-					<section class="flowchart-branch">
-						<div class="flowchart-node flowchart-category">
-							<span class="flowchart-node-id">${escapeHtml(branch.id)}</span>
-							<span>${escapeHtml(branch.label)}</span>
-						</div>
-						${leafMarkup ? `<div class="flowchart-leaves">${leafMarkup}</div>` : ''}
-					</section>
-				`;
-			})
-			.join('');
-
-		if (!branchMarkup) {
-			return `<pre class="tutorial-flowchart"><code>${escapeHtml(source.trim())}</code></pre>`;
-		}
-
-		const rootNode = nodes.get(root);
-		return `
-			<div class="tutorial-flowchart" role="group" aria-label="Diagram alur ${escapeHtml(rootNode?.label ?? 'tutorial')}">
-				<div class="flowchart-root-row">
-					<div class="flowchart-node flowchart-root">
-						<span class="flowchart-node-id">${escapeHtml(root)}</span>
-						<span>${escapeHtml(rootNode?.label ?? root)}</span>
-					</div>
-				</div>
-				<div class="flowchart-branches" style="--flowchart-branch-count: ${branchIds.length}">${branchMarkup}</div>
-			</div>
-		`;
-	}
-
-
-	// Clean content HTML: format steps, callouts, and clean image wrappers with tight compact padding
-	function processContent(html: string): string {
-		if (!html) return '';
-
-		let processed = html;
-		processed = formatReferenceLinks(processed);
-
-		// Render the imported Mermaid subset as a visual tree instead of exposing its source syntax.
-		processed = processed.replace(
-			/<pre\b[^>]*>\s*<code\b[^>]*>([\s\S]*?)<\/code>\s*<\/pre>/gi,
-			(match, codeContent) => {
-				if (!/^\s*flowchart\s+TD\b/i.test(codeContent)) return match;
-
-				const code = codeContent
-					.replace(/<\/?p\b[^>]*>/gi, '\n')
-					.replace(/[ \t]+\n/g, '\n')
-					.replace(/\n[ \t]*\n(?:[ \t]*\n)+/g, '\n\n')
-					.trim();
-
-				return renderFlowchart(code);
-			}
-		);
-
-
-		// 1. Format Alert callout boxes
-		processed = processed.replace(
-			/<p>(?:<strong>)?Alert:?(?:<\/strong>)?\s*(.*?)<\/p>/gi,
-			`<div class="callout-box callout-alert">
-				<div class="callout-icon">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-				</div>
-				<div class="callout-body">
-					<span class="callout-tag">${t('tutorial.detail.alert')}</span>
-					<p>$1</p>
-				</div>
-			</div>`
-		);
-
-		// 2. Format Tip callout boxes
-		processed = processed.replace(
-			/<p>(?:<strong>)?Tips?:?(?:<\/strong>)?\s*(.*?)<\/p>/gi,
-			`<div class="callout-box callout-tip">
-				<div class="callout-icon">
-					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3a7 7 0 00-7 7c0 2.38 1.157 4.49 2.946 5.8.6.44.954 1.13.954 1.87V19a1 1 0 001 1h4a1 1 0 001-1v-1.33c0-.74.354-1.43.954-1.87A7.001 7.001 0 0019 10a7 7 0 00-7-7z"/></svg>
-				</div>
-				<div class="callout-body">
-					<span class="callout-tag">${t('tutorial.detail.tip')}</span>
-					<p>$1</p>
-				</div>
-			</div>`
-		);
-
-		// 3. Format numbered steps "<p>1. Text</p>", pairing optional subtext and screenshot cleanly
-		processed = processed.replace(
-			/<p>(\d+)\.\s*([\s\S]*?)<\/p>(?:\s*<p>(?!<img|Alert|Tips|<strong>)(.*?)<\/p>)?(?:\s*<p>(<img[^>]+>)<\/p>)?/gi,
-			(match, numStr, textContent, subText, imgTag) => {
-				const num = parseInt(numStr, 10);
-				const formattedNum = num < 10 ? `0${num}` : `${num}`;
-
-				let subTextBlock = subText ? `<p class="step-subtext">${subText}</p>` : '';
-				let imageWrapper = '';
-				if (imgTag) {
-					// Mark image with step-img class to prevent double wrapping in step 4
-					const styledImg = imgTag.replace('<img ', '<img class="step-img" ');
-					imageWrapper = `<div class="doc-img-wrapper">${styledImg}</div>`;
-				}
-
-				const hasBody = subTextBlock || imageWrapper;
-
-				return `
-					<div class="step-unit" id="step-${num}">
-						<div class="step-unit-header">
-							<span class="step-num-badge">${formattedNum}</span>
-							<h3 class="step-title-text">${textContent}</h3>
-						</div>
-						${hasBody ? `<div class="step-unit-body">${subTextBlock}${imageWrapper}</div>` : ''}
-					</div>
-				`;
-			}
-		);
-
-		// 4. Wrap any remaining standalone images (not processed in step 3) into doc-img-wrapper ONCE
-		processed = processed.replace(
-			/(?:<p>)?(<img(?![^>]*class="step-img")[^>]+>)(?:<\/p>)?/gi,
-			(match, imgTag) => {
-				const styledImg = imgTag.replace('<img ', '<img class="step-img" ');
-				return `
-					<div class="standalone-img-block">
-						<div class="doc-img-wrapper">
-							${styledImg}
-						</div>
-					</div>
-				`;
-			}
-		);
-
-		processed = processed.replace(
-			/<table\b[^>]*>[\s\S]*?<\/table>/gi,
-			(table) =>
-				`<div class="prose-table-scroll" role="region" aria-label="${t('tutorial.detail.table')}" tabindex="0">${table}</div>`
-		);
-
-		return processed;
-	}
-
-	let formattedContent = $derived(processContent(tutorial.contentHtml));
 
 	function handleScroll() {
 		if (!articleContainer) return;
@@ -297,28 +63,7 @@
 
 	onMount(() => {
 		if (articleContainer) {
-			// Extract clean H2 section headings for Table of Contents
-			const h2Elements = articleContainer.querySelectorAll('h2');
-			const list: { id: string; text: string; num: string }[] = [];
-
-			h2Elements.forEach((h2, idx) => {
-				if (!h2.id) {
-					h2.id = `section-${idx + 1}`;
-				}
-				// Clean any residual emojis or stickers from heading text
-				let text = h2.textContent || '';
-				text = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu, '').trim();
-
-				const numStr = (idx + 1) < 10 ? `0${idx + 1}` : `${idx + 1}`;
-
-				list.push({
-					id: h2.id,
-					text,
-					num: numStr
-				});
-			});
-
-			tocHeadings = list;
+			// Headings are precomputed in tocHeadings
 
 			// Add click listener to images for Lightbox modal zoom
 			const images = articleContainer.querySelectorAll('img');
@@ -333,9 +78,95 @@
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll();
 
+		const themeObserver = new MutationObserver(() => {
+			renderMermaidDiagrams();
+		});
+		themeObserver.observe(document.documentElement, {
+			attributes: true,
+			attributeFilter: ['data-theme']
+		});
+
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
+			themeObserver.disconnect();
 		};
+	});
+	async function renderMermaidDiagrams() {
+		if (!articleContainer) return;
+		const elements = articleContainer.querySelectorAll<HTMLElement>('.mermaid');
+		if (elements.length === 0) return;
+
+		try {
+			const { default: mermaid } = await import('mermaid');
+			const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+
+			mermaid.initialize({
+				startOnLoad: false,
+				theme: isLight ? 'default' : 'dark',
+				securityLevel: 'loose',
+				themeVariables: isLight
+					? {
+							darkMode: false,
+							background: '#ffffff',
+							mainBkg: '#ffffff',
+							primaryColor: '#ecfdf5',
+							primaryTextColor: '#064e3b',
+							primaryBorderColor: '#059669',
+							lineColor: '#059669',
+							secondaryColor: '#f1f5f9',
+							tertiaryColor: '#ffffff',
+							nodeBorder: '#059669',
+							clusterBkg: '#f8fafc',
+							clusterBorder: '#cbd5e1',
+							titleColor: '#0f172a',
+							edgeLabelBackground: '#ffffff'
+						}
+					: {
+							darkMode: true,
+							background: '#0a0f0d',
+							mainBkg: '#141c19',
+							primaryColor: '#141c19',
+							primaryTextColor: '#f5f1e8',
+							primaryBorderColor: '#379F76',
+							lineColor: '#4ec294',
+							secondaryColor: '#0f1614',
+							tertiaryColor: '#0a0f0d',
+							nodeBorder: '#379F76',
+							clusterBkg: '#0f1614',
+							clusterBorder: '#2a3832',
+							titleColor: '#f5f1e8',
+							edgeLabelBackground: '#141c19'
+						},
+				fontFamily: '"Hanken Grotesk Variable", "Hanken Grotesk", sans-serif'
+			});
+
+			for (let i = 0; i < elements.length; i++) {
+				const el = elements[i];
+				let code = el.getAttribute('data-mermaid-src');
+				if (!code) {
+					code = (el.textContent || '').trim();
+					el.setAttribute('data-mermaid-src', code);
+				}
+				const id = `mermaid-svg-${Date.now()}-${i}`;
+				try {
+					const { svg } = await mermaid.render(id, code);
+					el.innerHTML = svg;
+					el.setAttribute('data-processed', 'true');
+				} catch (err) {
+					console.error('Mermaid render error:', err);
+				}
+			}
+		} catch (err) {
+			console.error('Failed to import/run mermaid:', err);
+		}
+	}
+
+	$effect(() => {
+		if (formattedContent && articleContainer) {
+			tick().then(() => {
+				renderMermaidDiagrams();
+			});
+		}
 	});
 
 	function scrollToHeading(id: string, e: Event) {
@@ -1086,145 +917,30 @@
 		font: inherit;
 	}
 
-	:global(.prose-content .tutorial-flowchart) {
+	:global(.prose-content .mermaid-container) {
 		max-width: 100%;
 		margin: 26px 0 30px;
-		padding: 24px 20px 22px;
+		padding: 24px 20px;
 		overflow-x: auto;
 		border: 1px solid var(--rule-2);
 		border-radius: var(--r-md);
-		background: var(--bg-3);
-		color: var(--ink);
+		background: var(--bg-2);
 		-webkit-overflow-scrolling: touch;
+		display: flex;
+		justify-content: flex-start;
 	}
 
-	:global(.flowchart-root-row) {
-		position: relative;
+	:global(.prose-content .mermaid) {
 		display: flex;
 		justify-content: center;
-		min-width: 0;
-		padding-bottom: 30px;
+		min-width: 100%;
+		width: max-content;
 	}
 
-	:global(.flowchart-root-row::before) {
-		content: '';
-		position: absolute;
-		bottom: 1px;
-		left: calc(50% - 4px);
-		width: 8px;
-		height: 8px;
-		border-right: 1px solid var(--emerald-2);
-		border-bottom: 1px solid var(--emerald-2);
-		transform: rotate(45deg);
+	:global(.prose-content .mermaid svg) {
+		max-width: none !important;
+		height: auto;
 	}
-
-	:global(.flowchart-root-row::after) {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		width: 1px;
-		height: 22px;
-		background: var(--emerald-2);
-	}
-
-	:global(.flowchart-branches) {
-		position: relative;
-		display: grid;
-		grid-template-columns: repeat(var(--flowchart-branch-count), minmax(0, 1fr));
-		gap: 10px;
-		min-width: 0;
-		padding-top: 24px;
-	}
-
-	:global(.flowchart-branches::before) {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: calc(100% / (var(--flowchart-branch-count) * 2));
-		right: calc(100% / (var(--flowchart-branch-count) * 2));
-		height: 1px;
-		background: var(--rule-2);
-	}
-
-	:global(.flowchart-branch) {
-		position: relative;
-		min-width: 0;
-	}
-
-	:global(.flowchart-branch::before) {
-		content: '';
-		position: absolute;
-		top: -24px;
-		left: 50%;
-		width: 1px;
-		height: 24px;
-		background: var(--rule-2);
-	}
-
-	:global(.flowchart-node) {
-		display: flex;
-		align-items: flex-start;
-		gap: 8px;
-		min-height: 48px;
-		padding: 12px 13px;
-		border: 1px solid var(--rule-2);
-		border-radius: var(--r-sm);
-		background: var(--bg-2);
-		font-size: 0.82rem;
-		font-weight: 600;
-		line-height: 1.35;
-	}
-
-	:global(.flowchart-root) {
-		min-width: 190px;
-		border-color: rgba(78, 194, 148, 0.45);
-		background: rgba(78, 194, 148, 0.12);
-		color: var(--emerald-2);
-	}
-
-	:global(.flowchart-category) {
-		border-color: rgba(78, 194, 148, 0.28);
-		color: var(--ink);
-	}
-
-	:global(.flowchart-leaves) {
-		display: grid;
-		gap: 8px;
-		margin-top: 10px;
-		padding-top: 10px;
-		border-top: 1px solid var(--rule);
-	}
-
-	:global(.flowchart-leaf) {
-		display: flex;
-		align-items: flex-start;
-		gap: 7px;
-		padding: 9px 10px;
-		border: 1px solid var(--rule);
-		border-radius: var(--r-sm);
-		background: rgba(10, 15, 13, 0.3);
-		color: var(--ink-2);
-		font-size: 0.76rem;
-		line-height: 1.4;
-	}
-
-	:global(.flowchart-node-id) {
-		flex: 0 0 auto;
-		color: var(--emerald-2);
-		font-family: var(--mono);
-		font-size: 0.68rem;
-		font-weight: 700;
-		letter-spacing: 0.04em;
-	}
-
-	@media (max-width: 640px) {
-		:global(.flowchart-root-row),
-		:global(.flowchart-branches) {
-			min-width: 680px;
-		}
-	}
-
 
 	:global(.prose-table-scroll) {
 		max-width: 100%;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-
+	import { t } from '$lib/i18n.svelte';
 	function scrollToSection(selector: string, e?: Event) {
 		if (e) e.preventDefault();
 		if ($page.url.pathname !== '/') {
@@ -24,9 +24,7 @@
 					<img src="/logo.png" alt="Wajom Logo" class="footer-logo" />
 					<span class="footer-brand-name">Wajom!</span>
 				</a>
-				<p class="footer-description">
-					Platform automasi & pemasaran WhatsApp terkemuka di Malaysia. Permudahkan komunikasi dan perkasakan jualan perniagaan anda.
-				</p>
+				<p class="footer-description">{t('footer.description')}</p>
 				<div class="footer-company-details">
 					<span class="company-name">RAED LAB SDN. BHD.</span>
 					<span class="company-reg">202501036581 (1637991-U)</span>
@@ -38,22 +36,22 @@
 
 			<!-- Column 2: Quick Links -->
 			<div class="footer-col col-links">
-				<h3 class="footer-title">Pautan Pantas</h3>
+				<h3 class="footer-title">{t('footer.quickLinks')}</h3>
 				<ul class="footer-nav">
-					<li><a href="/">Utama</a></li>
-					<li><a href="/features">Ciri-ciri</a></li>
-					<li><a href="/pricing">Harga</a></li>
-					<li><a href="/course">Kursus</a></li>
-					<li><a href="/tutorials">Tutorial</a></li>
-					<li><a href="/about">Mengenai Kami</a></li>
-					<li><a href="/#testimoni" onclick={(e) => scrollToSection('#testimoni', e)}>Testimoni</a></li>
-					<li><a href="/#faq" onclick={(e) => scrollToSection('#faq', e)}>FAQ</a></li>
+					<li><a href="/">{t('nav.main')}</a></li>
+					<li><a href="/features">{t('nav.features')}</a></li>
+					<li><a href="/pricing">{t('nav.pricing')}</a></li>
+					<li><a href="/course">{t('nav.course')}</a></li>
+					<li><a href="/tutorials">{t('nav.tutorials')}</a></li>
+					<li><a href="/about">{t('nav.about')}</a></li>
+					<li><a href="/#testimoni" onclick={(e) => scrollToSection('#testimoni', e)}>{t('nav.testimonials')}</a></li>
+					<li><a href="/#faq" onclick={(e) => scrollToSection('#faq', e)}>{t('nav.faq')}</a></li>
 				</ul>
 			</div>
 
 			<!-- Column 3: Legal & Services -->
 			<div class="footer-col col-legal">
-				<h3 class="footer-title">Polisi & Terma</h3>
+				<h3 class="footer-title">{t('footer.policies')}</h3>
 				<ul class="footer-nav-vertical">
 					<li><a href="/privacy-policy">Polisi Privasi</a></li>
 					<li><a href="/term-of-service">Terma Perkhidmatan</a></li>
@@ -64,7 +62,7 @@
 
 			<!-- Column 4: Contacts -->
 			<div class="footer-col col-contacts">
-				<h3 class="footer-title">Hubungi Kami</h3>
+				<h3 class="footer-title">{t('footer.contact')}</h3>
 				<ul class="footer-contact-info">
 					<li>
 						<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -92,7 +90,7 @@
 					<svg class="wa-btn-icon" viewBox="0 0 24 24" fill="currentColor">
 						<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
 					</svg>
-					Sembang di WhatsApp
+					{t('footer.whatsapp')}
 				</a>
 			</div>
 		</div>

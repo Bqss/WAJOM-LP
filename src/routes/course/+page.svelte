@@ -121,8 +121,8 @@
 			};
 		}
 	});
-	// Countdown target: Sabtu, 31 Oktober 2026, 8:30 PM MYT
-	const TARGET_DATE = new Date('2026-10-31T20:30:00+08:00');
+	// Countdown target: Course 4 session start
+	const TARGET_DATE = new Date(COURSE_4.sessionDateTime);
 
 	onMount(() => {
 		// IntersectionObserver for bloom scroll animations
@@ -190,7 +190,7 @@
 			<Countdown
 				endDate={TARGET_DATE}
 				label={t('course.countdown')}
-				sessionInfo={copy('Sabtu, 31 Oktober 2026 (8:30 PM – 11:30 PM)', 'Saturday, 31 October 2026 (8:30 PM – 11:30 PM)')}
+				sessionInfo={copy(COURSE_4.sessionInfoMs, COURSE_4.sessionInfoEn)}
 			/>
 		</div>
 

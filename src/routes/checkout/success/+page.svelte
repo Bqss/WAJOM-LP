@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
-
 	let orderId = $state('');
 	let isLoading = $state(true);
 	let participantData = $state<{
@@ -23,6 +23,10 @@
 	});
 
 	function getApiBaseUrl(): string {
+		const configuredBaseUrl = PUBLIC_API_BASE_URL?.trim();
+		if (configuredBaseUrl && configuredBaseUrl !== 'https://wajom.co') {
+			return configuredBaseUrl.replace(/\/$/, '');
+		}
 		if (typeof window !== 'undefined') {
 			const host = window.location.hostname;
 			if (host === 'localhost' || host === '127.0.0.1') {

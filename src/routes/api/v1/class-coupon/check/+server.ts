@@ -6,8 +6,12 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const payload = await request.json();
-		const customBaseUrl = (PUBLIC_API_BASE_URL && PUBLIC_API_BASE_URL !== 'https://wajom.co' ? PUBLIC_API_BASE_URL : null)?.replace('://localhost', '://127.0.0.1');
-		const baseUrl = customBaseUrl || 'https://portal.wajom.co';
+		const configuredBaseUrl = PUBLIC_API_BASE_URL?.trim();
+		const baseUrl = (configuredBaseUrl && configuredBaseUrl !== 'https://wajom.co'
+			? configuredBaseUrl
+			: 'https://portal.wajom.co')
+			.replace('://localhost', '://127.0.0.1')
+			.replace(/\/$/, '');
 
 		const response = await fetch(`${baseUrl}/api/v1/class-coupon/check`, {
 			method: 'POST',

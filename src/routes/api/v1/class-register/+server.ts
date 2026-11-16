@@ -17,63 +17,35 @@ export const POST: RequestHandler = async ({ request }) => {
 			);
 		}
 
-		// Normalize localhost → 127.0.0.1 to avoid IPv6 resolution issues in server-side fetch
-		const customBaseUrl = (PUBLIC_API_BASE_URL && PUBLIC_API_BASE_URL !== 'https://wajom.co' ? PUBLIC_API_BASE_URL : null)?.replace('://localhost', '://127.0.0.1');
-		const portalBaseUrl = 'https://portal.wajom.co';
+		const configuredBaseUrl = PUBLIC_API_BASE_URL?.trim();
+		const baseUrl = (configuredBaseUrl && configuredBaseUrl !== 'https://wajom.co'
+			? configuredBaseUrl
+			: 'https://portal.wajom.co')
+			.replace('://localhost', '://127.0.0.1')
+			.replace(/\/$/, '');
+		const endpoint = `${baseUrl}/api/v1/class-register`;
+		console.log(`[API /api/v1/class-register] Target upstream endpoint: ${endpoint}`);
 
-		const upstreamEndpoints = [
-			...(customBaseUrl ? [
-				`${customBaseUrl}/api/v1/class-register`,
-				`${customBaseUrl}/api/class-register`
-			] : []),
-			`${portalBaseUrl}/api/v1/class-register`,
-			`${portalBaseUrl}/api/class-register`,
-			`${portalBaseUrl}/api/v1/register`,
-			`${portalBaseUrl}/api/register`
-		];
+		const response = await fetch(endpoint, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload)
+		});
+		const resData = await response.json();
 
-		const uniqueEndpoints = [...new Set(upstreamEndpoints)];
-		console.log(`[API /api/v1/class-register] Target upstream endpoints:`, uniqueEndpoints);
-
-		for (const endpoint of uniqueEndpoints) {
-			console.log(`[API /api/v1/class-register] 🚀 Fetching upstream: ${endpoint}...`);
-			try {
-				const response = await fetch(endpoint, {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(payload)
-				});
-
-				console.log(`[API /api/v1/class-register] 📡 Status ${response.status} from ${endpoint}`);
-
-				if (response.ok) {
-					const resData = await response.json();
-					console.log(`[API /api/v1/class-register] ✅ Response body:`, JSON.stringify(resData));
-					if (resData.success) {
-						return json(resData);
-					}
-				} else {
-					console.warn(`[API /api/v1/class-register] ⚠️ Endpoint ${endpoint} returned status ${response.status}`);
-				}
-			} catch (err: any) {
-				console.error(`[API /api/v1/class-register] ❌ Connection failed to ${endpoint}: ${err?.message || err}`);
-			}
+		console.log(`[API /api/v1/class-register] 📡 Status ${response.status} from ${endpoint}`);
+		if (response.ok) {
+			console.log(`[API /api/v1/class-register] ✅ Response body:`, JSON.stringify(resData));
+		} else {
+			console.warn(`[API /api/v1/class-register] ⚠️ Endpoint returned status ${response.status}`);
 		}
-
-		// When all endpoints return 404 or fail, return a proper 502/404 error instead of fake success
-		console.warn(`[API /api/v1/class-register] ⚠️ All registration endpoints failed or returned 404.`);
+		return json(resData, { status: response.status });
+	} catch (error: unknown) {
+		const message = error instanceof Error ? error.message : String(error);
+		console.error(`[API /api/v1/class-register] 💥 Server exception:`, message);
 		return json(
-			{
-				success: false,
-				message: 'Gagal menghubungkan ke sistem pendaftaran rasmi (Server Backend tidak dijumpai / 404). Sila pastikan API pendaftaran portal sudah dipasang.'
-			},
+			{ success: false, message: message || 'Server error' },
 			{ status: 502 }
-		);
-	} catch (error: any) {
-		console.error(`[API /api/v1/class-register] 💥 Server exception:`, error);
-		return json(
-			{ success: false, message: error?.message || 'Server error' },
-			{ status: 500 }
 		);
 	}
 };

@@ -53,8 +53,9 @@
 	});
 
 	function getApiBaseUrl(): string {
-		if (PUBLIC_API_BASE_URL) {
-			return PUBLIC_API_BASE_URL;
+		const configuredBaseUrl = PUBLIC_API_BASE_URL?.trim().replace(/\/+$/, '');
+		if (configuredBaseUrl && configuredBaseUrl !== 'https://wajom.co') {
+			return configuredBaseUrl;
 		}
 		if (typeof window !== 'undefined') {
 			const host = window.location.hostname;
@@ -62,7 +63,7 @@
 				return 'http://localhost:3000';
 			}
 		}
-		return 'https://wajom.co';
+		return 'https://portal.wajom.co';
 	}
 
 	async function searchAccount() {

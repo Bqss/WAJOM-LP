@@ -448,7 +448,7 @@
 			<p class="lede">{t('features.lede')}</p>
 
 			<div class="hero-buttons">
-				<a class="cta-primary" href="/register">
+				<a class="cta-primary" href="/checkout">
 					{t('features.access')} <span style="margin-left: 4px;">→</span>
 				</a>
 				<button
@@ -897,7 +897,7 @@
 				</div>
 
 				<div style="margin-top: 32px;">
-					<a class="cta-primary big-cta" href="/register">
+					<a class="cta-primary big-cta" href="/checkout">
 						{copy('MULA SEKARANG!', 'START NOW!')}
 						<span style="margin-left: 8px;">→</span>
 					</a>

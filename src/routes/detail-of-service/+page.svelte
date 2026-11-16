@@ -124,7 +124,7 @@
 				Dapatkan akses penuh ke sistem Wajom atau sertai Kelas Masterclass RM30 untuk mula
 				mengautomasikan bisnes anda hari ini.
 			</p>
-			<a class="cta-btn" href="/register"> Daftar Kelas RM30 Sekarang → </a>
+			<a class="cta-btn" href="/checkout"> Daftar Kelas RM30 Sekarang → </a>
 		</div>
 	</div>
 </section>

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-	import VideoModal from '$lib/components/VideoModal.svelte';
 	import { COURSE_4 } from '$lib/data/course';
 	import { locale, t } from '$lib/i18n.svelte';
 
@@ -235,7 +234,6 @@
 		}
 	] as const;
 
-	let isVideoModalOpen = $state(false);
 	let selectedGalleryIndex = $state(0);
 	let galleryOpen = $state(false);
 	let galleryDialog: HTMLDialogElement;
@@ -267,7 +265,7 @@
 	}
 
 	$effect(() => {
-		if (galleryOpen || isVideoModalOpen) {
+		if (galleryOpen) {
 			const originalOverflow = document.body.style.overflow;
 			document.body.style.overflow = 'hidden';
 			return () => { document.body.style.overflow = originalOverflow; };
@@ -344,10 +342,6 @@
 					<li>{@render checkIcon()} {copy('Rakaman penuh', 'Full recording')}</li>
 					<li>{@render checkIcon()} {COURSE_4.bonusTokens / 1_000_000}M tokens</li>
 				</ul>
-				<button type="button" class="course-demo-link" onclick={() => (isVideoModalOpen = true)}>
-					<svg class="course-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 11 7-11 7z" /></svg>
-					{copy('Lihat demo Wajom', 'Watch the Wajom demo')}
-				</button>
 			</div>
 
 			<figure class="course-conversation" aria-label={copy('Ilustrasi perbualan WhatsApp antara agensi dan bakal jemaah', 'Illustration of a WhatsApp conversation between an agency and a prospective pilgrim')}>
@@ -617,8 +611,6 @@
 	</dialog>
 </div>
 
-<VideoModal bind:isOpen={isVideoModalOpen} />
-
 <style>
 	.umrah-course {
 		--course-accent: var(--emerald-2);
@@ -677,9 +669,6 @@
 	.course-benefits { display: flex; flex-wrap: wrap; gap: 10px 22px; list-style: none; margin: 26px 0 0; padding: 22px 0 0; border-top: 1px solid var(--rule-2); font-size: 0.85rem; }
 	.course-benefits li { display: flex; align-items: center; gap: 6px; }
 	.course-benefits .course-icon { width: 17px; height: 17px; color: var(--course-accent); }
-	.course-demo-link { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; margin-top: 14px; padding: 4px 0; border: 0; background: transparent; color: var(--ink-2); font: inherit; font-size: 0.86rem; cursor: pointer; }
-	.course-demo-link:hover { color: var(--course-accent); }
-	.course-demo-link .course-icon { width: 17px; height: 17px; }
 	.course-conversation { margin: 0; width: 100%; max-width: 420px; justify-self: end; overflow: hidden; border: 1px solid var(--rule-2); border-radius: 16px; background: var(--bg-2); font-size: 0.85rem; line-height: 1.5; }
 	.conversation-header { display: flex; align-items: center; gap: 10px; padding: 18px; border-bottom: 1px solid var(--rule-2); }
 	.conversation-avatar { display: grid; place-items: center; width: 38px; height: 38px; flex: none; border-radius: 50%; background: var(--emerald-dim); color: var(--course-accent); font-weight: 700; }

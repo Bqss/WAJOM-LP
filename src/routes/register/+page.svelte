@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
-
+	import { COURSE_4 } from '$lib/data/course';
 	// Form fields
 	let fullName = $state('');
 	let email = $state('');
@@ -22,8 +22,9 @@
 	let accountSearchError = $state('');
 
 	// Package & Coupon state
-	let packageName = $state('Wajom Mastery — Kelas Chat AI');
-	let amount = $state(30);
+	let packageName = $state(COURSE_4.packageName);
+	let amount = $state(COURSE_4.price);
+	const bonusTokenMillions = COURSE_4.bonusTokens / 1_000_000;
 	let couponCode = $state('');
 	let couponMsg = $state('');
 	let couponSuccess = $state(false);
@@ -103,7 +104,7 @@
 		const code = couponCode.trim().toUpperCase();
 		if (code === 'WAJOMVIP' || code === 'WAJOM30') {
 			couponSuccess = true;
-			couponMsg = '✓ Kod kupon disahkan! Diskaun khas pakej 1.5M AI Token diaktifkan.';
+			couponMsg = `✓ Kod kupon disahkan! Diskaun khas pakej ${bonusTokenMillions}M AI Token diaktifkan.`;
 		} else if (code === '') {
 			couponSuccess = false;
 			couponMsg = 'Sila masukkan kod kupon.';
@@ -136,8 +137,9 @@
 				has_account: hasAccount === 'yes',
 				existing_user_id: accountSearchResult?.user?.id || null,
 				existing_user_email: accountSearchResult?.user?.email || null,
+				course_slug: COURSE_4.slug,
 				package_name: packageName,
-				amount: amount,
+				amount,
 				coupon_code: couponCode.trim().toUpperCase()
 			};
 
@@ -173,7 +175,7 @@
 	const registerJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: 'Wajom Mastery — Kelas Chat AI & Automasi Jualan',
+		name: COURSE_4.packageName,
 		description: 'Bengkel praktikal automasi WhatsApp & Chat AI untuk usahawan dan leader perniagaan.',
 		provider: {
 			'@type': 'Organization',
@@ -182,9 +184,9 @@
 		},
 		offers: {
 			'@type': 'Offer',
-			price: '30',
+			price: String(COURSE_4.price),
 			priceCurrency: 'MYR',
-			url: 'https://wajom.co/register'
+			url: 'https://wajom.co/checkout'
 		}
 	};
 </script>
@@ -493,8 +495,8 @@
 						<span>RM 200.00</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--ink-2);">
-						<span>Pakej 1.5M AI Token</span>
-						<span>RM 30.00</span>
+						<span>Pakej {bonusTokenMillions}M AI Token</span>
+						<span>RM {amount.toFixed(2)}</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--emerald-2);">
 						<span>Subsubsidi Khas Wajom</span>
@@ -502,7 +504,7 @@
 					</div>
 					<div style="border-top: 1px dashed var(--rule-2); padding-top: 12px; margin-top: 6px; display: flex; justify-content: space-between; align-items: center; font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink);">
 						<span>JUMLAH NETT:</span>
-						<span style="font-size: 1.6rem; color: var(--gold-2);">RM 30.00</span>
+						<span style="font-size: 1.6rem; color: var(--gold-2);">RM {amount.toFixed(2)}</span>
 					</div>
 				</div>
 			</div>
@@ -525,9 +527,9 @@
 
 			<div style="background: var(--bg-3); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 20px; font-size: 0.85rem; display: grid; gap: 8px;">
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">No. Transaksi CHIP:</span><span style="font-family: var(--mono); color: var(--ink);">{transactionId}</span></div>
-				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">Kelas Chat AI + 1.5M Token</span></div>
+				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{packageName} · {bonusTokenMillions}M Token</span></div>
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">E-mel Terdaftar:</span><span style="color: var(--ink);">{email}</span></div>
-				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Jumlah Dibayar:</span><span style="color: var(--emerald-2); font-weight: 700;">RM 30.00 (LULUS)</span></div>
+				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Jumlah Dibayar:</span><span style="color: var(--emerald-2); font-weight: 700;">RM {amount.toFixed(2)} (LULUS)</span></div>
 			</div>
 
 			<div style="background: var(--bg-3); border: 1px solid var(--rule-2); border-radius: 16px; padding: 18px 20px; margin-bottom: 24px; text-align: left; display: flex; align-items: flex-start; gap: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">

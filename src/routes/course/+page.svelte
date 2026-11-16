@@ -3,6 +3,7 @@
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 	import Countdown from '$lib/components/Countdown.svelte';
+	import { COURSE_4 } from '$lib/data/course';
 	import { locale, t } from '$lib/i18n.svelte';
 	let isVideoModalOpen = $state(false);
 
@@ -146,7 +147,7 @@
 	const courseJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: 'Wajom Mastery — Kursus Agent AI & Automasi WhatsApp',
+		name: COURSE_4.packageName,
 		description: 'Kursus praktikal bimbingan Wajom Agent AI untuk Top Leader. Setting AI closing gaya manusia, auto follow-up, dan duplikasi pasukan 1-klik.',
 		provider: {
 			'@type': 'Organization',
@@ -155,7 +156,7 @@
 		},
 		offers: {
 			'@type': 'Offer',
-			price: '30',
+			price: String(COURSE_4.price),
 			priceCurrency: 'MYR',
 			url: 'https://wajom.co/course'
 		}
@@ -212,12 +213,12 @@
 		<!-- Clean Value Strip Cards -->
 		<div class="hero-value-strip bloom">
 			<div class="val-item">
-				<span class="val-bold">RM 30</span>
+				<span class="val-bold">RM {COURSE_4.price}</span>
 				<span class="val-sub">{copy('Sekali bayar (Asal RM200)', 'One-time payment (Was RM200)')}</span>
 			</div>
 			<div class="val-sep"></div>
 			<div class="val-item">
-				<span class="val-bold">+ 1.5M Tokens</span>
+				<span class="val-bold">+ {COURSE_4.bonusTokens / 1_000_000}M Tokens</span>
 				<span class="val-sub">{copy('Bonus percuma terus ke akaun', 'Free bonus credited to your account')}</span>
 			</div>
 			<div class="val-sep"></div>
@@ -657,12 +658,12 @@
 		<div class="masterclass-card bloom">
 			<div class="mc-header">
 				<span class="mc-pill">{copy('TAWARAN MASIH DIBUKA', 'OFFER STILL OPEN')}</span>
-				<h3>Agent AI Masterclass RM30</h3>
+				<h3>Agent AI Masterclass RM{COURSE_4.price}</h3>
 				<p>{copy('Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1,500,000 AI Tokens.', 'Live Zoom class to configure your automation system, plus a 1,500,000 AI token bonus.')}</p>
 			</div>
 			<div class="mc-pricing-strip">
 				<span class="was-price">RM 200</span>
-				<span class="now-price">RM 30</span>
+				<span class="now-price">RM {COURSE_4.price}</span>
 				<span class="one-time">{copy('sekali bayar', 'one-time payment')}</span>
 			</div>
 			<a class="mc-cta-btn" href="/checkout">

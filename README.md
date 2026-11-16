@@ -41,6 +41,10 @@ You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
 
+## Course landing page
+
+The `/course` landing page retains the complete content from [Masterclass Wajom Agensi Umrah](https://slugpost.com/wajom-masterclass-agensi-umrah), including the seven-day follow-up sequence, Smart Campaign details, FAQs and source citations. It supports Malay/English and the existing light/dark themes. Registration links use `/checkout`; mobile registration and WhatsApp controls share the bottom bar without covering the content.
+
 ## Course webinar gallery
 
-The `/course` page shows screenshots from previous Wajom Chat AI Mastery webinars in a responsive gallery. The original images are served from `static/gallery/course1.jpeg`, `course2.jpeg`, and `course3.jpeg`; each gallery card opens its full-size image in a new tab. When replacing photos, update their captions and intrinsic image dimensions in `src/routes/course/+page.svelte`.
+The `/course` page also preserves screenshots from previous Wajom Chat AI Mastery webinars. Images are served from `static/gallery/course1.jpeg`, `course2.jpeg`, and `course3.jpeg`. Each gallery card opens a native dialog with previous/next controls, arrow-key navigation and Escape to close. Captions and intrinsic image dimensions live in `src/routes/course/+page.svelte`.

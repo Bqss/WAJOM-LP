@@ -139,7 +139,7 @@
 			<!-- CTA WhatsApp Group -->
 			<div style="margin-top: 32px;">
 				<a
-					href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/IRdXnqzhJ6qK5D72Lh75BU"}
+					href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/KnF9RvHjFHTJZAQWKxkitK"}
 					target="_blank"
 					rel="noopener noreferrer"
 					class="btn-cta-whatsapp"

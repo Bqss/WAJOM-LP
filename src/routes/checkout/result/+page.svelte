@@ -241,7 +241,7 @@
 				<!-- 2-COLUMN ACTION BUTTONS -->
 				<div class="cta-grid-2col">
 					<a
-						href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/IRdXnqzhJ6qK5D72Lh75BU"}
+						href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/KnF9RvHjFHTJZAQWKxkitK"}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-cta-gold"

@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
+	import { COURSE_4 } from '$lib/data/course';
 	let orderId = $state('');
 	let isLoading = $state(true);
 	let participantData = $state<{
@@ -17,6 +18,13 @@
 		whatsapp_group_url?: string;
 		customer_service_phone?: string;
 	} | null>(null);
+
+	// The API returns the stable backend package_name; show the user-facing class name instead.
+	const displayPackageName = $derived(
+		!participantData?.package_name || participantData.package_name === COURSE_4.packageName
+			? COURSE_4.displayNameMs
+			: participantData.package_name
+	);
 
 	$effect(() => {
 		orderId = $page.url.searchParams.get('order_id') || $page.url.searchParams.get('reference') || '';
@@ -60,8 +68,8 @@
 </script>
 
 <SEO
-	title="Pembayaran Berjaya — Wajom Mastery Kelas Chat AI"
-	description="Pendaftaran dan pembayaran anda bagi Kelas Chat AI Wajom Mastery telah berjaya disahkan."
+	title="Pembayaran Berjaya — Kelas Setting Smart Campaign & Agent AI Wajom"
+	description="Pendaftaran dan pembayaran anda bagi Kelas Setting Smart Campaign & Agent AI Wajom telah berjaya disahkan."
 	canonical="https://wajom.co/checkout/success"
 />
 
@@ -81,7 +89,7 @@
 			</h1>
 
 			<p style="color: var(--ink-2); font-size: 1rem; max-width: 48ch; margin: 0 auto 28px; line-height: 1.6;">
-				Pembayaran bagi slot <strong style="color: var(--emerald-2);">{participantData?.package_name || 'Wajom Mastery — Kelas Chat AI'}</strong> telah berjaya diterima.
+				Pembayaran bagi slot <strong style="color: var(--emerald-2);">{displayPackageName}</strong> telah berjaya diterima.
 			</p>
 
 			{#if isLoading}

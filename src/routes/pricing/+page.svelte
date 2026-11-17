@@ -314,8 +314,8 @@
 		<div class="masterclass-card">
 			<div class="mc-header">
 				<span class="mc-pill">{copy('TAWARAN KHAS', 'SPECIAL OFFER')}</span>
-				<h3>AI Chat Masterclass RM30</h3>
-				<p>{copy('Kelas Zoom Live untuk persediaan sistem automasi &amp; bonus 1.5,000,000 AI Tokens.', 'Live Zoom class to prepare your automation system, plus a 1,500,000 AI token bonus.')}</p>
+				<h3>{copy('Kelas Smart Campaign & Agent AI RM30', 'Smart Campaign & Agent AI Class RM30')}</h3>
+				<p>{copy('Kelas Zoom Live untuk setting Smart Campaign & Agent AI, dengan bonus 1.5 juta Token AI.', 'Live Zoom class to set up Smart Campaign & Agent AI, plus a 1.5 million AI token bonus.')}</p>
 			</div>
 			<div class="mc-pricing-strip">
 				<span class="was-price">RM 200</span>
@@ -323,7 +323,7 @@
 				<span class="one-time">{copy('sekali bayar', 'one-time payment')}</span>
 			</div>
 			<a class="mc-cta-btn" href="/#masterclass">
-				{copy('Daftar Masterclass RM30', 'Join AI Masterclass RM30')} →
+				{copy('Daftar Kelas RM30', 'Register for RM30 Class')} →
 			</a>
 		</div>
 	</div>

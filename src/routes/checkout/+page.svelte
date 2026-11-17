@@ -280,7 +280,7 @@
 		// Tolak submit — user mesti guna akaun sedia ada (tombol "Gunakan Akaun Ini")
 		// supaya backend tidak masuk cabang create-new-user dan kena UNIQUE constraint.
 		if (hasAccount === 'no' && newAccountExistUser) {
-			checkoutError = 'E-mel/telefon ini sudah berdaftar. Sila klik "Gunakan Akaun Ini & Top-Up 1.5M Token" di atas untuk mengelakkan akaun pendua.';
+			checkoutError = 'E-mel/telefon ini sudah berdaftar. Sila klik "Gunakan Akaun Ini & Top-Up 1.5 juta Token AI" di atas untuk mengelakkan akaun pendua.';
 			return;
 		}
 
@@ -343,8 +343,8 @@
 </script>
 
 <SEO
-	title="Checkout — Wajom Mastery Kelas Chat AI & Automasi"
-	description="Lengkapkan pendaftaran rasmi Kelas Chat AI Wajom Mastery RM30 secara selamat. Akses Zoom Live & FREE 1.5M AI Token."
+	title="Checkout — Kelas Setting Smart Campaign & Agent AI Wajom"
+	description="Lengkapkan pendaftaran rasmi Kelas Setting Smart Campaign & Agent AI Wajom RM30 secara selamat. Akses Zoom Live & bonus 1.5 juta Token AI."
 	keywords="checkout wajom, pembayaran wajom, pendaftaran selamat, langgan wajom"
 	canonical="https://wajom.co/checkout"
 	ogImage="https://wajom.co/logo.png"
@@ -356,7 +356,7 @@
 <!-- Countdown Topbar Alert -->
 <div style="background: rgba(212, 175, 55, 0.12); border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 10px 0; text-align: center; font-size: 0.85rem; color: var(--gold-2);">
 	<div class="wrap" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
-		<span><strong>TAWARAN KHAS:</strong> Pakej Kelas Chat AI RM{COURSE_PRICE} + FREE {COURSE_BONUS_MILLIONS}M AI Token tamat dalam:</span>
+		<span><strong>TAWARAN KHAS:</strong> Kelas Smart Campaign &amp; Agent AI RM{COURSE_PRICE} + FREE {COURSE_BONUS_MILLIONS} juta Token AI tamat dalam:</span>
 		<span style="font-family: var(--mono); font-weight: 700; background: var(--bg-2); border: 1px solid var(--gold); padding: 3px 10px; border-radius: 6px; color: var(--gold-2); margin-left: 4px;">
 			{days} Hari {String(hours).padStart(2, '0')} Jam {String(minutes).padStart(2, '0')} Minit {String(seconds).padStart(2, '0')} Saat
 		</span>
@@ -368,10 +368,10 @@
 		<div style="text-align: center; margin-bottom: 32px;">
 			<span class="badge-tag" style="background: rgba(55, 159, 118, 0.12); border-color: rgba(55, 159, 118, 0.25); color: var(--emerald-2);">Pendaftaran Rasmi</span>
 			<h1 style="font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 8px 0 10px; font-weight: 700;">
-				Pendaftaran {COURSE_4.packageName}
+				Pendaftaran {COURSE_4.displayNameMs}
 			</h1>
 			<p style="color: var(--ink-2); font-size: 0.98rem; max-width: 54ch; margin: 0 auto;">
-				Lengkapkan pendaftaran 2-langkah di bawah untuk pengesahan slot Zoom Live &amp; pengkreditan {COURSE_BONUS_MILLIONS}M AI Token.
+				Lengkapkan pendaftaran 2-langkah di bawah untuk pengesahan slot Zoom Live &amp; pengkreditan {COURSE_BONUS_MILLIONS} juta Token AI.
 			</p>
 
 			<!-- 2-Step Stepper Progress Header -->
@@ -497,7 +497,7 @@
 						</div>
 
 						<div style="margin-bottom: 28px;">
-							<label for="reasonToJoin" style="display: block; font-size: 0.86rem; font-weight: 600; margin-bottom: 6px; color: var(--ink);">Hasrat / Matlamat Utama Menyertai Masterclass Ini <span style="font-weight: 400; color: var(--ink-3);">(Opsional)</span></label>
+							<label for="reasonToJoin" style="display: block; font-size: 0.86rem; font-weight: 600; margin-bottom: 6px; color: var(--ink);">Hasrat / Matlamat Utama Menyertai Kelas Ini <span style="font-weight: 400; color: var(--ink-3);">(Opsional)</span></label>
 							<textarea
 								id="reasonToJoin"
 								bind:value={reasonToJoin}
@@ -671,7 +671,7 @@
 										}}
 										style="background: var(--gold); color: var(--cta-ink); font-weight: 700; border: none; padding: 12px 18px; border-radius: 10px; font-size: 0.88rem; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;"
 									>
-										<span>Gunakan Akaun Ini &amp; Top-Up 1.5M Token</span>
+										<span>Gunakan Akaun Ini &amp; Top-Up 1.5 juta Token AI</span>
 										<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
 									</button>
 								</div>
@@ -754,24 +754,24 @@
 			<!-- Right Summary Card -->
 			<div style="background: var(--bg-2); border: 1px solid var(--rule-2); border-radius: 20px; padding: 24px;">
 				<h3 style="font-family: var(--serif); font-size: 1.25rem; margin: 0 0 4px; color: var(--ink);">Ringkasan Pesanan</h3>
-				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas {COURSE_4.packageName}</p>
+				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas {COURSE_4.displayNameMs}</p>
 
 				<div style="display: flex; gap: 14px; background: var(--bg-3); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
 					<div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(55, 159, 118, 0.15); color: var(--emerald-2); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;">AI</div>
 					<div>
-						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">{COURSE_4.packageName}</div>
-						<div style="font-family: var(--mono); font-size: 0.72rem; color: var(--emerald-2);">+ FREE {COURSE_BONUS_MILLIONS}M Wajom AI Tokens</div>
+						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">{COURSE_4.displayNameMs}</div>
+						<div style="font-family: var(--mono); font-size: 0.72rem; color: var(--emerald-2);">+ FREE {COURSE_BONUS_MILLIONS} juta Token AI Wajom</div>
 					</div>
 				</div>
 
 				<ul style="list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 10px; font-size: 0.85rem; color: var(--ink-2);">
 					<li style="display: flex; gap: 10px; align-items: flex-start;">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px; color: var(--emerald-2); flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"/></svg>
-						<span><strong>Akses Kelas Zoom Live</strong> (Praktikal Chat AI &amp; Duplikasi Pasukan)</span>
+						<span><strong>Akses Kelas Zoom Live</strong> (Praktikal Setting Smart Campaign &amp; Agent AI)</span>
 					</li>
 					<li style="display: flex; gap: 10px; align-items: flex-start;">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px; color: var(--emerald-2); flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"/></svg>
-						<span><strong>FREE {COURSE_BONUS_MILLIONS}M AI Tokens</strong> (Dipindahkan ke akaun pilihan)</span>
+						<span><strong>FREE {COURSE_BONUS_MILLIONS} juta Token AI</strong> (Dipindahkan ke akaun pilihan)</span>
 					</li>
 					<li style="display: flex; gap: 10px; align-items: flex-start;">
 						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 16px; height: 16px; color: var(--emerald-2); flex-shrink: 0; margin-top: 2px;"><polyline points="20 6 9 17 4 12"/></svg>
@@ -786,7 +786,7 @@
 						<span>RM 200.00</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--ink-2);">
-						<span>Pakej 1.5M AI Token</span>
+						<span>Pakej 1.5 juta Token AI</span>
 						<span>RM {COURSE_PRICE.toFixed(2)}</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--emerald-2);">
@@ -819,12 +819,12 @@
 
 			<h2 style="font-family: var(--serif); font-size: 1.8rem; margin: 0 0 10px; color: var(--ink);">Pembayaran Berjaya!</h2>
 			<p style="font-size: 0.95rem; color: var(--ink-2); margin-bottom: 24px;">
-				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke {COURSE_4.packageName} telah disahkan.
+				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke {COURSE_4.displayNameMs} telah disahkan.
 			</p>
 
 			<div style="background: var(--bg-3); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 20px; font-size: 0.85rem; display: grid; gap: 8px;">
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">No. Transaksi CHIP:</span><span style="font-family: var(--mono); color: var(--ink);">{transactionId}</span></div>
-				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{COURSE_4.packageName} + {COURSE_BONUS_MILLIONS}M Token</span></div>
+				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{COURSE_4.displayNameMs} + {COURSE_BONUS_MILLIONS} juta Token AI</span></div>
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">E-mel Terdaftar:</span><span style="color: var(--ink);">{email}</span></div>
 				{#if selectedAccount}
 					<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Akaun Penerima Token:</span><span style="color: var(--emerald-2); font-weight: 700;">{selectedAccount.email}</span></div>

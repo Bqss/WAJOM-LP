@@ -105,7 +105,7 @@
 		const code = couponCode.trim().toUpperCase();
 		if (code === 'WAJOMVIP' || code === 'WAJOM30') {
 			couponSuccess = true;
-			couponMsg = `✓ Kod kupon disahkan! Diskaun khas pakej ${bonusTokenMillions}M AI Token diaktifkan.`;
+			couponMsg = `✓ Kod kupon disahkan! Diskaun khas pakej ${bonusTokenMillions} juta Token AI diaktifkan.`;
 		} else if (code === '') {
 			couponSuccess = false;
 			couponMsg = 'Sila masukkan kod kupon.';
@@ -176,8 +176,8 @@
 	const registerJsonLd = {
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: COURSE_4.packageName,
-		description: 'Bengkel praktikal automasi WhatsApp & Chat AI untuk usahawan dan leader perniagaan.',
+		name: COURSE_4.displayNameMs,
+		description: 'Kelas Zoom live untuk setting Smart Campaign & Agent AI Wajom supaya mesej harian berjalan secara automatik.',
 		provider: {
 			'@type': 'Organization',
 			name: 'Wajom!',
@@ -193,9 +193,9 @@
 </script>
 
 <SEO
-	title="Borang Pendaftaran Rasmi — Wajom Mastery (RM30)"
-	description="Halaman borang pendaftaran rasmi Kelas Chat AI & Automasi Wajom Mastery RM30. Sertai Zoom Live, rakaman penuh & nikmati FREE 1.5M AI Token."
-	keywords="daftar wajom, wajom mastery, kelas ai whatsapp, pendaftaran wajom, bengkel whatsapp automation, zoom live wajom, ai token free, borang wajom"
+	title="Borang Pendaftaran Rasmi — Kelas Setting Smart Campaign & Agent AI Wajom (RM30)"
+	description="Halaman borang pendaftaran rasmi Kelas Setting Smart Campaign & Agent AI Wajom RM30. Sertai Zoom Live, rakaman penuh & nikmati bonus 1.5 juta Token AI."
+	keywords="daftar wajom, kelas smart campaign wajom, kelas agent ai wajom, kelas ai whatsapp, pendaftaran wajom, bengkel whatsapp automation, zoom live wajom, ai token free, borang wajom"
 	canonical="https://wajom.co/register"
 	ogImage="https://wajom.co/logo.png"
 	ogImageAlt="Wajom — Platform Automasi WhatsApp"
@@ -206,7 +206,7 @@
 <!-- Countdown Topbar Alert -->
 <div style="background: rgba(212, 175, 55, 0.12); border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 10px 0; text-align: center; font-size: 0.85rem; color: var(--gold-2);">
 	<div class="wrap" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
-		<span>🔥 <strong>TAWARAN KHAS HARI INI:</strong> Pakej Kelas Chat AI RM30 + FREE 1.5M AI Token tamat dalam</span>
+		<span>🔥 <strong>TAWARAN KHAS HARI INI:</strong> Kelas Smart Campaign &amp; Agent AI RM30 + FREE 1.5 juta Token AI tamat dalam</span>
 		<span style="font-family: var(--mono); font-weight: 700; background: var(--bg-2); border: 1px solid var(--gold); padding: 2px 8px; border-radius: 6px; color: var(--gold-2);">
 			{String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
 		</span>
@@ -218,10 +218,10 @@
 		<div style="text-align: center; margin-bottom: 36px;">
 			<span class="badge-tag" style="background: rgba(55, 159, 118, 0.12); border-color: rgba(55, 159, 118, 0.25); color: var(--emerald-2);">Pendaftaran Rasmi Kursus</span>
 			<h1 style="font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 8px 0 10px; font-weight: 700;">
-				Pendaftaran Wajom Mastery — Kelas Chat AI
+				Pendaftaran {COURSE_4.displayNameMs}
 			</h1>
 			<p style="color: var(--ink-2); font-size: 0.98rem; max-width: 58ch; margin: 0 auto;">
-				Lengkapkan maklumat borang pendaftaran di bawah untuk pengesahan slot Zoom Live &amp; pengkreditan 1.5M AI Token.
+				Lengkapkan maklumat borang pendaftaran di bawah untuk pengesahan slot Zoom Live &amp; pengkreditan 1.5 juta Token AI.
 			</p>
 		</div>
 
@@ -299,7 +299,7 @@
 						<svg style="width: 20px; height: 20px; stroke: var(--emerald-2); fill: none; flex-shrink: 0; margin-top: 2px;" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
 						</svg>
-						<span><strong>Makluman E-mel:</strong> Sila pastikan alamat e-mel tepat. Pautan pengesahan Zoom Live, pautan WhatsApp Group, &amp; pengkreditan 1.5M Token akan dihantar ke e-mel ini.</span>
+						<span><strong>Makluman E-mel:</strong> Sila pastikan alamat e-mel tepat. Pautan pengesahan Zoom Live, pautan WhatsApp Group, &amp; pengkreditan 1.5 juta Token AI akan dihantar ke e-mel ini.</span>
 					</div>
 
 					<!-- Tipe Bisnis & Nama Bisnes -->
@@ -440,24 +440,24 @@
 			<!-- Right Column: Summary Card -->
 			<div style="background: var(--bg-2); border: 1px solid var(--rule-2); border-radius: 24px; padding: 28px; position: sticky; top: 80px;">
 				<h3 style="font-family: var(--serif); font-size: 1.3rem; margin: 0 0 4px; color: var(--ink);">Ringkasan Pesanan</h3>
-				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas Masterclass Chat AI</p>
+				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas {COURSE_4.displayNameMs}</p>
 
 				<div style="display: flex; gap: 14px; background: var(--bg-3); border: 1px solid var(--rule); border-radius: 14px; padding: 14px; margin-bottom: 20px;">
 					<div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(55, 159, 118, 0.15); color: var(--emerald-2); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.05rem;">AI</div>
 					<div>
-						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">Wajom Mastery — Kelas Chat AI</div>
-						<div style="font-family: var(--mono); font-size: 0.74rem; color: var(--emerald-2);">+ FREE 1.5M Wajom AI Tokens</div>
+						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">{COURSE_4.displayNameMs}</div>
+						<div style="font-family: var(--mono); font-size: 0.74rem; color: var(--emerald-2);">+ FREE 1.5 juta Token AI Wajom</div>
 					</div>
 				</div>
 
 				<ul style="list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 12px; font-size: 0.85rem; color: var(--ink-2);">
 					<li style="display: flex; gap: 10px;">
 						<span style="color: var(--emerald-2); font-weight: 700;">✓</span>
-						<span><strong>Akses Kelas Zoom Live</strong> (Praktikal Chat AI, Penutupan Jualan Suara &amp; Duplikasi Pasukan)</span>
+						<span><strong>Akses Kelas Zoom Live</strong> (Praktikal Setting Smart Campaign &amp; Agent AI)</span>
 					</li>
 					<li style="display: flex; gap: 10px;">
 						<span style="color: var(--emerald-2); font-weight: 700;">✓</span>
-						<span><strong>FREE 1.5M AI Tokens</strong> (Dipindahkan terus ke akaun Wajom anda)</span>
+						<span><strong>FREE 1.5 juta Token AI</strong> (Dipindahkan terus ke akaun Wajom anda)</span>
 					</li>
 					<li style="display: flex; gap: 10px;">
 						<span style="color: var(--emerald-2); font-weight: 700;">✓</span>
@@ -496,7 +496,7 @@
 						<span>RM 200.00</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--ink-2);">
-						<span>Pakej {bonusTokenMillions}M AI Token</span>
+						<span>Pakej {bonusTokenMillions} juta Token AI</span>
 						<span>RM {amount.toFixed(2)}</span>
 					</div>
 					<div style="display: flex; justify-content: space-between; color: var(--emerald-2);">
@@ -523,12 +523,12 @@
 
 			<h2 style="font-family: var(--serif); font-size: 1.8rem; margin: 0 0 10px; color: var(--ink);">Pembayaran Berjaya!</h2>
 			<p style="font-size: 0.95rem; color: var(--ink-2); margin-bottom: 24px;">
-				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke Kelas Chat AI Wajom telah disahkan.
+				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke {COURSE_4.displayNameMs} telah disahkan.
 			</p>
 
 			<div style="background: var(--bg-3); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 20px; font-size: 0.85rem; display: grid; gap: 8px;">
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">No. Transaksi CHIP:</span><span style="font-family: var(--mono); color: var(--ink);">{transactionId}</span></div>
-				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{packageName} · {bonusTokenMillions}M Token</span></div>
+				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{COURSE_4.displayNameMs} · {bonusTokenMillions} juta Token AI</span></div>
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">E-mel Terdaftar:</span><span style="color: var(--ink);">{email}</span></div>
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Jumlah Dibayar:</span><span style="color: var(--emerald-2); font-weight: 700;">RM {amount.toFixed(2)} (LULUS)</span></div>
 			</div>

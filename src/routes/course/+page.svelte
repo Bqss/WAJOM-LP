@@ -2,12 +2,21 @@
 	import SEO from '$lib/components/SEO.svelte';
 	import { COURSE_4 } from '$lib/data/course';
 	import { locale, t } from '$lib/i18n.svelte';
+	import { scramble } from '$lib/motion';
+
+	// Lowercase-leaning set for the proportional headline (no wide m/w/M/W/@).
+	const HEADLINE_GLYPHS = 'abcdefghijklnopqrstuvxyz0123456789/_-+*<>';
 
 	function copy(ms: string, en: string): string {
 		return locale.current === 'en' ? en : ms;
 	}
 
 	const scenes = [
+		{
+			when: ['Setiap pagi, 7:30', 'Every morning, 7:30'],
+			start: ['Peringatan yang sama, anda copy-paste ke lima group jemaah satu per satu.', 'You copy and paste the same reminder into five pilgrim groups, one at a time.'],
+			end: ['Satu group tertinggal, dan petang nanti jemaah dalam group itu bertanya soalan yang sama berulang kali.', 'One group gets missed, and by the afternoon its pilgrims are asking the same question again and again.']
+		},
 		{
 			when: ['Selasa, 11:42 malam', 'Tuesday, 11:42 pm'],
 			start: ['Prospek tanya harga pakej Mac. Anda balas esok pagi.', 'A prospect asks about the March package price. You reply the next morning.'],
@@ -37,11 +46,15 @@
 
 	const modules = [
 		{
+			title: ['Smart Campaign: mesej harian ke group WhatsApp', 'Smart Campaign: daily messages to WhatsApp groups'],
+			description: ['Setting jadual sekali, dan peringatan, info trip atau tazkirah masuk ke group jemaah setiap hari. Anda tak perlu lagi copy-paste ke setiap group.', 'Set the schedule once, and reminders, trip updates or a short reflection reach your pilgrim groups every day. No more copying and pasting into every group.']
+		},
+		{
 			title: ['Konsep AI automation', 'AI automation concepts'],
 			description: ['Faham kerja mana yang AI boleh uruskan untuk anda, dan bahagian mana yang tetap memerlukan sentuhan anda.', 'Understand which tasks AI can handle for you, and which still need your personal attention.']
 		},
 		{
-			title: ['Cara AI menjawab prospek', 'How AI answers prospects'],
+			title: ['Cara Agent AI menjawab prospek', 'How Agent AI answers prospects'],
 			description: ['Lihat bagaimana soalan lazim bakal jemaah dijawab dalam minit, termasuk di luar waktu pejabat.', 'See how common questions from prospective pilgrims are answered within minutes, including outside office hours.']
 		},
 		{
@@ -112,6 +125,10 @@
 
 	const campaignFeatures = [
 		{
+			title: ['Mesej harian yang berulang sendiri', 'Daily messages that repeat on their own'],
+			description: ['Anda tak perlu ingat untuk hantar setiap pagi. Masa tetap menghantar pada slot harian seterusnya, dan mod Loop selamanya bermula semula dari langkah 1 selepas langkah terakhir, jadi peringatan harian ke group jemaah terus berjalan. Tarikh tepat tidak boleh digunakan dalam mod Loop.', 'You no longer have to remember to send every morning. Fixed time sends at the next daily slot, and Loop forever mode restarts from step 1 after the last step, so daily reminders to your pilgrim groups keep running. Exact date cannot be used in Loop mode.']
+		},
+		{
 			title: ['3 jenis waktu hantar', '3 types of sending schedule'],
 			description: ['Jeda (tunggu beberapa minit, jam, hari atau minggu), Masa tetap (slot seterusnya mengikut jam, hari, minggu atau bulan) dan Tarikh tepat (satu tarikh dan masa).', 'Delay (wait a number of minutes, hours, days or weeks), Fixed time (the next hourly, daily, weekly or monthly slot) and Exact date (one specific date and time).']
 		},
@@ -138,52 +155,54 @@
 	] as const;
 
 	const suitableFor = [
-		['Pemilik agensi umrah yang masih menjawab WhatsApp prospek sendiri', 'Umrah agency owners who still answer prospects on WhatsApp themselves'],
+		['Pemilik agensi Umrah & Travel yang masih menjawab WhatsApp prospek sendiri', 'Umrah & Travel agency owners who still answer prospects on WhatsApp themselves'],
+		['Mutawif yang menguruskan beberapa group jemaah dan penat menghantar peringatan yang sama setiap hari', 'Mutawif who manage several pilgrim groups and are tired of sending the same reminders every day'],
+		['Team marketing agensi Umrah & Travel yang perlu hantar content harian ke group prospek dan jemaah', 'Umrah & Travel marketing teams who need to send daily content to prospect and pilgrim groups'],
 		['Agensi kecil atau sederhana yang adminnya sedikit, tetapi enquiry melimpah bila musim puncak', 'Small or medium agencies with limited admin staff and enquiries that surge during peak season'],
 		['Anda yang mahu faham AI automation dahulu sebelum melabur dalam sebarang sistem', 'Those who want to understand AI automation before investing in a system'],
 		['Anda yang mahu staf menjawab bakal jemaah dengan cara yang seragam', 'Those who want staff to answer prospective pilgrims consistently']
 	] as const;
 
 	const lessSuitableFor = [
-		['Anda mencari servis siap pasang tanpa mahu belajar. Masterclass ialah kelas, bukan servis setup.', 'You want a done-for-you service without learning. This masterclass is a class, not a setup service.'],
-		['Agensi anda belum menerima sebarang enquiry melalui WhatsApp.', 'Your agency does not yet receive any enquiries through WhatsApp.']
+		['Anda mencari servis siap pasang tanpa mahu belajar. Ini kelas, bukan servis setup.', 'You want a done-for-you service without learning. This is a class, not a setup service.'],
+		['Anda belum menggunakan WhatsApp untuk berhubung dengan prospek atau jemaah.', 'You do not yet use WhatsApp to communicate with prospects or pilgrims.']
 	] as const;
 
 	const included = [
-		['Live Zoom, boleh bertanya terus', 'Live Zoom, with the opportunity to ask questions directly'],
-		['Rakaman penuh untuk ditonton semula', 'The complete recording to watch again'],
-		['1.5M tokens supaya AI anda boleh mula bekerja', '1.5M tokens so your AI can start working'],
+		['Kelas live, online melalui Zoom, boleh bertanya terus', 'A live class, online via Zoom, with the opportunity to ask questions directly'],
+		['Bonus: 1.5 juta Token AI supaya Agent AI anda boleh terus mula bekerja', 'Bonus: 1.5 million AI tokens so your Agent AI can start working right away'],
+		['Bonus: rakaman kelas untuk ulang belajar', 'Bonus: the class recording so you can revisit the lessons'],
 		['Sesi khusus agensi umrah: urutan Yakin Sebelum Transfer', 'A session specifically for umrah agencies: the Confidence Before Payment sequence']
 	] as const;
 
 	const faqs = [
 		{
 			question: ['Saya perlu melanggan Wajom dulu ke?', 'Do I need a Wajom subscription first?'],
-			answer: ['Tidak. Masterclass ialah langkah pertama untuk anda faham cara AI automation berfungsi sebelum melaksanakan apa-apa. Ia tidak menggantikan sistem Wajom, dan anda tidak perlu melanggan untuk menyertainya.', 'No. The masterclass is a first step towards understanding how AI automation works before implementing anything. It does not replace the Wajom system, and you do not need a subscription to attend.']
+			answer: ['Tidak. Kelas ini ialah langkah pertama untuk anda faham cara Smart Campaign dan Agent AI berfungsi sebelum melaksanakan apa-apa. Ia tidak menggantikan sistem Wajom, dan anda tidak perlu melanggan untuk menyertainya.', 'No. The class is a first step towards understanding how Smart Campaign and Agent AI work before implementing anything. It does not replace the Wajom system, and you do not need a subscription to attend.']
 		},
 		{
 			question: ['Kalau saya tak dapat hadir secara live?', 'What if I cannot attend live?'],
-			answer: ['Anda mendapat rakaman penuh, jadi anda boleh menonton semula bila-bila masa yang sesuai dengan jadual agensi anda.', 'You receive the complete recording, so you can watch it whenever it suits your agency’s schedule.']
+			answer: ['Anda mendapat rakaman kelas sebagai bonus, jadi anda boleh ulang belajar bila-bila masa yang sesuai dengan jadual anda.', 'You receive the class recording as a bonus, so you can revisit the lessons whenever it suits your schedule.']
 		},
 		{
-			question: ['Apa itu 1.5M tokens?', 'What are 1.5M tokens?'],
-			answer: ['Token ialah “tenaga” yang AI gunakan untuk bekerja, contohnya untuk menjawab dan follow-up prospek. Peserta masterclass mendapat 1.5M tokens supaya AI anda boleh mula bekerja.', 'Tokens are the “energy” AI uses to work, for example to answer and follow up with prospects. Masterclass participants receive 1.5M tokens so their AI can start working.']
+			question: ['Apa itu 1.5 juta Token AI?', 'What are the 1.5 million AI tokens?'],
+			answer: ['Token ialah “tenaga” yang Agent AI gunakan untuk bekerja, contohnya untuk menjawab dan follow-up prospek. Setiap peserta kelas mendapat bonus 1.5 juta Token AI supaya Agent AI anda boleh terus mula bekerja.', 'Tokens are the “energy” Agent AI uses to work, for example to answer and follow up with prospects. Every class participant receives a bonus of 1.5 million AI tokens so your Agent AI can start working right away.']
 		},
 		{
 			question: ['Adakah Wajom akan setup sistem untuk agensi saya?', 'Will Wajom set up the system for my agency?'],
-			answer: ['Masterclass ialah kelas. Anda belajar konsep dan cara membina urutan follow-up untuk agensi anda sendiri, termasuk urutan Yakin Sebelum Transfer dalam sesi khusus umrah.', 'The masterclass is a class. You learn the concepts and how to build follow-up sequences for your own agency, including the Confidence Before Payment sequence in the umrah-specific session.']
+			answer: ['Ini kelas, bukan servis setup. Anda belajar setting Smart Campaign dan Agent AI untuk agensi anda sendiri, termasuk mesej harian ke group WhatsApp dan urutan Yakin Sebelum Transfer dalam sesi khusus umrah.', 'This is a class, not a setup service. You learn to set up Smart Campaign and Agent AI for your own agency, including daily messages to WhatsApp groups and the Confidence Before Payment sequence in the umrah-specific session.']
 		},
 		{
 			question: ['Agensi saya kecil. Masih berbaloi?', 'My agency is small. Is it still worthwhile?'],
-			answer: ['Agensi yang adminnya sedikit paling terasa beban follow-up manual. Kelas ini membantu anda faham bagaimana AI boleh menjawab prospek dan menyerahkan yang sudah sedia kepada anda, supaya masa anda tertumpu pada jemaah yang serius.', 'Agencies with fewer admin staff feel the burden of manual follow-ups most. This class helps you understand how AI can answer prospects and hand over those who are ready, so you can focus on serious pilgrims.']
+			answer: ['Agensi yang adminnya sedikit paling terasa beban follow-up manual dan mesej harian ke group jemaah. Kelas ini membantu anda faham bagaimana Smart Campaign menghantar mesej ikut jadual dan Agent AI menjawab prospek, lalu menyerahkan yang sudah sedia kepada anda, supaya masa anda tertumpu pada jemaah yang serius.', 'Agencies with fewer admin staff feel the burden of manual follow-ups and daily group messages most. This class helps you understand how Smart Campaign sends messages on schedule and Agent AI answers prospects, then hands over those who are ready, so you can focus on serious pilgrims.']
 		},
 		{
 			question: ['Bila dan di mana kelas berlangsung?', 'When and where does the class take place?'],
-			answer: ['Secara live melalui Zoom pada Sabtu, 21 November 2026, jam 9:00 pagi (waktu Malaysia).', 'Live on Zoom on Saturday, 21 November 2026, at 9:00 am (Malaysia time).']
+			answer: ['Secara live, online melalui Zoom, pada Sabtu, 21 November 2026, jam 9:00 pagi hingga 12:00 tengah hari (waktu Malaysia).', 'Live and online via Zoom on Saturday, 21 November 2026, from 9:00 am to 12:00 pm (Malaysia time).']
 		},
 		{
 			question: ['Bagaimana cara mendaftar?', 'How do I register?'],
-			answer: ['Tekan butang Daftar dan lengkapkan pembayaran RM30 di wajom.co/checkout.', 'Click Register and complete your RM30 payment at wajom.co/checkout.']
+			answer: ['Tekan butang Daftar Kelas dan lengkapkan pembayaran RM30 di wajom.co/checkout.', 'Click Register for the Class and complete your RM30 payment at wajom.co/checkout.']
 		}
 	] as const;
 
@@ -239,8 +258,12 @@
 	let galleryDialog: HTMLDialogElement;
 	const selectedGalleryItem = $derived(galleryItems[selectedGalleryIndex]);
 	const sessionDate = $derived(copy('Sabtu, 21 November 2026', 'Saturday, 21 November 2026'));
-	const sessionTime = $derived(copy('9:00 pagi', '9:00 am'));
-	const registerLabel = $derived(copy('Daftar Masterclass', 'Register for the Masterclass'));
+	const sessionTime = $derived(copy('9:00 pagi – 12:00 tengah hari', '9:00 am – 12:00 pm'));
+	const registerLabel = $derived(copy('Daftar Kelas', 'Register for the Class'));
+	const dailyPhrase = $derived(copy('setiap hari', 'every day'));
+	const className = $derived(copy('Kelas Setting Smart Campaign & Agent AI Wajom', 'Wajom Smart Campaign & Agent AI Setup Class'));
+	const tagline = $derived(copy('Setting sekali, mesej berjalan automatik!', 'Set it up once, your messages run automatically!'));
+	const bonusTokensLabel = $derived(`${COURSE_4.bonusTokens / 1_000_000} ${copy('juta Token AI', 'million AI tokens')}`);
 
 	function openGalleryModal(index: number) {
 		selectedGalleryIndex = index;
@@ -275,8 +298,8 @@
 	const courseJsonLd = $derived({
 		'@context': 'https://schema.org',
 		'@type': 'Course',
-		name: copy('Masterclass Wajom Agensi Umrah', 'Wajom Masterclass for Umrah Agencies'),
-		description: copy('Belajar menyusun follow-up WhatsApp yang membina keyakinan bakal jemaah sebelum mereka bayar deposit.', 'Learn to organise WhatsApp follow-ups that build prospective pilgrims’ confidence before they pay a deposit.'),
+		name: className,
+		description: copy('Kelas online untuk mutawif, owner agensi Umrah & Travel dan team marketing: setting mesej harian automatik ke group WhatsApp dengan Smart Campaign, dan guna Agent AI untuk menjawab serta follow-up prospek.', 'An online class for mutawif, Umrah & Travel agency owners and marketing teams: set up automatic daily messages to WhatsApp groups with Smart Campaign, and use Agent AI to answer and follow up with prospects.'),
 		provider: { '@type': 'Organization', name: 'Wajom Academy', url: 'https://wajom.co' },
 		offers: {
 			'@type': 'Offer', price: String(COURSE_4.price), priceCurrency: 'MYR',
@@ -290,12 +313,12 @@
 </script>
 
 <SEO
-	title={copy('Masterclass Wajom Agensi Umrah — Follow-up WhatsApp (RM30)', 'Wajom Masterclass for Umrah Agencies — WhatsApp Follow-ups (RM30)')}
-	description={copy('Masterclass Wajom untuk pemilik agensi umrah di Malaysia: susun follow-up WhatsApp yang membina keyakinan bakal jemaah sebelum mereka bayar deposit. RM30, Live Zoom dan rakaman penuh.', 'A Wajom masterclass for umrah agency owners in Malaysia: organise WhatsApp follow-ups that build prospective pilgrims’ confidence before they pay a deposit. RM30, live Zoom and the complete recording.')}
-	keywords="masterclass wajom, kursus wajom, agensi umrah, follow-up whatsapp, ai automation, smart campaign"
+	title={copy('Kelas Setting Smart Campaign & Agent AI Wajom — Mesej Harian ke Group WhatsApp (RM30)', 'Wajom Smart Campaign & Agent AI Setup Class — Daily Messages to WhatsApp Groups (RM30)')}
+	description={copy('Untuk mutawif, owner agensi Umrah & Travel dan team marketing di Malaysia: setting sekali, mesej harian ke group WhatsApp berjalan automatik. Kelas online melalui Zoom, RM30, bonus 1.5 juta Token AI dan rakaman kelas.', 'For mutawif, Umrah & Travel agency owners and marketing teams in Malaysia: set it up once, and your daily WhatsApp group messages run automatically. Online class via Zoom, RM30, with 1.5 million bonus AI tokens and the class recording.')}
+	keywords="kelas smart campaign, agent ai wajom, group whatsapp, mesej automatik whatsapp, smart campaign, agent ai, mutawif, agensi umrah, agensi travel, follow-up whatsapp, ai automation, kursus wajom"
 	canonical="https://wajom.co/course"
 	ogImage="https://wajom.co/logo.png"
-	ogImageAlt="Wajom — Masterclass Agensi Umrah"
+	ogImageAlt="Wajom — Kelas Setting Smart Campaign & Agent AI"
 	jsonLd={courseJsonLd}
 />
 
@@ -321,7 +344,7 @@
 
 	<div class="course-announcement">
 		<div class="wrap announcement-inner">
-			<span><strong>{copy('TAWARAN KHAS:', 'SPECIAL OFFER:')}</strong> Masterclass RM{COURSE_4.price} + {COURSE_4.bonusTokens / 1_000_000}M tokens</span>
+			<span><strong>{copy('TAWARAN KHAS:', 'SPECIAL OFFER:')}</strong> {copy(`Kelas RM${COURSE_4.price} sahaja + bonus ${bonusTokensLabel}`, `Class only RM${COURSE_4.price} + ${bonusTokensLabel} bonus`)}</span>
 			<time datetime={COURSE_4.sessionDateTime}>{copy('Sabtu, 21 Nov 2026', 'Saturday, 21 Nov 2026')} · {sessionTime}</time>
 		</div>
 	</div>
@@ -329,59 +352,62 @@
 	<section class="course-hero" id="course-content" aria-labelledby="course-title">
 		<div class="wrap course-hero-grid">
 			<div class="course-hero-copy">
-				<p class="course-context">{copy('Masterclass Wajom · Sesi khusus agensi umrah', 'Wajom Masterclass · A session for umrah agencies')}</p>
-				<h1 id="course-title">{copy('Bakal jemaah tanya harga.', 'Prospective pilgrims ask the price.')} <span>{copy('Lepas tu senyap.', 'Then go quiet.')}</span></h1>
-				<p class="course-lede">{copy('Mungkin dia bukan lari sebab harga. Dia cuma belum yakin agensi anda berbeza daripada agensi yang masuk berita. Dalam Masterclass ini, anda belajar bina follow-up WhatsApp yang menjawab rasa curiga itu satu per satu, walaupun admin anda cuma seorang.', 'Maybe the price is not why they disappeared. They just are not yet convinced your agency is different from the ones in the news. In this masterclass, you learn to build WhatsApp follow-ups that address those doubts one by one, even if you have only one admin.')}</p>
+				<p class="course-context course-hero-eyebrow" use:scramble={{ text: className, delay: 150 }}>{className}</p>
+				<h1 id="course-title">{copy('Sistem automation hantar mesej', 'An automation system that sends messages')} <span>{copy('', 'to your WhatsApp groups ')}<span use:scramble={{ text: dailyPhrase, delay: 350, duration: 850, glyphs: HEADLINE_GLYPHS }}>{dailyPhrase}</span>{copy(' ke Group WhatsApp', '')}</span></h1>
+				<p class="course-lede">{copy('Khas untuk mutawif, owner agensi Umrah & Travel serta team marketing yang nak urus WhatsApp dengan lebih bijak. Tak perlu lagi copy-paste peringatan yang sama ke setiap group jemaah, risau ada group yang tertinggal, atau hantar info trip lewat malam. Anda setting jadualnya sekali, dan mesej sampai ke setiap group tepat pada masanya, setiap hari.', 'Made for mutawif, Umrah & Travel agency owners and marketing teams who want to manage WhatsApp more wisely. No more copying and pasting the same reminder into every pilgrim group, worrying that one got missed, or sending trip updates late at night. You set the schedule once, and your messages reach every group on time, every day.')}</p>
+				<p class="course-tagline">{tagline}</p>
 				<div class="course-hero-actions">
-					<a href="/checkout" class="course-button">{registerLabel} RM{COURSE_4.price} {@render arrowIcon()}</a>
+					<a href="/checkout" class="course-button">{registerLabel} · RM{COURSE_4.price} {copy('sahaja', 'only')} {@render arrowIcon()}</a>
 					<span class="course-original-price">{copy('Harga asal', 'Original price')} <s>RM200</s></span>
 				</div>
-				<p class="course-session"><time datetime={COURSE_4.sessionDateTime}>{sessionDate} · {sessionTime}</time></p>
+				<p class="course-session"><time datetime={COURSE_4.sessionDateTime}>{sessionDate} · {sessionTime}</time> · {copy('Online melalui Zoom', 'Online via Zoom')}</p>
 				<ul class="course-benefits" aria-label={copy('Termasuk', 'Included')}>
-					<li>{@render checkIcon()} Live Zoom</li>
-					<li>{@render checkIcon()} {copy('Rakaman penuh', 'Full recording')}</li>
-					<li>{@render checkIcon()} {COURSE_4.bonusTokens / 1_000_000}M tokens</li>
+					<li>{@render checkIcon()} {copy('Online melalui Zoom', 'Online via Zoom')}</li>
+					<li>{@render checkIcon()} {bonusTokensLabel} <span class="course-example-label">Bonus</span></li>
+					<li>{@render checkIcon()} {copy('Rakaman kelas untuk ulang belajar', 'Class recording to revisit the lessons')} <span class="course-example-label">Bonus</span></li>
 				</ul>
 			</div>
 
-			<figure class="course-conversation" aria-label={copy('Ilustrasi perbualan WhatsApp antara agensi dan bakal jemaah', 'Illustration of a WhatsApp conversation between an agency and a prospective pilgrim')}>
+			<figure class="course-conversation" aria-label={copy('Ilustrasi group WhatsApp jemaah yang menerima mesej automatik setiap hari', 'Illustration of a pilgrim WhatsApp group receiving automatic daily messages')}>
 				<div class="conversation-header">
-					<span class="conversation-avatar" aria-hidden="true">PS</span>
-					<div><strong>Puan Salmah</strong><span>{copy('Bakal jemaah', 'Prospective pilgrim')}</span></div>
+					<span class="conversation-avatar" aria-hidden="true">JU</span>
+					<div><strong>{copy('Jemaah Umrah Mac 2027', 'Umrah Pilgrims March 2027')}</strong><span class="conversation-status"><span class="conversation-members">{copy('42 ahli', '42 members')}</span><span class="conversation-typing-status" aria-hidden="true">{copy('Puan Salmah sedang menaip…', 'Puan Salmah is typing…')}</span></span></div>
 					<span class="conversation-example">{copy('Ilustrasi', 'Illustration')}</span>
 				</div>
 				<div class="conversation-messages">
-					<div class="conversation-bubble incoming">
-						<p>{copy('Assalamualaikum. Berapa harga pakej umrah Mac?', 'Assalamualaikum. How much is the March umrah package?')}</p>
-						<span class="conversation-time">21:14</span>
+					<span class="conversation-day chat-in chat-in-1">{copy('Hari ini', 'Today')}</span>
+					<div class="conversation-bubble outgoing chat-in chat-in-2">
+						<span class="conversation-auto">{copy('Mesej automatik · setiap hari', 'Automatic message · daily')}</span>
+						<p>{copy('Selamat pagi semua. Jadual hari ini: 9:00 pagi taklimat kursus umrah di pejabat kami. Mohon hadir 15 minit awal.', 'Good morning, everyone. Today’s schedule: the umrah course briefing at our office at 9:00 am. Please arrive 15 minutes early.')}</p>
+						<span class="conversation-time">07:30 {@render readIcon()}</span>
 					</div>
-					<div class="conversation-bubble outgoing">
-						<p>{copy('Waalaikumussalam Puan. Boleh saya tahu tarikh pilihan dan berapa orang yang akan pergi?', 'Waalaikumussalam. May I know your preferred dates and how many people will be travelling?')}</p>
-						<span class="conversation-time">21:15 {@render readIcon()}</span>
+					<div class="conversation-bubble outgoing chat-in chat-in-3">
+						<span class="conversation-auto">{copy('Mesej automatik · setiap hari', 'Automatic message · daily')}</span>
+						<p>{copy('Senarai semak dokumen: pasport, salinan IC dan kad vaksin. Mohon semak dan hantar sebelum Jumaat.', 'Document checklist: passport, a copy of your IC and your vaccination card. Please check and submit them before Friday.')}</p>
+						<span class="conversation-time">07:31 {@render readIcon()}</span>
 					</div>
-					<span class="conversation-pause">{copy('Dibaca. Tiada balasan selama 1 hari', 'Read. No reply for 1 day')}</span>
-					<div class="conversation-bubble outgoing">
-						<span class="conversation-auto">{copy('Follow-up automatik', 'Automatic follow-up')}</span>
-						<p>{copy('Untuk ketenangan Puan, ini nombor lesen MOTAC kami. Puan boleh semak sendiri di laman web MOTAC sebelum buat apa-apa bayaran.', 'For your peace of mind, here is our MOTAC licence number. You can check it yourself on the MOTAC website before making any payment.')}</p>
-						<span class="conversation-time">10:02 {@render readIcon()}</span>
+					<!-- The typing indicator overlays the reply's slot so it never shifts layout. -->
+					<div class="conversation-slot">
+						<div class="conversation-bubble incoming chat-in chat-in-4">
+							<span class="conversation-sender">Puan Salmah</span>
+							<p>{copy('Terima kasih, ustaz. Dokumen saya dah lengkap.', 'Thank you, ustaz. My documents are complete.')}</p>
+							<span class="conversation-time">07:52</span>
+						</div>
+						<div class="conversation-bubble incoming conversation-typing" aria-hidden="true"><span></span><span></span><span></span></div>
 					</div>
-					<span class="conversation-day">{copy('2 hari kemudian', '2 days later')}</span>
-					<div class="conversation-bubble outgoing">
-						<span class="conversation-auto">{copy('Follow-up automatik', 'Automatic follow-up')}</span>
-						<p>{copy('Ini nama hotel, jarak ke Masjidil Haram dan itinerari penuh untuk pakej Mac.', 'Here are the hotel names, the distance to Masjid al-Haram and the complete itinerary for the March package.')}</p>
-						<span class="conversation-time">10:05 {@render readIcon()}</span>
-					</div>
-					<div class="conversation-bubble incoming">
-						<p>{copy('Terima kasih. Kalau saya nak pergi 4 orang, deposit berapa?', 'Thank you. If four of us want to go, how much is the deposit?')}</p>
-						<span class="conversation-time">10:31</span>
+					<span class="conversation-day chat-in chat-in-5">{copy('Esok', 'Tomorrow')}</span>
+					<div class="conversation-bubble outgoing chat-in chat-in-6">
+						<span class="conversation-auto">{copy('Mesej automatik · setiap hari', 'Automatic message · daily')}</span>
+						<p>{copy('Tazkirah pagi: umrah bermula dengan niat yang ikhlas. Semoga Allah permudahkan perjalanan kita semua.', 'Morning reflection: umrah begins with a sincere intention. May Allah ease the journey for all of us.')}</p>
+						<span class="conversation-time">07:30 {@render readIcon()}</span>
 					</div>
 				</div>
-				<figcaption class="conversation-handover">{@render arrowIcon()} {copy('Diserahkan kepada staf anda', 'Handed over to your staff')}</figcaption>
+				<figcaption class="conversation-handover">{@render checkIcon()} {copy('Dihantar automatik setiap hari mengikut jadual', 'Sent automatically every day, on schedule')}</figcaption>
 			</figure>
 		</div>
 	</section>
 
-	<nav class="course-jump-nav" aria-label={copy('Kandungan masterclass', 'Masterclass contents')}>
+	<nav class="course-jump-nav" aria-label={copy('Kandungan kelas', 'Class contents')}>
 		<div class="wrap jump-nav-inner">
 			<a href="#syllabus">{copy('Apa yang dipelajari', 'What you will learn')}</a>
 			<a href="#smart-campaign">Smart Campaign</a>
@@ -406,7 +432,7 @@
 					{/each}
 				</div>
 			</div>
-			<p class="course-scenes-note">{copy('Semua ini berpunca daripada perkara yang sama:', 'All of this comes down to the same thing:')} <strong>{copy('terlalu banyak perbualan, terlalu sedikit tangan.', 'too many conversations, too few hands.')}</strong> {copy('Anda tak perlu bekerja lebih lama. Anda perlukan sistem yang terus menjawab bila anda sedang sibuk.', 'You do not need to work longer hours. You need a system that keeps answering when you are busy.')}</p>
+			<p class="course-scenes-note">{copy('Semua ini berpunca daripada perkara yang sama:', 'All of this comes down to the same thing:')} <strong>{copy('terlalu banyak perbualan, terlalu sedikit tangan.', 'too many conversations, too few hands.')}</strong> {copy('Anda tak perlu bekerja lebih lama. Anda perlukan sistem yang terus menghantar dan menjawab bila anda sedang sibuk.', 'You do not need to work longer hours. You need a system that keeps sending and answering when you are busy.')}</p>
 		</div>
 	</section>
 
@@ -435,8 +461,8 @@
 		<div class="wrap">
 			<div class="course-section-header course-wide-heading">
 				<p class="course-context">{copy('Apa yang anda bawa balik', 'What you take away')}</p>
-				<h2 id="learn-title">{copy('Anda belajar membina sistem yang terus menjawab, walaupun anda sedang tidur.', 'Learn to build a system that keeps answering, even while you sleep.')}</h2>
-				<p>{copy('Masterclass ini langkah pertama untuk faham cara kerjanya sebelum anda melaksanakan apa-apa. Anda tak perlu melanggan sistem Wajom untuk menyertai kelas.', 'This masterclass is the first step to understanding how it works before you implement anything. You do not need a Wajom subscription to join.')}</p>
+				<h2 id="learn-title">{copy('Anda belajar membina sistem yang terus menghantar dan menjawab, walaupun anda sedang tidur.', 'Learn to build a system that keeps sending and answering, even while you sleep.')}</h2>
+				<p>{copy('Kelas ini langkah pertama untuk faham cara Smart Campaign dan Agent AI bekerja untuk group jemaah dan prospek anda, sebelum anda melaksanakan apa-apa. Anda tak perlu melanggan sistem Wajom untuk menyertai kelas.', 'This class is the first step to understanding how Smart Campaign and Agent AI work for your pilgrim groups and prospects, before you implement anything. You do not need a Wajom subscription to join.')}</p>
 			</div>
 			<div class="course-learning-layout">
 				<ol class="course-modules">
@@ -455,7 +481,7 @@
 							<li><span class="followup-day">{step.day}</span><div><strong>{copy(step.title[0], step.title[1])}</strong><span>{copy(step.description[0], step.description[1])}</span></div></li>
 						{/each}
 					</ol>
-					<p class="course-example-note">{copy('Bukti dalam setiap mesej (lesen, gambar trip, itinerari) datang daripada agensi anda sendiri. Masterclass mengajar cara menyusun dan menghantarnya pada masa yang tepat.', 'The evidence in every message (licence, trip photos, itinerary) comes from your own agency. The masterclass teaches you to organise and send it at the right time.')}</p>
+					<p class="course-example-note">{copy('Bukti dalam setiap mesej (lesen, gambar trip, itinerari) datang daripada agensi anda sendiri. Kelas ini mengajar cara menyusun dan menghantarnya pada masa yang tepat.', 'The evidence in every message (licence, trip photos, itinerary) comes from your own agency. The class teaches you to organise and send it at the right time.')}</p>
 				</article>
 			</div>
 		</div>
@@ -468,6 +494,7 @@
 				<h2 id="campaign-title">{copy('Jemaah dah transfer. Kerja follow-up anda baru bermula.', 'The pilgrim has paid. Your follow-up work is just beginning.')}</h2>
 				<p>{copy('Senarai dokumen, tarikh taklimat, peringatan sehari sebelum berlepas. Admin anda hantar satu per satu kepada setiap jemaah, dan selalu ada yang tertinggal.', 'Document lists, briefing dates, reminders the day before departure. Your admin sends them to every pilgrim one by one, and someone always gets missed.')}</p>
 				<p>{copy('Lepas itu, jemaah tanya soalan yang sama berulang kali, sebab maklumat yang mereka perlukan tidak sampai pada masa yang tepat.', 'Then pilgrims ask the same questions repeatedly, because the information they need did not reach them at the right time.')}</p>
+				<p>{copy('Group WhatsApp jemaah pun sama. Peringatan harian, info trip dan tazkirah perlu masuk setiap pagi, dan semuanya bergantung pada anda ingat untuk hantar.', 'Your pilgrim WhatsApp groups are no different. Daily reminders, trip updates and reflections need to go out every morning, and all of it depends on you remembering to send them.')}</p>
 			</div>
 			<div class="course-campaign-layout">
 				<article class="course-campaign-example" aria-labelledby="campaign-example-title">
@@ -487,8 +514,8 @@
 					<p class="course-example-note">{copy('Contoh sahaja. Kandungan mesej, tarikh dan lampiran ditentukan oleh agensi anda sendiri.', 'An example only. Your agency determines the message content, dates and attachments.')}</p>
 				</article>
 				<div class="course-campaign-copy">
-					<p><strong>{copy('Smart Campaign ialah alat Wajom untuk follow-up automatik', 'Smart Campaign is Wajom’s tool for automatic follow-ups')}</strong>{copy(', salah satu topik dalam Masterclass. Anda susun jadual mesej sekali sahaja. Setiap jemaah dalam senarai kenalan anda menerima mesej yang betul, pada masa yang betul, tanpa admin perlu ingat siapa belum dihubungi.', ', one of the topics in the masterclass. You organise the message schedule once. Every pilgrim on your contact list receives the right message at the right time, without your admin having to remember who has not been contacted.')}</p>
-					<div class="course-notice"><p>{copy('Smart Campaign menghantar mesej terus ke WhatsApp setiap jemaah dalam senarai kenalan anda, seorang demi seorang. Kempen bermula sebagai Draf dan hanya menghantar selepas anda tukar kepada Aktif.', 'Smart Campaign sends messages directly to each pilgrim’s WhatsApp, one contact at a time. Campaigns start as Draft and only send after you switch them to Active.')}</p></div>
+					<p><strong>{copy('Smart Campaign ialah alat Wajom untuk mesej dan follow-up automatik', 'Smart Campaign is Wajom’s tool for automatic messages and follow-ups')}</strong>{copy(', topik utama dalam kelas ini. Anda susun jadual mesej sekali sahaja. Setiap jemaah dan setiap group menerima mesej yang betul, pada masa yang betul, tanpa admin perlu ingat siapa belum dihubungi.', ', a core topic in this class. You organise the message schedule once. Every pilgrim and every group receives the right message at the right time, without your admin having to remember who has not been contacted.')}</p>
+					<div class="course-notice"><p>{copy('Smart Campaign menghantar mesej ke kenalan dan ke group WhatsApp anda, mengikut jadual yang anda tetapkan. Kempen bermula sebagai Draf dan hanya menghantar selepas anda tukar kepada Aktif.', 'Smart Campaign sends messages to your contacts and your WhatsApp groups, on the schedule you set. Campaigns start as Draft and only send after you switch them to Active.')}</p></div>
 					<a href="/checkout" class="course-button">{registerLabel} RM{COURSE_4.price} {@render arrowIcon()}</a>
 					<a class="course-text-link" href="/tutorials/cara-setting-smart-campaign">{copy('Lihat tutorial Smart Campaign', 'View the Smart Campaign tutorial')} {@render arrowIcon()}</a>
 				</div>
@@ -554,7 +581,7 @@
 					<p class="course-payment-note">{copy('Pembayaran di wajom.co/checkout. Tidak perlu melanggan sistem Wajom.', 'Payment at wajom.co/checkout. No Wajom subscription is required.')}</p>
 				</div>
 				<aside class="course-offer-summary" aria-label={copy('Ringkasan', 'Summary')}>
-					<div class="course-summary-product"><img src="/logo.png" alt="" width="44" height="44" /><div><strong>Masterclass Wajom</strong><span>{sessionDate} · {sessionTime}</span></div></div>
+					<div class="course-summary-product"><img src="/logo.png" alt="" width="44" height="44" /><div><strong>{className}</strong><span>{sessionDate} · {sessionTime}</span></div></div>
 					<div class="course-summary-original"><span>{copy('Harga asal', 'Original price')}</span><s>RM200</s></div>
 					<div class="course-summary-total"><span>{copy('JUMLAH:', 'TOTAL:')}</span><strong><small>RM</small>{COURSE_4.price}</strong></div>
 					<a href="/checkout" class="course-button">{copy('Daftar sekarang', 'Register now')} {@render arrowIcon()}</a>
@@ -582,7 +609,7 @@
 
 	<section class="course-band course-closing" aria-labelledby="closing-title">
 		<div class="wrap course-closing-inner">
-			<div><h2 id="closing-title">{copy('Malam ini, ada lagi yang akan tanya harga.', 'Tonight, someone else will ask the price.')}</h2><p>{copy('Pastikan dia menerima jawapan, bukti dan follow-up yang membuatnya yakin, walaupun anda sedang berehat.', 'Make sure they receive the answers, evidence and follow-ups that build confidence, even while you are resting.')}</p></div>
+			<div><h2 id="closing-title">{copy('Malam ini, ada lagi yang akan tanya harga.', 'Tonight, someone else will ask the price.')}</h2><p>{copy('Pastikan dia menerima jawapan, bukti dan follow-up yang membuatnya yakin, walaupun anda sedang berehat.', 'Make sure they receive the answers, evidence and follow-ups that build confidence, even while you are resting.')}</p><p class="course-tagline">{tagline}</p></div>
 			<a href="/checkout" class="course-button">{registerLabel} RM{COURSE_4.price} {@render arrowIcon()}</a>
 		</div>
 	</section>
@@ -591,7 +618,7 @@
 		<div class="wrap">
 			<h2 id="sources-title">{copy('Sumber', 'Sources')}</h2>
 			<ol>{#each sources as source, index}<li id={'src-' + (index + 1)}>{source.text} <a href={source.url} target="_blank" rel="noopener noreferrer">{source.domain}</a></li>{/each}</ol>
-			<div class="course-source-foot"><span>{copy('Wajom · Masterclass AI automation untuk WhatsApp', 'Wajom · AI automation masterclass for WhatsApp')}</span><span>{copy('Perbualan dalam halaman ini ialah ilustrasi.', 'The conversation on this page is an illustration.')}</span></div>
+			<div class="course-source-foot"><span>{copy('Wajom · Kelas Setting Smart Campaign & Agent AI untuk WhatsApp', 'Wajom · Smart Campaign & Agent AI setup class for WhatsApp')}</span><span>{copy('Group WhatsApp dan perbualan dalam halaman ini ialah ilustrasi.', 'The WhatsApp group and conversations on this page are illustrations.')}</span></div>
 		</div>
 	</section>
 
@@ -620,6 +647,7 @@
 		--course-chat-out: #123d2e;
 		--course-chat-ink: #f0f5f2;
 		--course-chat-muted: #b5d0c0;
+		--course-chat-read: #53bdeb;
 		position: relative;
 		background: var(--bg);
 		color: var(--ink);
@@ -632,6 +660,7 @@
 		--course-chat-out: #e2f3e9;
 		--course-chat-ink: #143d2b;
 		--course-chat-muted: #3d6951;
+		--course-chat-read: #0b84c4;
 	}
 	.umrah-course h1, .umrah-course h2, .umrah-course h3 {
 		margin: 0;
@@ -657,7 +686,8 @@
 	.course-hero-copy { min-width: 0; }
 	.course-context { color: var(--course-accent); font-size: 0.85rem; font-weight: 600; line-height: 1.6; }
 	.course-hero h1 { margin-top: 22px; font-size: clamp(2.5rem, 4.2vw, 3.8rem); line-height: 1.06; }
-	.course-hero h1 span { display: block; color: var(--course-accent); }
+	.course-hero h1 > span { display: block; color: var(--course-accent); }
+	.umrah-course .course-hero-eyebrow { font-family: var(--mono); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.01em; text-wrap: balance; }
 	.umrah-course .course-lede { margin-top: 26px; max-width: 52ch; color: var(--ink-2); font-size: 1.06rem; line-height: 1.75; }
 	.course-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px 20px; margin-top: 30px; }
 	.course-button { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 52px; padding: 14px 24px; border-radius: 10px; background: var(--gold); color: var(--cta-ink); font-size: 1rem; font-weight: 700; line-height: 1.4; text-align: center; text-decoration: none; transition: background-color 180ms ease, transform 180ms ease; }
@@ -683,11 +713,57 @@
 	.conversation-time { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-top: 5px; font-size: 0.67rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 	.outgoing .conversation-time { color: var(--course-chat-muted); }
 	.conversation-time .course-icon { width: 17px; height: 12px; }
+	.outgoing .conversation-time .course-icon { color: var(--course-chat-read); }
+	.conversation-status, .conversation-slot { display: grid; }
+	.conversation-status > span, .conversation-slot > div { grid-area: 1 / 1; }
+	.conversation-typing-status { color: var(--course-accent); opacity: 0; }
+	.conversation-typing { display: flex; gap: 4px; align-self: start; padding: 12px 14px; opacity: 0; }
+	.conversation-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); }
 	.conversation-auto { display: block; margin-bottom: 4px; color: var(--course-chat-muted); font-size: 0.68rem; font-weight: 600; }
-	.conversation-pause, .conversation-day { justify-self: center; padding-block: 2px; font-size: 0.69rem; color: var(--ink-3); }
-	.conversation-pause { color: var(--course-warm-note); }
+	.conversation-sender { display: block; margin-bottom: 4px; color: var(--course-accent); font-size: 0.68rem; font-weight: 600; }
+	.course-benefits .course-example-label { padding: 1px 6px; font-size: 0.66rem; }
+	.umrah-course .course-tagline { margin-top: 20px; color: var(--course-gold-text); font-family: var(--serif); font-size: clamp(1.2rem, 1.8vw, 1.45rem); font-weight: 600; line-height: 1.35; letter-spacing: -0.015em; }
+	.conversation-day { justify-self: center; padding-block: 2px; font-size: 0.69rem; color: var(--ink-3); }
 	.conversation-handover { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 13px 16px; border-top: 1px solid var(--rule-2); background: color-mix(in srgb, var(--emerald) 7%, var(--bg-2)); color: var(--course-accent); font-size: 0.76rem; font-weight: 600; }
 	.conversation-handover .course-icon { width: 16px; height: 16px; }
+	/* Hero chat loop (16s): messages arrive on a schedule, then everything fades and restarts.
+	   Without motion, the final static state above is shown. */
+	@media (prefers-reduced-motion: no-preference) {
+		.chat-in, .conversation-members, .conversation-typing-status, .conversation-typing, .chat-in .course-icon, .conversation-handover .course-icon { animation-duration: 16s; animation-timing-function: cubic-bezier(0.3, 1.3, 0.6, 1); animation-iteration-count: infinite; }
+		.chat-in { transform-origin: 50% 100%; }
+		.chat-in.outgoing { transform-origin: 100% 100%; }
+		.chat-in.incoming { transform-origin: 0 100%; }
+		.chat-in-1 { animation-name: chat-in-1; }
+		.chat-in-2 { animation-name: chat-in-2; }
+		.chat-in-3 { animation-name: chat-in-3; }
+		.chat-in-4 { animation-name: chat-in-4; }
+		.chat-in-5 { animation-name: chat-in-5; }
+		.chat-in-6 { animation-name: chat-in-6; }
+		.chat-in-2 .course-icon { animation-name: chat-read-2; }
+		.chat-in-3 .course-icon { animation-name: chat-read-3; }
+		.chat-in-6 .course-icon { animation-name: chat-read-6; }
+		.conversation-members { animation-name: chat-members; }
+		.conversation-typing, .conversation-typing-status { animation-name: chat-typing; }
+		.conversation-handover .course-icon { animation-name: chat-pulse; }
+		.conversation-typing span { animation: chat-dot 1s ease-in-out infinite; }
+		.conversation-typing span:nth-child(2) { animation-delay: 0.15s; }
+		.conversation-typing span:nth-child(3) { animation-delay: 0.3s; }
+	}
+	/* Arrival keyframes: hidden until the step's time, pop in, hold, fade out together at 90-95%. */
+	@keyframes chat-in-1 { 0%, 2% { opacity: 0; transform: translateY(8px) scale(0.96); } 4.5%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	@keyframes chat-in-2 { 0%, 6% { opacity: 0; transform: translateY(8px) scale(0.96); } 8.5%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	@keyframes chat-in-3 { 0%, 15% { opacity: 0; transform: translateY(8px) scale(0.96); } 17.5%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	@keyframes chat-in-4 { 0%, 37.5% { opacity: 0; transform: translateY(8px) scale(0.96); } 40%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	@keyframes chat-in-5 { 0%, 48% { opacity: 0; transform: translateY(8px) scale(0.96); } 50%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	@keyframes chat-in-6 { 0%, 54% { opacity: 0; transform: translateY(8px) scale(0.96); } 56.5%, 90% { opacity: 1; transform: none; } 95%, 100% { opacity: 0; transform: none; } }
+	/* Ticks switch from sent to read about one second after each arrival. */
+	@keyframes chat-read-2 { 0%, 14% { color: var(--course-chat-muted); } 15%, 100% { color: var(--course-chat-read); } }
+	@keyframes chat-read-3 { 0%, 24% { color: var(--course-chat-muted); } 25%, 100% { color: var(--course-chat-read); } }
+	@keyframes chat-read-6 { 0%, 63% { color: var(--course-chat-muted); } 64%, 100% { color: var(--course-chat-read); } }
+	@keyframes chat-typing { 0%, 27% { opacity: 0; } 28.5%, 36.5% { opacity: 1; } 38%, 100% { opacity: 0; } }
+	@keyframes chat-members { 0%, 26.5%, 38.5%, 100% { opacity: 1; } 27.5%, 37.5% { opacity: 0; } }
+	@keyframes chat-pulse { 0%, 7%, 10%, 16%, 19%, 55%, 58%, 100% { transform: none; } 8.5%, 17.5%, 56.5% { transform: scale(1.3); } }
+	@keyframes chat-dot { 0%, 60%, 100% { opacity: 0.45; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
 	.course-jump-nav { border-block: 1px solid var(--rule-2); background: var(--bg-2); }
 	.jump-nav-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 28px; padding-block: 8px; }
 	.jump-nav-inner a { display: flex; align-items: center; min-height: 44px; color: var(--ink-2); font-size: 0.85rem; }
@@ -861,6 +937,7 @@
 		.course-hero { padding-block: 40px 48px; }
 		.course-hero h1 { font-size: clamp(2.35rem, 9.5vw, 3.25rem); max-width: 20ch; margin-top: 18px; }
 		.course-context { font-size: 0.8rem; }
+		.umrah-course .course-hero-eyebrow { font-size: 0.72rem; letter-spacing: 0; }
 		.umrah-course .course-lede { margin-top: 22px; font-size: 1rem; line-height: 1.75; }
 		.course-hero-actions { align-items: flex-start; margin-top: 26px; }
 		.course-hero-actions .course-button { width: 100%; }

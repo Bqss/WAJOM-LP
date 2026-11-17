@@ -57,8 +57,8 @@
 </script>
 
 <SEO
-	title="Pembayaran Gagal — Wajom Mastery Kelas Chat AI"
-	description="Status transaksi pembayaran pendaftaran Kelas Chat AI Wajom Mastery tidak berjaya."
+	title="Pembayaran Gagal — Kelas Setting Smart Campaign & Agent AI Wajom"
+	description="Status transaksi pembayaran pendaftaran Kelas Setting Smart Campaign & Agent AI Wajom tidak berjaya."
 	canonical="https://wajom.co/checkout/failed"
 />
 

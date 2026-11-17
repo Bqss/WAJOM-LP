@@ -121,7 +121,7 @@
 		<div class="cta-box">
 			<h3>Bersedia Transformasikan Pasukan Anda?</h3>
 			<p>
-				Dapatkan akses penuh ke sistem Wajom atau sertai Kelas Masterclass RM30 untuk mula
+				Dapatkan akses penuh ke sistem Wajom atau sertai Kelas Setting Smart Campaign &amp; Agent AI Wajom (RM30) untuk mula
 				mengautomasikan bisnes anda hari ini.
 			</p>
 			<a class="cta-btn" href="/checkout"> Daftar Kelas RM30 Sekarang → </a>

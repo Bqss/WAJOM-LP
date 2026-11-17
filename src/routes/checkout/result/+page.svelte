@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
+	import { COURSE_4 } from '$lib/data/course';
 	let orderId = $state('');
 	let statusId = $state('');
 
@@ -21,6 +22,13 @@
 		whatsapp_group_url?: string;
 		customer_service_phone?: string;
 	} | null>(null);
+
+	// The API returns the stable backend package_name; show the user-facing class name instead.
+	const displayPackageName = $derived(
+		!participantData?.package_name || participantData.package_name === COURSE_4.packageName
+			? COURSE_4.displayNameMs
+			: participantData.package_name
+	);
 
 	$effect(() => {
 		orderId = $page.url.searchParams.get('order_id') || $page.url.searchParams.get('reference') || '';
@@ -78,8 +86,8 @@
 </script>
 
 <SEO
-	title={isNotFound ? "404 — Rekod Pendaftaran Tidak Dijumpai | Wajom Mastery" : isSuccess ? "Pengesahan Pendaftaran Berjaya — Wajom Mastery" : "Status Pembayaran Gagal — Wajom Mastery"}
-	description="Status transaksi pendaftaran Kelas Chat AI Wajom Mastery."
+	title={isNotFound ? "404 — Rekod Pendaftaran Tidak Dijumpai | Kelas Smart Campaign & Agent AI Wajom" : isSuccess ? "Pengesahan Pendaftaran Berjaya — Kelas Smart Campaign & Agent AI Wajom" : "Status Pembayaran Gagal — Kelas Smart Campaign & Agent AI Wajom"}
+	description="Status transaksi pendaftaran Kelas Setting Smart Campaign & Agent AI Wajom."
 	canonical={`https://wajom.co/checkout/result${orderId ? '?order_id=' + orderId : ''}`}
 />
 
@@ -172,7 +180,7 @@
 				<h1 class="card-title">Tahniah! Pendaftaran Anda Disahkan</h1>
 
 				<p class="card-subtitle">
-					Pembayaran bagi slot <strong class="text-highlight">{participantData?.package_name || 'Wajom Mastery — Kelas Chat AI'}</strong> telah berjaya diterima. Akses pendaftaran & bonus token anda telah diaktifkan.
+					Pembayaran bagi slot <strong class="text-highlight">{displayPackageName}</strong> telah berjaya diterima. Akses pendaftaran & bonus token anda telah diaktifkan.
 				</p>
 
 				<!-- Detailed Order Summary Box -->

@@ -43,7 +43,9 @@ You can preview the production build with `npm run preview`.
 
 ## Course landing page
 
-The `/course` landing page retains the complete content from [Masterclass Wajom Agensi Umrah](https://slugpost.com/wajom-masterclass-agensi-umrah), including the seven-day follow-up sequence, Smart Campaign details, FAQs and source citations. It supports Malay/English and the existing light/dark themes. Registration links use `/checkout`; mobile registration and WhatsApp controls share the bottom bar without covering the content.
+The `/course` landing page sells the Kelas Setting Smart Campaign & Agent AI Wajom, a live Zoom class on setting up daily automated messages to WhatsApp groups for mutawif, Umrah & Travel agency owners and marketing teams. It supports Malay/English and the existing light/dark themes. Registration links use `/checkout`; mobile registration and WhatsApp controls share the bottom bar without covering the content.
+
+The hero includes an animated WhatsApp-group chat (a CSS loop) and a one-shot text scramble on the eyebrow and on "setiap hari"/"every day" in the headline, via `scramble` in `src/lib/motion.ts`. Both are disabled under `prefers-reduced-motion`.
 
 The course hero shows registration, session details and benefits without a demo-video button.
 

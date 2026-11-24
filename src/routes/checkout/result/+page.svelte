@@ -3,7 +3,7 @@
 	import { page } from '$app/stores';
 	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
-	import { COURSE_4 } from '$lib/data/course';
+	import { ACTIVE_COURSE } from '$lib/data/course';
 	let orderId = $state('');
 	let statusId = $state('');
 
@@ -25,8 +25,8 @@
 
 	// The API returns the stable backend package_name; show the user-facing class name instead.
 	const displayPackageName = $derived(
-		!participantData?.package_name || participantData.package_name === COURSE_4.packageName
-			? COURSE_4.displayNameMs
+		!participantData?.package_name || participantData.package_name.startsWith('Wajom Mastery')
+			? ACTIVE_COURSE.displayNameMs
 			: participantData.package_name
 	);
 
@@ -241,7 +241,7 @@
 				<!-- 2-COLUMN ACTION BUTTONS -->
 				<div class="cta-grid-2col">
 					<a
-						href={participantData?.whatsapp_group_url || "https://chat.whatsapp.com/KnF9RvHjFHTJZAQWKxkitK"}
+						href={participantData?.whatsapp_group_url || ACTIVE_COURSE.whatsappGroupUrl}
 						target="_blank"
 						rel="noopener noreferrer"
 						class="btn-cta-gold"

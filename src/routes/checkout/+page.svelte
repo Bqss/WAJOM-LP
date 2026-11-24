@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { PUBLIC_API_BASE_URL } from '$env/static/public';
 	import SEO from '$lib/components/SEO.svelte';
-	import { COURSE_4 } from '$lib/data/course';
+	import { ACTIVE_COURSE } from '$lib/data/course';
 	// Wizard Stepper State
 	let currentStep = $state(1);
 
@@ -73,17 +73,17 @@
 	let discountAmount = $state(0);
 	let showCoupon = $state(false);
 	let isCheckingCoupon = $state(false);
-	const COURSE_PRICE = COURSE_4.price;
-	const COURSE_SLUG = COURSE_4.slug;
-	const COURSE_BONUS_MILLIONS = COURSE_4.bonusTokens / 1_000_000;
+	const COURSE_PRICE = ACTIVE_COURSE.price;
+	const COURSE_SLUG = ACTIVE_COURSE.slug;
+	const COURSE_BONUS_MILLIONS = ACTIVE_COURSE.bonusTokens / 1_000_000;
 	let totalAmount = $derived(Math.max(0, COURSE_PRICE - discountAmount));
 	let isSubmitting = $state(false);
 	let showThankYouModal = $state(false);
 	let transactionId = $state('');
 	let checkoutError = $state('');
 
-	// Real-time Dynamic Countdown Timer for the Course 4 session
-	const TARGET_DATE = new Date(COURSE_4.sessionDateTime).getTime();
+	// Real-time Dynamic Countdown Timer for the active course session
+	const TARGET_DATE = new Date(ACTIVE_COURSE.sessionDateTime).getTime();
 
 	let days = $state(0);
 	let hours = $state(0);
@@ -299,7 +299,7 @@
 			existing_user_id: selectedAccount?.id || newAccountExistUser?.id || null,
 			existing_user_email: selectedAccount?.email || newAccountExistUser?.email || null,
 			course_slug: COURSE_SLUG,
-			package_name: COURSE_4.packageName,
+			package_name: ACTIVE_COURSE.packageName,
 			amount: totalAmount,
 			coupon_code: couponSuccess ? couponCode.trim().toUpperCase() : ''
 		};
@@ -368,7 +368,7 @@
 		<div style="text-align: center; margin-bottom: 32px;">
 			<span class="badge-tag" style="background: rgba(55, 159, 118, 0.12); border-color: rgba(55, 159, 118, 0.25); color: var(--emerald-2);">Pendaftaran Rasmi</span>
 			<h1 style="font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 8px 0 10px; font-weight: 700;">
-				Pendaftaran {COURSE_4.displayNameMs}
+				Pendaftaran {ACTIVE_COURSE.displayNameMs}
 			</h1>
 			<p style="color: var(--ink-2); font-size: 0.98rem; max-width: 54ch; margin: 0 auto;">
 				Lengkapkan pendaftaran 2-langkah di bawah untuk pengesahan slot Zoom Live &amp; pengkreditan {COURSE_BONUS_MILLIONS} juta Token AI.
@@ -754,12 +754,12 @@
 			<!-- Right Summary Card -->
 			<div style="background: var(--bg-2); border: 1px solid var(--rule-2); border-radius: 20px; padding: 24px;">
 				<h3 style="font-family: var(--serif); font-size: 1.25rem; margin: 0 0 4px; color: var(--ink);">Ringkasan Pesanan</h3>
-				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas {COURSE_4.displayNameMs}</p>
+				<p style="font-size: 0.82rem; color: var(--ink-3); margin: 0 0 20px;">Pendaftaran Pakej Khas {ACTIVE_COURSE.displayNameMs}</p>
 
 				<div style="display: flex; gap: 14px; background: var(--bg-3); border: 1px solid var(--rule); border-radius: 12px; padding: 14px; margin-bottom: 20px;">
 					<div style="width: 44px; height: 44px; border-radius: 10px; background: rgba(55, 159, 118, 0.15); color: var(--emerald-2); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;">AI</div>
 					<div>
-						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">{COURSE_4.displayNameMs}</div>
+						<div style="font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 2px;">{ACTIVE_COURSE.displayNameMs}</div>
 						<div style="font-family: var(--mono); font-size: 0.72rem; color: var(--emerald-2);">+ FREE {COURSE_BONUS_MILLIONS} juta Token AI Wajom</div>
 					</div>
 				</div>
@@ -819,12 +819,12 @@
 
 			<h2 style="font-family: var(--serif); font-size: 1.8rem; margin: 0 0 10px; color: var(--ink);">Pembayaran Berjaya!</h2>
 			<p style="font-size: 0.95rem; color: var(--ink-2); margin-bottom: 24px;">
-				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke {COURSE_4.displayNameMs} telah disahkan.
+				Tahniah <strong style="color: var(--emerald-2);">{fullName || 'Peserta'}</strong>! Pendaftaran anda ke {ACTIVE_COURSE.displayNameMs} telah disahkan.
 			</p>
 
 			<div style="background: var(--bg-3); border: 1px solid var(--rule); border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 20px; font-size: 0.85rem; display: grid; gap: 8px;">
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">No. Transaksi CHIP:</span><span style="font-family: var(--mono); color: var(--ink);">{transactionId}</span></div>
-				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{COURSE_4.displayNameMs} + {COURSE_BONUS_MILLIONS} juta Token AI</span></div>
+				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Produk:</span><span style="color: var(--ink);">{ACTIVE_COURSE.displayNameMs} + {COURSE_BONUS_MILLIONS} juta Token AI</span></div>
 				<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">E-mel Terdaftar:</span><span style="color: var(--ink);">{email}</span></div>
 				{#if selectedAccount}
 					<div style="display: flex; justify-content: space-between;"><span style="color: var(--ink-3);">Akaun Penerima Token:</span><span style="color: var(--emerald-2); font-weight: 700;">{selectedAccount.email}</span></div>
@@ -848,7 +848,7 @@
 
 			<div style="display: flex; flex-direction: column; gap: 12px;">
 				<a
-					href="https://chat.whatsapp.com/KnF9RvHjFHTJZAQWKxkitK"
+					href={ACTIVE_COURSE.whatsappGroupUrl}
 					target="_blank"
 					style="background: #25D366; color: #ffffff; font-weight: 700; padding: 14px 24px; border-radius: 999px; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;"
 				>

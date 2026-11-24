@@ -1,6 +1,6 @@
 <script lang="ts">
 	import SEO from '$lib/components/SEO.svelte';
-	import { COURSE_4 } from '$lib/data/course';
+	import { ACTIVE_COURSE } from '$lib/data/course';
 	import { locale, t } from '$lib/i18n.svelte';
 	import { scramble } from '$lib/motion';
 
@@ -198,7 +198,7 @@
 		},
 		{
 			question: ['Bila dan di mana kelas berlangsung?', 'When and where does the class take place?'],
-			answer: ['Secara live, online melalui Zoom, pada Sabtu, 21 November 2026, jam 9:00 pagi hingga 12:00 tengah hari (waktu Malaysia).', 'Live and online via Zoom on Saturday, 21 November 2026, from 9:00 am to 12:00 pm (Malaysia time).']
+			answer: [`Secara live, online melalui Zoom, pada ${ACTIVE_COURSE.sessionDateMs}, jam 9:00 pagi hingga 11:00 pagi (waktu Malaysia).`, `Live and online via Zoom on ${ACTIVE_COURSE.sessionDateEn}, from 9:00 am to 11:00 am (Malaysia time).`]
 		},
 		{
 			question: ['Bagaimana cara mendaftar?', 'How do I register?'],
@@ -257,13 +257,13 @@
 	let galleryOpen = $state(false);
 	let galleryDialog: HTMLDialogElement;
 	const selectedGalleryItem = $derived(galleryItems[selectedGalleryIndex]);
-	const sessionDate = $derived(copy('Sabtu, 21 November 2026', 'Saturday, 21 November 2026'));
-	const sessionTime = $derived(copy('9:00 pagi – 12:00 tengah hari', '9:00 am – 12:00 pm'));
+	const sessionDate = $derived(copy(ACTIVE_COURSE.sessionDateMs, ACTIVE_COURSE.sessionDateEn));
+	const sessionTime = $derived(copy('9:00 pagi – 11:00 pagi', '9:00 am – 11:00 am'));
 	const registerLabel = $derived(copy('Daftar Kelas', 'Register for the Class'));
 	const dailyPhrase = $derived(copy('setiap hari', 'every day'));
 	const className = $derived(copy('Kelas Setting Smart Campaign & Agent AI Wajom', 'Wajom Smart Campaign & Agent AI Setup Class'));
 	const tagline = $derived(copy('Setting sekali, mesej berjalan automatik!', 'Set it up once, your messages run automatically!'));
-	const bonusTokensLabel = $derived(`${COURSE_4.bonusTokens / 1_000_000} ${copy('juta Token AI', 'million AI tokens')}`);
+	const bonusTokensLabel = $derived(`${ACTIVE_COURSE.bonusTokens / 1_000_000} ${copy('juta Token AI', 'million AI tokens')}`);
 
 	function openGalleryModal(index: number) {
 		selectedGalleryIndex = index;
@@ -302,11 +302,11 @@
 		description: copy('Kelas online untuk mutawif, owner agensi Umrah & Travel dan team marketing: setting mesej harian automatik ke group WhatsApp dengan Smart Campaign, dan guna Agent AI untuk menjawab serta follow-up prospek.', 'An online class for mutawif, Umrah & Travel agency owners and marketing teams: set up automatic daily messages to WhatsApp groups with Smart Campaign, and use Agent AI to answer and follow up with prospects.'),
 		provider: { '@type': 'Organization', name: 'Wajom Academy', url: 'https://wajom.co' },
 		offers: {
-			'@type': 'Offer', price: String(COURSE_4.price), priceCurrency: 'MYR',
+			'@type': 'Offer', price: String(ACTIVE_COURSE.price), priceCurrency: 'MYR',
 			url: 'https://wajom.co/checkout'
 		},
 		hasCourseInstance: {
-			'@type': 'CourseInstance', courseMode: 'online', startDate: COURSE_4.sessionDateTime,
+			'@type': 'CourseInstance', courseMode: 'online', startDate: ACTIVE_COURSE.sessionDateTime,
 			location: { '@type': 'VirtualLocation', name: 'Zoom' }
 		}
 	});
@@ -344,8 +344,8 @@
 
 	<div class="course-announcement">
 		<div class="wrap announcement-inner">
-			<span><strong>{copy('TAWARAN KHAS:', 'SPECIAL OFFER:')}</strong> {copy(`Kelas RM${COURSE_4.price} sahaja + bonus ${bonusTokensLabel}`, `Class only RM${COURSE_4.price} + ${bonusTokensLabel} bonus`)}</span>
-			<time datetime={COURSE_4.sessionDateTime}>{copy('Sabtu, 21 Nov 2026', 'Saturday, 21 Nov 2026')} · {sessionTime}</time>
+			<span><strong>{copy('TAWARAN KHAS:', 'SPECIAL OFFER:')}</strong> {copy(`Kelas RM${ACTIVE_COURSE.price} sahaja + bonus ${bonusTokensLabel}`, `Class only RM${ACTIVE_COURSE.price} + ${bonusTokensLabel} bonus`)}</span>
+			<time datetime={ACTIVE_COURSE.sessionDateTime}>{copy(ACTIVE_COURSE.sessionDayShortMs, ACTIVE_COURSE.sessionDayShortEn)} · {sessionTime}</time>
 		</div>
 	</div>
 
@@ -357,10 +357,10 @@
 				<p class="course-lede">{copy('Khas untuk mutawif, owner agensi Umrah & Travel serta team marketing yang nak urus WhatsApp dengan lebih bijak. Tak perlu lagi copy-paste peringatan yang sama ke setiap group jemaah, risau ada group yang tertinggal, atau hantar info trip lewat malam. Anda setting jadualnya sekali, dan mesej sampai ke setiap group tepat pada masanya, setiap hari.', 'Made for mutawif, Umrah & Travel agency owners and marketing teams who want to manage WhatsApp more wisely. No more copying and pasting the same reminder into every pilgrim group, worrying that one got missed, or sending trip updates late at night. You set the schedule once, and your messages reach every group on time, every day.')}</p>
 				<p class="course-tagline">{tagline}</p>
 				<div class="course-hero-actions">
-					<a href="/checkout" class="course-button">{registerLabel} · RM{COURSE_4.price} {copy('sahaja', 'only')} {@render arrowIcon()}</a>
+					<a href="/checkout" class="course-button">{registerLabel} · RM{ACTIVE_COURSE.price} {copy('sahaja', 'only')} {@render arrowIcon()}</a>
 					<span class="course-original-price">{copy('Harga asal', 'Original price')} <s>RM200</s></span>
 				</div>
-				<p class="course-session"><time datetime={COURSE_4.sessionDateTime}>{sessionDate} · {sessionTime}</time> · {copy('Online melalui Zoom', 'Online via Zoom')}</p>
+				<p class="course-session"><time datetime={ACTIVE_COURSE.sessionDateTime}>{sessionDate} · {sessionTime}</time> · {copy('Online melalui Zoom', 'Online via Zoom')}</p>
 				<ul class="course-benefits" aria-label={copy('Termasuk', 'Included')}>
 					<li>{@render checkIcon()} {copy('Online melalui Zoom', 'Online via Zoom')}</li>
 					<li>{@render checkIcon()} {bonusTokensLabel} <span class="course-example-label">Bonus</span></li>
@@ -516,7 +516,7 @@
 				<div class="course-campaign-copy">
 					<p><strong>{copy('Smart Campaign ialah alat Wajom untuk mesej dan follow-up automatik', 'Smart Campaign is Wajom’s tool for automatic messages and follow-ups')}</strong>{copy(', topik utama dalam kelas ini. Anda susun jadual mesej sekali sahaja. Setiap jemaah dan setiap group menerima mesej yang betul, pada masa yang betul, tanpa admin perlu ingat siapa belum dihubungi.', ', a core topic in this class. You organise the message schedule once. Every pilgrim and every group receives the right message at the right time, without your admin having to remember who has not been contacted.')}</p>
 					<div class="course-notice"><p>{copy('Smart Campaign menghantar mesej ke kenalan dan ke group WhatsApp anda, mengikut jadual yang anda tetapkan. Kempen bermula sebagai Draf dan hanya menghantar selepas anda tukar kepada Aktif.', 'Smart Campaign sends messages to your contacts and your WhatsApp groups, on the schedule you set. Campaigns start as Draft and only send after you switch them to Active.')}</p></div>
-					<a href="/checkout" class="course-button">{registerLabel} RM{COURSE_4.price} {@render arrowIcon()}</a>
+					<a href="/checkout" class="course-button">{registerLabel} RM{ACTIVE_COURSE.price} {@render arrowIcon()}</a>
 					<a class="course-text-link" href="/tutorials/cara-setting-smart-campaign">{copy('Lihat tutorial Smart Campaign', 'View the Smart Campaign tutorial')} {@render arrowIcon()}</a>
 				</div>
 			</div>
@@ -575,7 +575,7 @@
 				<div class="course-offer-details">
 					<ul class="course-included">{#each included as item}<li>{@render checkIcon()} <span>{copy(item[0], item[1])}</span></li>{/each}</ul>
 					<dl class="course-event-details">
-						<div><dt>{copy('Tarikh:', 'Date:')}</dt><dd><time datetime={COURSE_4.sessionDateTime}>{sessionDate}</time></dd></div>
+						<div><dt>{copy('Tarikh:', 'Date:')}</dt><dd><time datetime={ACTIVE_COURSE.sessionDateTime}>{sessionDate}</time></dd></div>
 						<div><dt>{copy('Masa:', 'Time:')}</dt><dd>{sessionTime} <span>{copy('(waktu Malaysia)', '(Malaysia time)')}</span></dd></div>
 					</dl>
 					<p class="course-payment-note">{copy('Pembayaran di wajom.co/checkout. Tidak perlu melanggan sistem Wajom.', 'Payment at wajom.co/checkout. No Wajom subscription is required.')}</p>
@@ -583,7 +583,7 @@
 				<aside class="course-offer-summary" aria-label={copy('Ringkasan', 'Summary')}>
 					<div class="course-summary-product"><img src="/logo.png" alt="" width="44" height="44" /><div><strong>{className}</strong><span>{sessionDate} · {sessionTime}</span></div></div>
 					<div class="course-summary-original"><span>{copy('Harga asal', 'Original price')}</span><s>RM200</s></div>
-					<div class="course-summary-total"><span>{copy('JUMLAH:', 'TOTAL:')}</span><strong><small>RM</small>{COURSE_4.price}</strong></div>
+					<div class="course-summary-total"><span>{copy('JUMLAH:', 'TOTAL:')}</span><strong><small>RM</small>{ACTIVE_COURSE.price}</strong></div>
 					<a href="/checkout" class="course-button">{copy('Daftar sekarang', 'Register now')} {@render arrowIcon()}</a>
 				</aside>
 			</div>
@@ -610,7 +610,7 @@
 	<section class="course-band course-closing" aria-labelledby="closing-title">
 		<div class="wrap course-closing-inner">
 			<div><h2 id="closing-title">{copy('Malam ini, ada lagi yang akan tanya harga.', 'Tonight, someone else will ask the price.')}</h2><p>{copy('Pastikan dia menerima jawapan, bukti dan follow-up yang membuatnya yakin, walaupun anda sedang berehat.', 'Make sure they receive the answers, evidence and follow-ups that build confidence, even while you are resting.')}</p><p class="course-tagline">{tagline}</p></div>
-			<a href="/checkout" class="course-button">{registerLabel} RM{COURSE_4.price} {@render arrowIcon()}</a>
+			<a href="/checkout" class="course-button">{registerLabel} RM{ACTIVE_COURSE.price} {@render arrowIcon()}</a>
 		</div>
 	</section>
 
@@ -623,7 +623,7 @@
 	</section>
 
 	<div class="course-mobile-register" role="region" aria-label={registerLabel}>
-		<div><strong>RM{COURSE_4.price}</strong><span>{copy('Harga asal', 'Original price')} <s>RM200</s></span></div>
+		<div><strong>RM{ACTIVE_COURSE.price}</strong><span>{copy('Harga asal', 'Original price')} <s>RM200</s></span></div>
 		<a href="/checkout" class="course-button">{registerLabel}</a>
 	</div>
 

@@ -7,7 +7,7 @@
 	import { locale, t } from '$lib/i18n.svelte';
 	import * as landingMs from '$lib/data/landing.ms';
 	import * as landingEn from '$lib/data/landing.en';
-	import { COURSE_4 } from '$lib/data/course';
+	import { ACTIVE_COURSE } from '$lib/data/course';
 
 	import {
 		ArrowRight as ArrowRightIcon,
@@ -100,7 +100,7 @@
 <a href="/checkout" class="announce-bar">
 	<span class="announce-dot"></span>
 	<span class="announce-text">
-		<strong>{t('home.announcement')}</strong> — Live Zoom, {COURSE_4.sessionDateShort}, {COURSE_4.sessionTime}. RM{COURSE_4.price} + {COURSE_4.bonusTokens / 1_000_000}M AI Token.
+		<strong>{t('home.announcement')}</strong> — Live Zoom, {ACTIVE_COURSE.sessionDateShort}, {ACTIVE_COURSE.sessionTime}. RM{ACTIVE_COURSE.price} + {ACTIVE_COURSE.bonusTokens / 1_000_000}M AI Token.
 	</span>
 	<span class="announce-cta">{t('home.registerNow')} <ArrowRightIcon size={14} weight="bold" /></span>
 </a>
